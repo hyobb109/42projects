@@ -6,10 +6,11 @@
 #    By: hyobicho <hyobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2022/11/11 15:06:12 by hyobicho         ###   ########.fr        #
+#    Updated: 2022/11/14 21:55:43 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = \
@@ -47,21 +48,40 @@ ft_putchar_fd.c \
 ft_putstr_fd.c \
 ft_putnbr_fd.c \
 ft_putendl_fd.c
-OBJECT = $(SRCS:.c=.o)
-NAME = libft.a
+BONUS = \
+ft_lstsize_bonus.c \
+ft_lstlast_bonus.c \
+ft_lstnew_bonus.c \
+ft_lstmap_bonus.c \
+ft_lstadd_front_bonus.c \
+ft_lstadd_back_bonus.c \
+ft_lstdelone_bonus.c \
+ft_lstclear_bonus.c \
+ft_lstiter_bonus.c
+M_OBJ = $(SRCS:.c=.o)
+B_OBJ = $(BONUS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECT)
+bonus: $(NAME)
+
+ifeq ($(MAKECMDGOALS), bonus)
+$(NAME): $(M_OBJ) $(B_OBJ)
 	ar rc $@ $^
+else
+$(NAME): $(M_OBJ)
+	ar rc $@ $^
+endif
 
 %.o : %.c
 	$(CC) -c $(CFLAGS) $< -o $@ -I ./
 
 clean:
-	rm -f $(OBJECT)
+	rm -f $(M_OBJ) $(B_OBJ)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all re clean fclean bonus
