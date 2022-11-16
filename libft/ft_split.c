@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyobicho <hyobicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 19:53:02 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/10 22:16:03 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:15:08 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-unsigned int	ft_strlen1(char const *s, char c)
+static unsigned int	ft_strlen1(char const *s, char c)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ unsigned int	ft_strlen1(char const *s, char c)
 	return (i);
 }
 
-char	**free_res(char **res, int i)
+static char	**free_res(char **res, int i)
 {
 	while (i-- > 0)
 		free(res[i]);
@@ -30,7 +30,7 @@ char	**free_res(char **res, int i)
 	return (0);
 }
 
-char	**result(char **res, char const *str, char c, int cnt)
+static char	**result(char **res, char const *str, char c, int cnt)
 {
 	int	i;
 	int	j;
@@ -59,7 +59,7 @@ char	**result(char **res, char const *str, char c, int cnt)
 	return (res);
 }
 
-unsigned int	cntstr(char const *s, char c)
+static unsigned int	cntstr(char const *s, char c)
 {
 	int	cnt;
 	int	i;

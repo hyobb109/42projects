@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyobicho <hyobicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 21:51:14 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/10 22:50:22 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:05:51 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-size_t	cnt_digit(long long n)
+static size_t	cnt_digit(long long n)
 {
 	int	cnt;
 
@@ -30,7 +30,7 @@ size_t	cnt_digit(long long n)
 	return (cnt);
 }
 
-char	*putnum(char *res, size_t size, long long num, int positive)
+static char	*putnum(char *res, size_t size, long long num, int positive)
 {
 	size_t	i;
 

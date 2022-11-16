@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyobicho <hyobicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 19:45:08 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/10 21:49:56 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:16:00 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-int	incharset(char a, char const *charset)
+static int	incharset(char a, char const *charset)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	incharset(char a, char const *charset)
 	return (0);
 }
 
-size_t	check_size(char const *s1, char const *set)
+static size_t	check_size(char const *s1, char const *set)
 {
 	size_t	last;
 	size_t	s_len;

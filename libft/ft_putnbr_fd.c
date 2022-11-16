@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyobicho <hyobicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 23:24:50 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/10 23:39:15 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:14:14 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	print(long long num, int fd)
+static void	print(long long num, int fd)
 {
 	long long	mod;
 

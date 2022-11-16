@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hyobicho <hyobicho@student.42.fr>          +#+  +:+       +#+         #
+#    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2022/11/14 21:55:43 by hyobicho         ###   ########.fr        #
+#    Updated: 2022/11/16 22:23:26 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ ft_putchar_fd.c \
 ft_putstr_fd.c \
 ft_putnbr_fd.c \
 ft_putendl_fd.c
-BONUS = \
+B_SRCS = \
 ft_lstsize_bonus.c \
 ft_lstlast_bonus.c \
 ft_lstnew_bonus.c \
@@ -59,13 +59,13 @@ ft_lstdelone_bonus.c \
 ft_lstclear_bonus.c \
 ft_lstiter_bonus.c
 M_OBJ = $(SRCS:.c=.o)
-B_OBJ = $(BONUS:.c=.o)
+B_OBJ = $(B_SRCS:.c=.o)
 
 all: $(NAME)
 
 bonus: $(NAME)
 
-ifeq ($(MAKECMDGOALS), bonus)
+ifeq ($(findstring bonus, $(MAKECMDGOALS)), bonus)
 $(NAME): $(M_OBJ) $(B_OBJ)
 	ar rc $@ $^
 else
@@ -74,7 +74,7 @@ $(NAME): $(M_OBJ)
 endif
 
 %.o : %.c
-	$(CC) -c $(CFLAGS) $< -o $@ -I ./
+	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
 	rm -f $(M_OBJ) $(B_OBJ)
