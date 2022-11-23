@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2022/11/23 19:27:37 by hyobicho         ###   ########.fr        #
+#    Updated: 2022/11/23 20:17:09 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,7 @@ SRCS = \
 ft_printf.c \
 ft_convert_hex.c \
 ft_putnbr_a.c \
-ft_strchar.c \
-ft_strlen.c
+ft_strchar.c
 M_OBJ = $(SRCS:.c=.o)
 
 all: $(NAME)

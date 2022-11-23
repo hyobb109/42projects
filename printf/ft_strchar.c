@@ -6,11 +6,23 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:21:15 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/23 19:29:10 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:16:03 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int	ft_strlen(const char *s)
+{
+	int	len;
+
+	len = 0;
+	if (s == NULL)
+		return (0);
+	while (s[len])
+		len++;
+	return (len);
+}
 
 int	ft_putchar(va_list ap)
 {
