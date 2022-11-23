@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 22:14:55 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/22 16:24:44 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/07 16:59:05 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/23 19:29:04 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftprint.h"
+#include "ft_printf.h"
 
-size_t	ft_putstr(va_list ap)
+size_t	ft_strlen(const char *s)
 {
 	size_t	len;
-	char	*s;
 
-	s = (char *)ap;
-	len = ft_strlen(s);
-	write(1, s, len);
+	len = 0;
+	if (s == NULL)
+		return (0);
+	while (s[len])
+		len++;
 	return (len);
 }

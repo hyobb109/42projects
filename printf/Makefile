@@ -6,23 +6,25 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2022/11/17 17:28:16 by hyobicho         ###   ########.fr        #
+#    Updated: 2022/11/23 19:27:37 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LIBFT = libft
 SRCS = \
-ft_printf.c
-
+ft_printf.c \
+ft_convert_hex.c \
+ft_putnbr_a.c \
+ft_strchar.c \
+ft_strlen.c
 M_OBJ = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(M_OBJ)
-	ar rc $^
+	ar rc $@ $^
 
 %.o : %.c
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -33,6 +35,8 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
+re:
+	make fclean
+	make all
 
 .PHONY: all re clean fclean

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 22:15:09 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/22 16:31:01 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/23 19:28:56 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftprint.h"
+#include "ft_printf.h"
 
-static void	print_num(long long num, size_t *cnt)
+static void	print_num(long long num, int *cnt)
 {
-	long long	mod;
+	char	mod;
 
 	mod = num % 10 + '0';
 	if (num >= 10)
@@ -25,13 +25,13 @@ static void	print_num(long long num, size_t *cnt)
 	write(1, &mod, 1);
 }
 
-size_t	ft_putnbr(va_list ap)
+int	ft_putnbr(va_list ap)
 {
 	long long	num;
-	size_t		cnt;
+	int			cnt;
 
 	cnt = 1;
-	num = (long long)ap;
+	num = va_arg(ap, int);
 	if (num < 0)
 	{
 		cnt++;
@@ -42,13 +42,13 @@ size_t	ft_putnbr(va_list ap)
 	return (cnt);
 }
 
-size_t	ft_putunbr(va_list ap)
+int	ft_putnbr_u(va_list ap)
 {
-	size_t			cnt;
-	unsigned int	n;
+	unsigned int	num;
+	int				cnt;
 
-	n = (unsigned int)ap;
 	cnt = 1;
-	print_num((long long)n, &cnt);
+	num = va_arg(ap, unsigned int);
+	print_num(num, &cnt);
 	return (cnt);
 }
