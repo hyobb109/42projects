@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2022/11/16 22:23:26 by hyobicho         ###   ########.fr        #
+#    Updated: 2022/11/23 19:57:56 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,8 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
+re: 
+	make fclean
+	make all
 
 .PHONY: all re clean fclean bonus
