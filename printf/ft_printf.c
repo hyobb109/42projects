@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static void	put_func(int (*print[8])(va_list))
+static void put_func(int (*print[8])(va_list))
 {
 	(print)[0] = &ft_putchar;
 	(print)[1] = &ft_putstr;
@@ -24,46 +24,64 @@ static void	put_func(int (*print[8])(va_list))
 	(print)[7] = &ft_puthex_upper;
 }
 
-static int	find_type(va_list ap, const char format, const char *set)
+static int idx(const char format, const char *set)
 {
-	int		i;
-	int		(*print[8])(va_list);
+	int i;
 
-	if (format == '%')
-	{
-		write(1, "%", 1);
-		return (1);
-	}
-	put_func(print);
 	i = 0;
 	while (i < 8)
 	{
 		if (format == set[i])
-			return (print[i](ap));
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
-int	ft_printf(const char *format, ...)
+int ft_printf(const char *format, ...)
 {
-	va_list	ap;
-	int		len;
+	va_list ap;
+	int len;
+	int va_len;
+	int (*print[8])(va_list);
 
-	len = ft_strlen(format);
+	put_func(print);
 	va_start(ap, format);
+	len = 0;
 	while (*format)
 	{
 		if (*format == '%')
 		{
-			len -= 2;
-			format++;
-			len += find_type(ap, *format, "csdiupxX");
+			if (*++format == '%')
+			{
+				write(1, "%", 1);
+				len += 1;
+			}
+			else
+			{
+				va_len = print[idx(*format, "csdiupxX")](ap);
+				// printf("va_len = %d\n", va_len);
+				if (va_len < 0)
+					return (va_len);
+				len += va_len;
+			}
 		}
 		else
+		{
 			write(1, format, 1);
+			len++;
+		}
 		format++;
 	}
 	va_end(ap);
 	return (len);
+}
+
+int main()
+{
+	char str[] = "hello";
+	int res = printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
+	int res1 = ft_printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
+	printf("res: %d, res1: %d\n", res, res1);
+	return 0;
 }

@@ -12,9 +12,9 @@
 
 #include "ft_printf.h"
 
-static void	print_hex(unsigned long long x, int *cnt, const char *hex)
+static void print_hex(size_t x, int *cnt, const char *hex)
 {
-	char	mod;
+	char mod;
 
 	mod = hex[x % 16];
 	if (x >= 16)
@@ -25,22 +25,22 @@ static void	print_hex(unsigned long long x, int *cnt, const char *hex)
 	write(1, &mod, 1);
 }
 
-int	ft_putaddr(va_list ap)
+int ft_putaddr(va_list ap)
 {
-	int		cnt;
-	void	*addr;
+	int cnt;
+	void *addr;
 
 	addr = va_arg(ap, void *);
 	cnt = 3;
 	write(1, "0x", 2);
-	print_hex((unsigned long long)addr, &cnt, "0123456789abcdef");
+	print_hex((size_t)addr, &cnt, "0123456789abcdef");
 	return (cnt);
 }
 
-int	ft_puthex_lower(va_list ap)
+int ft_puthex_lower(va_list ap)
 {
-	int				cnt;
-	unsigned int	num;
+	int cnt;
+	unsigned int num;
 
 	num = va_arg(ap, unsigned int);
 	cnt = 1;
@@ -48,10 +48,10 @@ int	ft_puthex_lower(va_list ap)
 	return (cnt);
 }
 
-int	ft_puthex_upper(va_list ap)
+int ft_puthex_upper(va_list ap)
 {
-	int				cnt;
-	unsigned int	num;
+	int cnt;
+	unsigned int num;
 
 	num = va_arg(ap, unsigned int);
 	cnt = 1;

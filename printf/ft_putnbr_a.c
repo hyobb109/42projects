@@ -12,9 +12,9 @@
 
 #include "ft_printf.h"
 
-static void	print_num(long long num, int *cnt)
+static void print_num(unsigned int num, int *cnt)
 {
-	char	mod;
+	char mod;
 
 	mod = num % 10 + '0';
 	if (num >= 10)
@@ -25,10 +25,10 @@ static void	print_num(long long num, int *cnt)
 	write(1, &mod, 1);
 }
 
-int	ft_putnbr(va_list ap)
+int ft_putnbr(va_list ap)
 {
-	long long	num;
-	int			cnt;
+	ssize_t num;
+	int cnt;
 
 	cnt = 1;
 	num = va_arg(ap, int);
@@ -42,10 +42,10 @@ int	ft_putnbr(va_list ap)
 	return (cnt);
 }
 
-int	ft_putnbr_u(va_list ap)
+int ft_putnbr_u(va_list ap)
 {
-	unsigned int	num;
-	int				cnt;
+	unsigned int num;
+	int cnt;
 
 	cnt = 1;
 	num = va_arg(ap, unsigned int);
