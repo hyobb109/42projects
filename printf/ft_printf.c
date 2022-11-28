@@ -77,11 +77,11 @@ int ft_printf(const char *format, ...)
 	return (len);
 }
 
-int main()
-{
-	char str[] = "hello";
-	int res = printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
-	int res1 = ft_printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
-	printf("res: %d, res1: %d\n", res, res1);
-	return 0;
-}
+// int main()
+// {
+// 	char str[] = "hello";
+// 	int res = printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
+// 	int res1 = ft_printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
+// 	printf("res: %d, res1: %d\n", res, res1);
+// 	return 0;
+// }

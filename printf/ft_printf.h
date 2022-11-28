@@ -15,7 +15,7 @@
 
 #include <stdarg.h>
 #include <unistd.h>
-#include <stdio.h> // 테스트 용, 지워라!!
+//#include <stdio.h> // 테스트 용, 지워라!!
 
 int ft_strlen(const char *s);
 int ft_printf(const char *format, ...);
