@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int ft_strlen(const char *s)
+static int ft_strlen(const char *s)
 {
 	int len;
 
@@ -39,7 +39,6 @@ int ft_putstr(va_list ap)
 	char *s;
 
 	s = va_arg(ap, char *);
-	// !!! 노트북에서 s 출력이 안 됨...왜..??
 	if (s == 0)
 	{
 		write(1, "(null)", 6);

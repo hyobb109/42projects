@@ -38,14 +38,25 @@ static int idx(const char format, const char *set)
 	return (-1);
 }
 
-int ft_printf(const char *format, ...)
+static int	print_arg(const char format, va_list ap, const char *set)
 {
-	va_list ap;
-	int len;
-	int va_len;
+	int	i;
+	int	res;
 	int (*print[8])(va_list);
 
+	i = idx(format, set);
+	if (i == -1)
+		return (-1);
 	put_func(print);
+	return (print[i](ap));
+}
+
+int ft_printf(const char *format, ...)
+{
+	va_list	ap;
+	int		len;
+	int		va_len;
+
 	va_start(ap, format);
 	len = 0;
 	while (*format)
@@ -59,8 +70,7 @@ int ft_printf(const char *format, ...)
 			}
 			else
 			{
-				va_len = print[idx(*format, "csdiupxX")](ap);
-				// printf("va_len = %d\n", va_len);
+				va_len = print_arg(*format, ap, "csdiupxX");
 				if (va_len < 0)
 					return (va_len);
 				len += va_len;
@@ -82,6 +92,6 @@ int ft_printf(const char *format, ...)
 // 	char str[] = "hello";
 // 	int res = printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
 // 	int res1 = ft_printf("percent: %%, char: %c, string: %s, int: %d, i: %i, u_int: %u, addr: %p, hex: %x, HEX: %X\n", 'z', str, -42, -42, -42, str, 42, 42);
-// 	printf("res: %d, res1: %d\n", res, res1);
+// 	printf("\nres: %d, res1: %d\n", res, res1);
 // 	return 0;
 // }
