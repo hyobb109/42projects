@@ -6,15 +6,15 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 22:47:20 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/23 20:15:24 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:25:50 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void print_hex(size_t x, int *cnt, const char *hex)
+static void	print_hex(size_t x, int *cnt, const char *hex)
 {
-	char mod;
+	char	mod;
 
 	mod = hex[x % 16];
 	if (x >= 16)
@@ -25,10 +25,10 @@ static void print_hex(size_t x, int *cnt, const char *hex)
 	write(1, &mod, 1);
 }
 
-int ft_putaddr(va_list ap)
+int	ft_putaddr(va_list ap)
 {
-	int cnt;
-	void *addr;
+	int		cnt;
+	void	*addr;
 
 	addr = va_arg(ap, void *);
 	cnt = 3;
@@ -37,10 +37,10 @@ int ft_putaddr(va_list ap)
 	return (cnt);
 }
 
-int ft_puthex_lower(va_list ap)
+int	ft_puthex_lower(va_list ap)
 {
-	int cnt;
-	unsigned int num;
+	int				cnt;
+	unsigned int	num;
 
 	num = va_arg(ap, unsigned int);
 	cnt = 1;
@@ -48,10 +48,10 @@ int ft_puthex_lower(va_list ap)
 	return (cnt);
 }
 
-int ft_puthex_upper(va_list ap)
+int	ft_puthex_upper(va_list ap)
 {
-	int cnt;
-	unsigned int num;
+	int				cnt;
+	unsigned int	num;
 
 	num = va_arg(ap, unsigned int);
 	cnt = 1;

@@ -6,15 +6,15 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:21:15 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/11/23 20:16:03 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:29:34 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int ft_strlen(const char *s)
+static int	ft_strlen(const char *s)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	if (s == 0)
@@ -24,19 +24,19 @@ static int ft_strlen(const char *s)
 	return (len);
 }
 
-int ft_putchar(va_list ap)
+int	ft_putchar(va_list ap)
 {
-	unsigned char ascii;
+	unsigned char	ascii;
 
 	ascii = va_arg(ap, unsigned int);
 	write(1, &ascii, 1);
 	return (1);
 }
 
-int ft_putstr(va_list ap)
+int	ft_putstr(va_list ap)
 {
-	int len;
-	char *s;
+	int		len;
+	char	*s;
 
 	s = va_arg(ap, char *);
 	if (s == 0)
