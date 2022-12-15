@@ -6,11 +6,11 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:26:18 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/12/14 02:52:51 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:15:50 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	*ft_memcpy(void *dst, const void *src, int n)
 {

@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:01:48 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/12/14 02:54:03 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:09:57 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,13 @@ static int	find_new_line(t_info data)
 	return (data.len);
 }
 
-static char	*free_res(char *tmp_buff)
+static char	*free_res(char *tmp_buff, t_info *data)
 {
+	data->buffer[0] = '\0';
+	data->idx = 0;
+	data->rbyte = -1;
+	data->len = 0;
+	data->total = 0;
 	free(tmp_buff);
 	return (0);
 }
@@ -63,7 +68,7 @@ char	*get_next_line(int fd)
 			data.idx = 0;
 			data.rbyte = read(fd, data.buffer, BUFFER_SIZE);
 			if (data.rbyte < 0)
-				return (free_res(tmp_buff));
+				return (free_res(tmp_buff, &data));
 		}
 		data.len = find_new_line(data);
 		tmp_buff = ft_strjoin(tmp_buff, &data);
@@ -73,6 +78,6 @@ char	*get_next_line(int fd)
 			break ;
 	}
 	if (tmp_buff[0] == '\0')
-		return (free_res(tmp_buff));
+		return (free_res(tmp_buff, &data));
 	return (tmp_buff);
 }
