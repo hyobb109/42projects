@@ -86,7 +86,7 @@ static char	*free_res(char *tmp_buff, t_info *data)
 	// data->total = 0;
 	// data->fd = 0;
 	// data->next = NULL;
-	if (!data->pre && !data->next)
+	if (data->pre && data->next)
 	{
 		data->pre->next = data->next; 
 		data->next->pre = data->pre;
