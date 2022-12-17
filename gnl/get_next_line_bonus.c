@@ -50,13 +50,13 @@ static char	*free_res(char *tmp_buff, t_info *data)
 	// data->total = 0;
 	// data->fd = 0;
 	// data->next = NULL;
-	if (!data->pre && !data->next)
+	if (data->pre && data->next)
 	{
 		data->pre->next = data->next; 
 		data->next->pre = data->pre;
 	}
 	free(data);
-	// free(head);
+	// free(head); -> find_data에서 free?
 	free(tmp_buff);
 	return (0);
 }
