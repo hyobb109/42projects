@@ -6,13 +6,13 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:01:48 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/12/15 18:09:57 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/12/17 17:34:35 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	is_new_line(char *tmp_buff, int i)
+static int	is_new_line(char *tmp_buff, ssize_t i)
 {
 	if (i == 0 && tmp_buff[i] == '\n')
 		return (1);
@@ -21,7 +21,7 @@ static int	is_new_line(char *tmp_buff, int i)
 	return (0);
 }
 
-static int	find_new_line(t_info data)
+static ssize_t	find_new_line(t_info data)
 {
 	while (data.idx < data.rbyte)
 	{
@@ -44,7 +44,7 @@ static char	*free_res(char *tmp_buff, t_info *data)
 	return (0);
 }
 
-static int	init(char *tmp_buff, int *total)
+static int	init(char *tmp_buff, ssize_t *total)
 {
 	if (tmp_buff == NULL)
 		return (0);

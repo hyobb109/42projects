@@ -1,6 +1,6 @@
 #include "get_next_line_bonus.h"
-// #include <stdio.h>
-// #include <fcntl.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 // void print_data(t_info *data)
 // {
@@ -14,6 +14,42 @@
 // 	printf("================\n");
 // }
 
+void	*ft_memcpy(void *dst, const void *src, ssize_t n)
+{
+	unsigned char	*dst1;
+	unsigned char	*src1;
+	ssize_t				i;
+
+	if (dst == NULL && src == NULL)
+		return (dst);
+	dst1 = (unsigned char *)dst;
+	src1 = (unsigned char *)src;
+	i = 0;
+	while (i < n)
+	{
+		dst1[i] = src1[i];
+		i++;
+	}
+	return (dst);
+}
+
+char	*ft_strjoin(char *old, t_info *data)
+{
+	char	*new;
+
+	new = (char *)malloc(sizeof(char) * (data->total + data->len + 1));
+	if (new == NULL)
+		return (0);
+	if (data->total != 0)
+		ft_memcpy(new, old, data->total);
+	free(old);
+	ft_memcpy(new + data->total, data->buffer + data->idx, data->len);
+	data->total += data->len;
+	new[data->total] = '\0';
+	data->idx += data->len;
+	data->len = 0;
+	return (new);
+}
 
 static int	is_new_line(char *tmp_buff, ssize_t i)
 {
@@ -154,27 +190,27 @@ char	*get_next_line(int fd)
 	return (tmp_buff);
 }
 
-// int main()
-// {
-// 	int fd1 = open("./sample.txt", O_RDONLY);
-// 	if (fd1 < 0)
-// 		return 0;
-// 	int fd2 = open("./test.txt", O_RDONLY);
-// 	if (fd2 < 0)
-// 		return 0;
-// 	printf("===fd 1: %d===\n", fd1);
-// 	for (int i = 0; i < 2; i++)
-// 		printf("%s", get_next_line(fd1));
-// 	printf("===fd 2: %d===\n", fd2);
-// 	for (int i = 0; i < 2; i++)
-// 		printf("%s", get_next_line(fd2));
-// 	printf("===fd 1: %d===\n", fd1);
-// 	for (int i = 0; i < 2; i++)
-// 		printf("%s", get_next_line(fd1));
-// 	printf("===fd 2: %d===\n", fd2);
-// 	for (int i = 0; i < 2; i++)
-// 		printf("%s", get_next_line(fd2));
-// 	close(fd1);
-// 	close(fd2);
-// 	return 0;
-// }
+int main()
+{
+	int fd1 = open("./sample.txt", O_RDONLY);
+	if (fd1 < 0)
+		return 0;
+	int fd2 = open("./test.txt", O_RDONLY);
+	if (fd2 < 0)
+		return 0;
+	printf("===fd 1: %d===\n", fd1);
+	for (int i = 0; i < 2; i++)
+		printf("%s", get_next_line(fd1));
+	printf("===fd 2: %d===\n", fd2);
+	for (int i = 0; i < 2; i++)
+		printf("%s", get_next_line(fd2));
+	printf("===fd 1: %d===\n", fd1);
+	for (int i = 0; i < 2; i++)
+		printf("%s", get_next_line(fd1));
+	printf("===fd 2: %d===\n", fd2);
+	for (int i = 0; i < 2; i++)
+		printf("%s", get_next_line(fd2));
+	close(fd1);
+	close(fd2);
+	return 0;
+}
