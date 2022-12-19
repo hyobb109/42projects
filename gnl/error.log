@@ -1,0 +1,215 @@
+=================================================================
+==3321==ERROR: AddressSanitizer: heap-use-after-free on address 0x6060000004d8 at pc 0x000103e9c6f9 bp 0x7ffeebd6a310 sp 0x7ffeebd6a308
+READ of size 8 at 0x6060000004d8 thread T0
+    #0 0x103e9c6f8 in find_data get_next_line_bonus.c:95
+    #1 0x103e9c99c in get_next_line get_next_line_bonus.c:114
+    #2 0x103e9bbd0 in test_gnl_func file_utils.c:40
+    #3 0x103e94200 in main bonus.c:40
+    #4 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x6060000004d8 is located 56 bytes inside of 64-byte region [0x6060000004a0,0x6060000004e0)
+freed by thread T0 here:
+    #0 0x10749b2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x103e96465 in free malloc_mock.c:82
+    #2 0x103e9d26b in free_res get_next_line_bonus.c:54
+    #3 0x103e9cbc3 in get_next_line get_next_line_bonus.c:127
+    #4 0x103e9bbd0 in test_gnl_func file_utils.c:40
+    #5 0x103e9413f in main bonus.c:40
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10749b17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x103e95e2c in malloc malloc_mock.c:65
+    #2 0x103e9c5b9 in find_data get_next_line_bonus.c:89
+    #3 0x103e9c99c in get_next_line get_next_line_bonus.c:114
+    #4 0x103e9bbd0 in test_gnl_func file_utils.c:40
+    #5 0x103e93fb1 in main bonus.c:40
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free get_next_line_bonus.c:95 in find_data
+Error in test 6: get_next_line(6: "open, error, open"): Memory problems!
+     in sigabort utils.c:58:1
+     in find_data get_next_line_bonus.c:95:15
+     in get_next_line get_next_line_bonus.c:114:7
+     in test_gnl_func file_utils.c:40:8
+     in main bonus.c:40:2
+
+=================================================================
+==3325==ERROR: AddressSanitizer: heap-use-after-free on address 0x6060000004d8 at pc 0x000103e9c6f9 bp 0x7ffeebd6a310 sp 0x7ffeebd6a308
+READ of size 8 at 0x6060000004d8 thread T0
+    #0 0x103e9c6f8 in find_data get_next_line_bonus.c:95
+    #1 0x103e9c99c in get_next_line get_next_line_bonus.c:114
+    #2 0x103e9bbd0 in test_gnl_func file_utils.c:40
+    #3 0x103e95967 in main bonus.c:92
+    #4 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x6060000004d8 is located 56 bytes inside of 64-byte region [0x6060000004a0,0x6060000004e0)
+freed by thread T0 here:
+    #0 0x10749b2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x103e96465 in free malloc_mock.c:82
+    #2 0x103e9d26b in free_res get_next_line_bonus.c:54
+    #3 0x103e9cd44 in get_next_line get_next_line_bonus.c:137
+    #4 0x103e9bbd0 in test_gnl_func file_utils.c:40
+    #5 0x103e95925 in main bonus.c:92
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10749b17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x103e95e2c in malloc malloc_mock.c:65
+    #2 0x103e9c5b9 in find_data get_next_line_bonus.c:89
+    #3 0x103e9c99c in get_next_line get_next_line_bonus.c:114
+    #4 0x103e9bbd0 in test_gnl_func file_utils.c:40
+    #5 0x103e95435 in main bonus.c:92
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free get_next_line_bonus.c:95 in find_data
+Error in test 21: get_next_line(7: "multiple fds"): Memory problems!
+     in sigabort utils.c:58:1
+     in find_data get_next_line_bonus.c:95:15
+     in get_next_line get_next_line_bonus.c:114:7
+     in test_gnl_func file_utils.c:40:8
+     in main bonus.c:92:2
+
+=================================================================
+==3396==ERROR: AddressSanitizer: heap-use-after-free on address 0x6070000000d0 at pc 0x0001054176f9 bp 0x7ffeea7ef310 sp 0x7ffeea7ef308
+READ of size 8 at 0x6070000000d0 thread T0
+    #0 0x1054176f8 in find_data get_next_line_bonus.c:95
+    #1 0x10541799c in get_next_line get_next_line_bonus.c:114
+    #2 0x105416bd0 in test_gnl_func file_utils.c:40
+    #3 0x10540f1f0 in main bonus.c:40
+    #4 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x6070000000d0 is located 64 bytes inside of 72-byte region [0x607000000090,0x6070000000d8)
+freed by thread T0 here:
+    #0 0x108a152c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x105411455 in free malloc_mock.c:82
+    #2 0x10541826b in free_res get_next_line_bonus.c:54
+    #3 0x105417bc3 in get_next_line get_next_line_bonus.c:127
+    #4 0x105416bd0 in test_gnl_func file_utils.c:40
+    #5 0x10540f12f in main bonus.c:40
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x108a1517d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x105410e1c in malloc malloc_mock.c:65
+    #2 0x1054175b9 in find_data get_next_line_bonus.c:89
+    #3 0x10541799c in get_next_line get_next_line_bonus.c:114
+    #4 0x105416bd0 in test_gnl_func file_utils.c:40
+    #5 0x10540efa1 in main bonus.c:40
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free get_next_line_bonus.c:95 in find_data
+Error in test 6: get_next_line(6: "open, error, open"): Memory problems!
+     in sigabort utils.c:58:1
+     in find_data get_next_line_bonus.c:95:15
+     in get_next_line get_next_line_bonus.c:114:7
+     in test_gnl_func file_utils.c:40:8
+     in main bonus.c:40:2
+
+=================================================================
+==3400==ERROR: AddressSanitizer: heap-use-after-free on address 0x6070000000d0 at pc 0x0001054176f9 bp 0x7ffeea7ef310 sp 0x7ffeea7ef308
+READ of size 8 at 0x6070000000d0 thread T0
+    #0 0x1054176f8 in find_data get_next_line_bonus.c:95
+    #1 0x10541799c in get_next_line get_next_line_bonus.c:114
+    #2 0x105416bd0 in test_gnl_func file_utils.c:40
+    #3 0x105410957 in main bonus.c:92
+    #4 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x6070000000d0 is located 64 bytes inside of 72-byte region [0x607000000090,0x6070000000d8)
+freed by thread T0 here:
+    #0 0x108a152c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x105411455 in free malloc_mock.c:82
+    #2 0x10541826b in free_res get_next_line_bonus.c:54
+    #3 0x105417d44 in get_next_line get_next_line_bonus.c:137
+    #4 0x105416bd0 in test_gnl_func file_utils.c:40
+    #5 0x105410915 in main bonus.c:92
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x108a1517d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x105410e1c in malloc malloc_mock.c:65
+    #2 0x1054175b9 in find_data get_next_line_bonus.c:89
+    #3 0x10541799c in get_next_line get_next_line_bonus.c:114
+    #4 0x105416bd0 in test_gnl_func file_utils.c:40
+    #5 0x105410425 in main bonus.c:92
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free get_next_line_bonus.c:95 in find_data
+Error in test 21: get_next_line(7: "multiple fds"): Memory problems!
+     in sigabort utils.c:58:1
+     in find_data get_next_line_bonus.c:95:15
+     in get_next_line get_next_line_bonus.c:114:7
+     in test_gnl_func file_utils.c:40:8
+     in main bonus.c:92:2
+
+=================================================================
+==3417==ERROR: AddressSanitizer: heap-use-after-free on address 0x00010caf5a70 at pc 0x0001077326f9 bp 0x7ffee84d4310 sp 0x7ffee84d4308
+READ of size 8 at 0x00010caf5a70 thread T0
+    #0 0x1077326f8 in find_data get_next_line_bonus.c:95
+    #1 0x10773299c in get_next_line get_next_line_bonus.c:114
+    #2 0x107731bd0 in test_gnl_func file_utils.c:40
+    #3 0x10772a12b in main bonus.c:40
+    #4 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x00010caf5a70 is located 1000048 bytes inside of 1000056-byte region [0x00010ca01800,0x00010caf5a78)
+freed by thread T0 here:
+    #0 0x10ad2b2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x10772c455 in free malloc_mock.c:82
+    #2 0x10773326b in free_res get_next_line_bonus.c:54
+    #3 0x107732bc3 in get_next_line get_next_line_bonus.c:127
+    #4 0x10772a0f4 in main bonus.c:40
+    #5 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10ad2b17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10772be1c in malloc malloc_mock.c:65
+    #2 0x1077325b9 in find_data get_next_line_bonus.c:89
+    #3 0x10773299c in get_next_line get_next_line_bonus.c:114
+    #4 0x107731bd0 in test_gnl_func file_utils.c:40
+    #5 0x107729f71 in main bonus.c:40
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free get_next_line_bonus.c:95 in find_data
+Error in test 5: get_next_line(5: "open, error, open"): Memory problems!
+     in sigabort utils.c:58:1
+     in find_data get_next_line_bonus.c:95:15
+     in get_next_line get_next_line_bonus.c:114:7
+     in test_gnl_func file_utils.c:40:8
+     in main bonus.c:40:2
+
+20.OK =================================================================
+==3422==ERROR: AddressSanitizer: heap-use-after-free on address 0x00010caf5a70 at pc 0x0001077326f9 bp 0x7ffee84d4310 sp 0x7ffee84d4308
+READ of size 8 at 0x00010caf5a70 thread T0
+    #0 0x1077326f8 in find_data get_next_line_bonus.c:95
+    #1 0x10773299c in get_next_line get_next_line_bonus.c:114
+    #2 0x107731bd0 in test_gnl_func file_utils.c:40
+    #3 0x10772b94c in main bonus.c:92
+    #4 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x00010caf5a70 is located 1000048 bytes inside of 1000056-byte region [0x00010ca01800,0x00010caf5a78)
+freed by thread T0 here:
+    #0 0x10ad2b2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x10772c455 in free malloc_mock.c:82
+    #2 0x10773326b in free_res get_next_line_bonus.c:54
+    #3 0x107732d44 in get_next_line get_next_line_bonus.c:137
+    #4 0x107731bd0 in test_gnl_func file_utils.c:40
+    #5 0x10772b90a in main bonus.c:92
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10ad2b17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10772be1c in malloc malloc_mock.c:65
+    #2 0x1077325b9 in find_data get_next_line_bonus.c:89
+    #3 0x10773299c in get_next_line get_next_line_bonus.c:114
+    #4 0x107731bd0 in test_gnl_func file_utils.c:40
+    #5 0x10772b41a in main bonus.c:92
+    #6 0x7fff6cdcfcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free get_next_line_bonus.c:95 in find_data
+Error in test 21: get_next_line(7: "multiple fds"): Memory problems!
+     in sigabort utils.c:58:1
+     in find_data get_next_line_bonus.c:95:15
+     in get_next_line get_next_line_bonus.c:114:7
+     in test_gnl_func file_utils.c:40:8
+     in main bonus.c:92:2
+
