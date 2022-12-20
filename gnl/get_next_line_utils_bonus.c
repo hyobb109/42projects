@@ -6,17 +6,78 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:26:18 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/12/17 20:12:25 by hyobicho         ###   ########.fr       */
+/*   Updated: 2022/12/20 18:13:17 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
+void	init_data(t_info *data, int fd)
+{
+	data->buffer[0] = '\0';
+	data->idx = 0;
+	data->rbyte = -1;
+	data->len = 0;
+	data->total = 0;
+	data->fd = fd;
+	data->pre = NULL;
+	data->next = NULL;
+}
+
+t_info	*find_data(t_info **head, int fd)
+{
+	t_info	*new;
+	t_info	*curr;
+
+	if (*head == NULL)
+	{
+		*head = malloc(sizeof(t_info));
+		if (*head == NULL)
+			return (0);
+		init_data(*head, fd);
+	}
+	curr = *head;
+	while (curr->next && curr->fd != fd)
+		curr = curr->next;
+	if (fd == curr->fd)
+		return (curr);
+	new = (t_info *)malloc(sizeof(t_info));
+	if (new == NULL)
+		return (0);
+	init_data(new, fd);
+	curr->next = new;
+	new->pre = curr;
+	return (new);
+}
+
+char	*free_res(char *tmp_buff, t_info *data, t_info **head)
+{
+	if (data->pre && data->next)
+	{
+		data->pre->next = data->next;
+		data->next->pre = data->pre;
+	}
+	else if (data->pre)
+		data->pre->next = NULL;
+	else if (data->next)
+	{
+		data->next->pre = NULL;
+		*head = data->next;
+	}
+	else
+		*head = NULL;
+	free(data);
+	data = NULL;
+	free(tmp_buff);
+	tmp_buff = 0;
+	return (0);
+}
+
 void	*ft_memcpy(void *dst, const void *src, ssize_t n)
 {
 	unsigned char	*dst1;
 	unsigned char	*src1;
-	ssize_t				i;
+	ssize_t			i;
 
 	if (dst == NULL && src == NULL)
 		return (dst);

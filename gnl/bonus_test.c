@@ -77,23 +77,26 @@ static ssize_t	find_new_line(t_info *data)
 	return (len);
 }
 
-static char	*free_res(char *tmp_buff, t_info *data)
+static char	*free_res(char *tmp_buff, t_info *data, t_info **head)
 {
-	// data->buffer[0] = '\0';
-	// data->idx = 0;
-	// data->rbyte = -1;
-	// data->len = 0;
-	// data->total = 0;
-	// data->fd = 0;
-	// data->next = NULL;
 	if (data->pre && data->next)
 	{
 		data->pre->next = data->next; 
 		data->next->pre = data->pre;
 	}
+	else if (data->pre)
+		data->pre->next = NULL;
+	else if (data->next)
+	{
+		data->next->pre = NULL;
+		*head = data->next;
+	}
+	else
+		*head = NULL;
 	free(data);
-	// free(head);
+	data = NULL;
 	free(tmp_buff);
+	tmp_buff = 0;
 	return (0);
 }
 
@@ -118,32 +121,44 @@ void	init_data(t_info *data, int fd)
 	data->next = NULL;
 }
 
-t_info	*find_data(t_info *curr, int fd)
+t_info	*find_data(t_info **head, int fd)
 {
 	t_info	*new;
-	// fd 다르면 fd 같을때가지 or 마지막 노드까지 넘김
-	// printf("next: %p\n", curr->next);
+	t_info	*curr;
+
+	if (*head == NULL)
+	{
+		*head = malloc(sizeof(t_info));
+		if (*head == NULL)
+			return (0);
+		init_data(*head, fd);
+	}
+	curr = *head;
 	while (curr->next && curr->fd != fd)
-	{
-		// printf("222check!\n");	
 		curr = curr->next;
-	}
-	// fd값 같은지 체크 -> 같으면 현재 data 리턴
 	if (fd == curr->fd)
-	{
-		// printf("111check!\n");	
 		return(curr);
-	}
-	// printf("333check!\n");
-	// 없으면 새로운 node 생성해서 초기화하고 연결 후 리턴
 	new = (t_info *)malloc(sizeof(t_info));
 	if (new == NULL)
 		return (0);
 	init_data(new, fd);
-	new->pre = curr;
-	// print_data(new);
 	curr->next = new;
+	new->pre = curr;
 	return (new);
+}
+
+static char	*read_and_copy(int fd, char *tmp_buff, t_info **data, t_info **head)
+{
+	if ((*data)->idx >= (*data)->rbyte)
+	{
+		(*data)->idx = 0;
+		(*data)->rbyte = read(fd, (*data)->buffer, BUFFER_SIZE);
+		if ((*data)->rbyte < 0)
+			return (free_res(tmp_buff, *data, head));
+	}
+	(*data)->len = find_new_line(*data);
+	tmp_buff = ft_strjoin(tmp_buff, *data);
+	return (tmp_buff);
 }
 
 char	*get_next_line(int fd)
@@ -152,16 +167,7 @@ char	*get_next_line(int fd)
 	static t_info	*head;
 	t_info			*data;
 
-	// 첫 노드면
-	if (head == NULL)
-	{
-		head = malloc(sizeof(t_info));
-		if (head == NULL)
-			return (0);
-		init_data(head, fd);
-	}
-	// data 가 가리키는 노드 정해주기 (fd 값 체크)
-	data = find_data(head, fd);
+	data = find_data(&head, fd);
 	if (data == NULL)
 		return (0);
 	tmp_buff = (char *)malloc(1);
@@ -169,48 +175,30 @@ char	*get_next_line(int fd)
 		return (0);
 	while (data->rbyte)
 	{
-		if (data->idx >= data->rbyte)
-		{
-			data->idx = 0;
-			data->rbyte = read(fd, data->buffer, BUFFER_SIZE);
-			if (data->rbyte < 0)
-				return (free_res(tmp_buff, data));
-		}
-		data->len = find_new_line(data);
-		tmp_buff = ft_strjoin(tmp_buff, data);
-		// print_data(data);
-		// printf("**tmp: %s\n**", tmp_buff);
+		tmp_buff = read_and_copy(fd, tmp_buff, &data, &head);
 		if (tmp_buff == NULL)
 			return (0);
 		if (is_new_line(tmp_buff, data->total))
 			break ;
 	}
 	if (tmp_buff[0] == '\0')
-		return (free_res(tmp_buff, data));
+		return (free_res(tmp_buff, data, &head));
 	return (tmp_buff);
 }
 
 int main()
 {
-	int fd1 = open("./sample.txt", O_RDONLY);
-	if (fd1 < 0)
-		return 0;
-	int fd2 = open("./test.txt", O_RDONLY);
-	if (fd2 < 0)
-		return 0;
-	printf("===fd 1: %d===\n", fd1);
-	for (int i = 0; i < 2; i++)
-		printf("%s", get_next_line(fd1));
-	printf("===fd 2: %d===\n", fd2);
-	for (int i = 0; i < 2; i++)
-		printf("%s", get_next_line(fd2));
-	printf("===fd 1: %d===\n", fd1);
-	for (int i = 0; i < 2; i++)
-		printf("%s", get_next_line(fd1));
-	printf("===fd 2: %d===\n", fd2);
-	for (int i = 0; i < 2; i++)
-		printf("%s", get_next_line(fd2));
+	int fd1 = open("./03.txt", O_RDONLY);
+	int fd2 = open("./04.txt", O_RDONLY);
+	int fd3 = open("./05.txt", O_RDONLY);
+	printf("%s", get_next_line(fd1));
+	printf("%s", get_next_line(fd2));
+	printf("%s", get_next_line(fd3));
+	printf("%s", get_next_line(fd1));
+	printf("%s", get_next_line(fd2));
+	printf("%s", get_next_line(fd3));
 	close(fd1);
 	close(fd2);
+	close(fd3);
 	return 0;
 }
