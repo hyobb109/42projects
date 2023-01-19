@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/19 21:40:47 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/07 19:45:45 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/15 22:59:03 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-
-# include "./lib/libft.h"
-typedef struct s_node
+int	ft_tolower(int c)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
-
-#endif
+	if (c >= 'A' && c <= 'Z')
+		return (c + 32);
+	return (c);
+}

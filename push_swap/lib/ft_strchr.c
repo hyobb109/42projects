@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/19 21:40:47 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/09 19:43:51 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/15 22:56:44 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-
-# include "./lib/libft.h"
-typedef struct s_node
+char	*ft_strchr(const char *s, int c)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	char	c1;
 
-#endif
+	c1 = (char)c;
+	while (*s)
+	{
+		if (c1 == *s)
+			return ((char *)s);
+		s++;
+	}
+	if (c1 == '\0')
+		return ((char *)s);
+	return (0);
+}

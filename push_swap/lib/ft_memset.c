@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/19 21:40:47 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/07 20:14:44 by hyobicho          #+#    #+#             */
+/*   Updated: 2023/01/19 17:55:56 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./lib/libft.h"
-typedef struct s_node
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	unsigned char	val;
+	unsigned char	*s;
+	size_t			i;
 
-#endif
+	val = (unsigned char)c;
+	s = (unsigned char *)b;
+	i = 0;
+	while (i < len)
+		s[i++] = val;
+	return (b);
+}
