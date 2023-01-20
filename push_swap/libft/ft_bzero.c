@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/09 16:26:54 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/15 22:49:00 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+void	ft_bzero(void *s, size_t n)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
-
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
-
-#endif
+	if (n == 0)
+		return ;
+	ft_memset(s, 0, n);
+}

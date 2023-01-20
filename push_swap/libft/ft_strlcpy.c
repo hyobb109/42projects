@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/10/04 19:16:59 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/15 22:57:22 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	size_t	src_len;
+	size_t	i;
 
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
-
-#endif
+	src_len = ft_strlen(src);
+	if (dstsize > 0)
+	{
+		i = 0;
+		while (src[i] && i < dstsize - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (src_len);
+}

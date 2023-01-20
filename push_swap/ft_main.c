@@ -6,76 +6,121 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/19 22:42:35 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/20 22:48:05 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void check_lst(t_node *lst, int size) // delete
+void	print_lst(t_node *lst) // delete
 {
-	for (int i = 0; i < size; i++)
+	t_node	*head;
+
+	head = lst;
+	lst = head->next;
+	ft_printf("==========\n");
+	// while (lst->next != head->next)
+	// {
+	// 	ft_printf("p: %p, n: %d\n", lst, lst->n);
+	// 	lst = lst->next;
+	// }
+	for (int i = 0; i < 5; i++)
 	{
-		ft_printf("%p\n", lst);
-		ft_printf("n: %d\n", lst->n);
+		ft_printf("p: %p, n: %d\n", lst, lst->n);
 		lst = lst->next;
 	}
 }
 
-void	parse_args(int argc, char **argv, t_node **head, int *size)
+void	link_list(char *num, t_node *stack_a, t_node **curr)
+{
+	t_node	*new;
+
+	new = malloc(sizeof(t_node));
+	if (new == NULL)
+		exit(1);
+	new->n = ft_atoi(num);
+	if (stack_a->next == stack_a)
+	{
+		stack_a->next = new;
+		new->pre = stack_a;
+	}
+	else
+	{
+		new->pre = *curr;
+		(*curr)->next = new;
+	}
+	new->next = stack_a;
+	stack_a->pre = new;
+	*curr = new;
+}
+
+int	parse_args(int argc, char **argv, t_node *stack_a, int size)
 {
 	int		i;
 	int		j;
-	t_node	*new;
 	t_node	*curr;
 	char	**numset;
 
 	i = 0;
 	while (++i < argc)
 	{
-		// 공백으로 스플릿하고 쪼개진 문자열 돌면서 확인!!
 		numset = ft_split(argv[i], ' ');
 		j = 0;
 		while (numset[j])
+			link_list(numset[j++], stack_a, &curr);
+		size += j;
+	}
+	return (size);
+}
+
+// 중복체크하고 exit
+void	check_dup(t_node *head, t_node *stack)
+{
+	t_node	*tmp;
+
+	while (stack->next != head->next)
+	{
+		tmp = stack->next;
+		while (tmp->next != head->next)
 		{
-			// node 할당하고 연결하기....
-			new = malloc(sizeof(t_node));
-			if (new == NULL)
-				exit(1);
-			new->n = ft_atoi(numset[j++]);
-			if ((*head)->next == *head)
-			{
-				ft_printf("*number: %d\n", new->n);
-				(*head)->next = new;
-				new->pre = *head;
-			}
-			else
-				new->pre = curr;
-			new->next = *head;
-			(*head)->pre = new;
-			curr = new;
-			ft_printf("new->n: %d\n", new->n);
+			if (stack->n == tmp->n)
+				ft_error();
+			tmp = tmp->next;
 		}
-		(*size) += j;
+		stack = stack->next;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_node	*head;
+	t_node	*stack_a;
+	t_node	*stack_b;
 	int		size;
-	// char *test[] = {"./sedgfsd", "4636", "123"};
-	// 인자 없을 때
+
 	if (argc < 2)
 		exit(1);
-	head = malloc(sizeof(t_node));
-	if (head == NULL)
+	// stack_a 
+	stack_a = malloc(sizeof(t_node));
+	if (stack_a == NULL)
 		exit(1);
-	head->pre = head;
-	head->next = head;
-	size = 0;
-	parse_args(argc, argv, &head, &size);
-	ft_printf("size: %d\n", size);
-	check_lst(head->next, size);
+	stack_a->pre = stack_a;
+	stack_a->next = stack_a;
+	// stack_b
+	stack_b = malloc(sizeof(t_node));
+	if (stack_b == NULL)
+		exit(1);
+	stack_b->pre = stack_b;
+	stack_b->next = stack_b;
+	size = parse_args(argc, argv, stack_a, 0);
+	ft_printf("size: %d\n"); // delete
+	check_dup(stack_a, stack_a->next);
+	print_lst(stack_a); //delete
+	ft_printf("push b\n");
+	push(stack_b, stack_a);
+	print_lst(stack_a); //delete
+	print_lst(stack_b); //delete
+	ft_printf("swap a\n");
+	swap(stack_a, stack_a->next, stack_a->next->next);
+	print_lst(stack_a); //delete
 	exit(0);
 }

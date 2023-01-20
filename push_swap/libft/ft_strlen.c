@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/07 16:59:05 by hyobicho          #+#    #+#             */
+/*   Updated: 2023/01/17 19:58:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+size_t	ft_strlen(const char *s)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	size_t	len;
 
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
-
-#endif
+	len = 0;
+	if (s == 0)
+		return (0);
+	while (s[len])
+		len++;
+	return (len);
+}

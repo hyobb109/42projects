@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/10 23:22:57 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/15 22:53:59 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+void	ft_putstr_fd(char *s, int fd)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	size_t	len;
 
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
-
-#endif
+	len = ft_strlen(s);
+	write(fd, s, len);
+}

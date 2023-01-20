@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/10 23:24:50 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/16 21:14:14 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+static void	print(long long num, int fd)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	long long	mod;
 
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
+	mod = num % 10 + '0';
+	if (num >= 10)
+		print(num / 10, fd);
+	write(fd, &mod, 1);
+}
 
-#endif
+void	ft_putnbr_fd(int n, int fd)
+{
+	long long	num;
+
+	num = n;
+	if (num < 0)
+	{
+		write(fd, "-", 1);
+		num *= -1;
+	}
+	print(num, fd);
+}

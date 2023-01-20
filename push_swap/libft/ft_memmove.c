@@ -1,27 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/09 16:52:08 by hyobicho          #+#    #+#             */
+/*   Updated: 2022/11/15 22:52:27 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	unsigned char	*dst1;
+	unsigned char	*src1;
+	size_t			i;
 
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
-
-#endif
+	if (dst == NULL && src == NULL)
+		return (dst);
+	dst1 = (unsigned char *)dst;
+	src1 = (unsigned char *)src;
+	if (dst < src)
+	{
+		i = 0;
+		while (i < len)
+		{
+			dst1[i] = src1[i];
+			i++;
+		}
+	}
+	else
+	{
+		i = len;
+		while (i-- > 0)
+			dst1[i] = src1[i];
+	}
+	return (dst);
+}

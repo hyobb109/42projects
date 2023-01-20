@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_strchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:47:43 by hyobicho         ###   ########.fr       */
+/*   Created: 2022/11/23 18:21:15 by hyobicho          #+#    #+#             */
+/*   Updated: 2023/01/19 17:47:19 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-typedef struct s_node
+int	ft_putchar(va_list ap)
 {
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	unsigned char	ascii;
 
-void	swap(t_node *head, t_node *first, t_node *second);
-void	push(t_node *target, t_node *stack);
+	ascii = va_arg(ap, unsigned int);
+	write(1, &ascii, 1);
+	return (1);
+}
 
-#endif
+int	ft_putstr(va_list ap)
+{
+	int		len;
+	char	*s;
+
+	s = va_arg(ap, char *);
+	if (s == 0)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	len = ft_strlen(s);
+	write(1, s, len);
+	return (len);
+}
