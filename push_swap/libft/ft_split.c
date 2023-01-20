@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 19:53:02 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 16:15:02 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/20 23:06:24 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,12 @@ char	**ft_split(char const *s, char c)
 	char			**res;
 	unsigned int	cnt;
 
+	if (*s == '\0')
+		ft_error();
 	while (*s == c && c != '\0')
 		s++;
+	if (*s == '\0')
+		ft_error();
 	cnt = cntstr(s, c);
 	res = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (res == NULL)
