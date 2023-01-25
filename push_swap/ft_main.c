@@ -6,29 +6,42 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:48:05 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/26 04:00:33 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	print_lst(t_node *lst) // delete
+// delete
+void	print_lst(t_node *lst)
 {
 	t_node	*head;
 
 	head = lst;
 	lst = head->next;
 	ft_printf("==========\n");
-	// while (lst->next != head->next)
-	// {
-	// 	ft_printf("p: %p, n: %d\n", lst, lst->n);
-	// 	lst = lst->next;
-	// }
-	for (int i = 0; i < 5; i++)
+	while (lst->next != head->next)
 	{
-		ft_printf("p: %p, n: %d\n", lst, lst->n);
+		ft_printf("%d ", lst->n);
 		lst = lst->next;
 	}
+	ft_printf("\n==========\n");
+}
+
+// delete
+void	test_rules(t_node *stack_a, t_node *stack_b)
+{
+	push(stack_b, stack_a, "pb");
+	ft_printf("stcak A\n");
+	print_lst(stack_a);
+	ft_printf("stcak B\n");
+	print_lst(stack_b);
+	swap(stack_a, stack_a->next, stack_a->next->next, "sa");
+	print_lst(stack_a);
+	rotate(stack_a, stack_a->next, "ra");
+	print_lst(stack_a);
+	reverse_rotate(stack_a, stack_a->next, "rra");
+	print_lst(stack_a);
 }
 
 void	link_list(char *num, t_node *stack_a, t_node **curr)
@@ -54,7 +67,7 @@ void	link_list(char *num, t_node *stack_a, t_node **curr)
 	*curr = new;
 }
 
-int	parse_args(int argc, char **argv, t_node *stack_a, int size)
+void	parse_args(int argc, char **argv, t_node *stack_a)
 {
 	int		i;
 	int		j;
@@ -68,9 +81,7 @@ int	parse_args(int argc, char **argv, t_node *stack_a, int size)
 		j = 0;
 		while (numset[j])
 			link_list(numset[j++], stack_a, &curr);
-		size += j;
 	}
-	return (size);
 }
 
 // 중복체크하고 exit
@@ -91,36 +102,30 @@ void	check_dup(t_node *head, t_node *stack)
 	}
 }
 
+t_node	*create_head(void)
+{
+	t_node	*head;
+
+	head = malloc(sizeof(t_node));
+	if (head == NULL)
+		exit(1);
+	head->pre = head;
+	head->next = head;
+	return (head);
+}
+
 int	main(int argc, char **argv)
 {
 	t_node	*stack_a;
 	t_node	*stack_b;
-	int		size;
 
 	if (argc < 2)
 		exit(1);
-	// stack_a 
-	stack_a = malloc(sizeof(t_node));
-	if (stack_a == NULL)
-		exit(1);
-	stack_a->pre = stack_a;
-	stack_a->next = stack_a;
-	// stack_b
-	stack_b = malloc(sizeof(t_node));
-	if (stack_b == NULL)
-		exit(1);
-	stack_b->pre = stack_b;
-	stack_b->next = stack_b;
-	size = parse_args(argc, argv, stack_a, 0);
-	ft_printf("size: %d\n"); // delete
+	stack_a = create_head();
+	stack_b = create_head();
+	parse_args(argc, argv, stack_a);
 	check_dup(stack_a, stack_a->next);
 	print_lst(stack_a); //delete
-	ft_printf("push b\n");
-	push(stack_b, stack_a);
-	print_lst(stack_a); //delete
-	print_lst(stack_b); //delete
-	ft_printf("swap a\n");
-	swap(stack_a, stack_a->next, stack_a->next->next);
-	print_lst(stack_a); //delete
+	test_rules(stack_a, stack_b); // delete
 	exit(0);
 }

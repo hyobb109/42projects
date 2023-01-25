@@ -1,29 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_checker.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/26 02:30:24 by hyobicho         ###   ########.fr       */
+/*   Created: 2023/01/26 02:09:31 by hyobicho          #+#    #+#             */
+/*   Updated: 2023/01/26 02:09:34 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-
-# include "./libft/libft.h"
-typedef struct s_node
-{
-	int				n;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
-
-void	swap(t_node *head, t_node *first, t_node *second, char *cmd);
-void	push(t_node *to, t_node *from, char *cmd);
-void	rotate(t_node *head, t_node *first, char *cmd);
-void	reverse_rotate(t_node *head, t_node *first, char *cmd);
-
-#endif

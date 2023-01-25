@@ -6,17 +6,18 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:31:36 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 22:48:04 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/26 02:30:27 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_node *head, t_node *first, t_node *second)
+void	swap(t_node *head, t_node *first, t_node *second, char *cmd)
 {
 	t_node	*third;
 
-	if (first->next == head)
+	ft_printf("%s\n", cmd);
+	if (second == head)
 		return ;
 	third = second->next;
 	head->next = second;
@@ -27,32 +28,56 @@ void	swap(t_node *head, t_node *first, t_node *second)
 	third->pre = first;
 }
 
-// 고쳐야 함..
-void	push(t_node *target, t_node *stack)
+void	push(t_node *to, t_node *from, char *cmd)
 {
-	t_node	*tar1;
-	t_node	*s1;
+	t_node	*x;
+	t_node	*tmp;
 
-	if (stack->next == stack)
+	ft_printf("%s\n", cmd);
+	// 옮길 것이 없으면 아무것도 x
+	if (from->next == from)
 		return ;
-	s1 = stack->next;
-	if (target->next == target)
-	{
-		target->pre = s1;
-		target->next = s1;
-		target->next->pre = target;
-		target->next->next = target;
-		stack->next = s1->next;
-		s1->next->pre = stack;
-	}
-	else
-	{
-		tar1 = target->next;
-		target->next = s1;
-		stack->next = s1->next;
-		s1->next->pre = stack;
-		s1->pre = target;
-		s1->next = tar1;
-		tar1->pre = s1;
-	}
+	// from 연결 
+	x = from->next;
+	from->next = x->next;
+	x->next->pre = from;
+	// to 연결
+	tmp = to->next;
+	to->next = x;
+	x->pre = to;
+	x->next = tmp;
+	tmp->pre = x;
+}
+
+void	rotate(t_node *head, t_node *first, char *cmd)
+{
+	t_node	*last;
+
+	ft_printf("%s\n", cmd);
+	// 원소가 하나 이하면 그대로
+	if (first == head || first->next == head)
+		return ;
+	last = head->pre;
+	head->next = first->next;
+	first->next->pre = head;
+	head->pre = first;
+	last->next = first;
+	first->pre = last;
+	first->next = head;
+}
+
+void	reverse_rotate(t_node *head, t_node *first, char *cmd)
+{
+	t_node	*last;
+
+	ft_printf("%s\n", cmd);
+	if (first == head || first->next == head)
+		return ;
+	last = head->pre;
+	head->next = last;
+	head->pre = last->pre;
+	last->pre->next = head;
+	first->pre = last;
+	last->pre = head;
+	last->next = first;
 }
