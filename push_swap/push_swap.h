@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/26 02:30:24 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:08:36 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 typedef struct s_node
 {
 	int				n;
+	int				size;
 	struct s_node	*pre;
 	struct s_node	*next;
 }	t_node;

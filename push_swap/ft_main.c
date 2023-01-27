@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/26 04:00:33 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:10:40 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_lst(t_node *lst)
 	head = lst;
 	lst = head->next;
 	ft_printf("==========\n");
-	while (lst->next != head->next)
+	while (lst != head)
 	{
 		ft_printf("%d ", lst->n);
 		lst = lst->next;
@@ -84,21 +84,22 @@ void	parse_args(int argc, char **argv, t_node *stack_a)
 	}
 }
 
-// 중복체크하고 exit
+// 중복, size 같이 체크
 void	check_dup(t_node *head, t_node *stack)
 {
 	t_node	*tmp;
 
-	while (stack->next != head->next)
+	while (stack != head)
 	{
 		tmp = stack->next;
-		while (tmp->next != head->next)
+		while (tmp != head)
 		{
 			if (stack->n == tmp->n)
 				ft_error();
 			tmp = tmp->next;
 		}
 		stack = stack->next;
+		(head->size)++;
 	}
 }
 
@@ -111,6 +112,7 @@ t_node	*create_head(void)
 		exit(1);
 	head->pre = head;
 	head->next = head;
+	head->size = 0;
 	return (head);
 }
 
@@ -125,6 +127,7 @@ int	main(int argc, char **argv)
 	stack_b = create_head();
 	parse_args(argc, argv, stack_a);
 	check_dup(stack_a, stack_a->next);
+	ft_printf("A size = %d\n", stack_a->size); //delete;
 	print_lst(stack_a); //delete
 	test_rules(stack_a, stack_b); // delete
 	exit(0);
