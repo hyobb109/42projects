@@ -14,17 +14,17 @@
 # define PUSH_SWAP_H
 
 # include "./libft/libft.h"
-typedef struct s_node
+typedef struct s_stack
 {
 	int				n;
 	int				size;
-	struct s_node	*pre;
-	struct s_node	*next;
-}	t_node;
+	struct s_stack	*pre;
+	struct s_stack	*next;
+} t_stack;
 
-void	swap(t_node *head, t_node *first, t_node *second, char *cmd);
-void	push(t_node *to, t_node *from, char *cmd);
-void	rotate(t_node *head, t_node *first, char *cmd);
-void	reverse_rotate(t_node *head, t_node *first, char *cmd);
+void	swap(t_stack *head, t_stack *first, char *cmd);
+void	push(t_stack *to, t_stack *from, char *cmd);
+void	rotate(t_stack *head, t_stack *first, char *cmd);
+void	r_rotate(t_stack *head, t_stack *first, char *cmd);
 
 #endif

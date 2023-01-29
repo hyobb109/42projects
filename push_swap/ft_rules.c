@@ -12,11 +12,14 @@
 
 #include "push_swap.h"
 
-void	swap(t_node *head, t_node *first, t_node *second, char *cmd)
+void	swap(t_stack *head, t_stack *first, char *cmd)
 {
-	t_node	*third;
+	t_stack	*second;
+	t_stack	*third;
 
 	ft_printf("%s\n", cmd);
+	second = first->next;
+	ft_printf("%d %d\n", first->n, second->n); // 이상함...
 	if (second == head)
 		return ;
 	third = second->next;
@@ -28,10 +31,10 @@ void	swap(t_node *head, t_node *first, t_node *second, char *cmd)
 	third->pre = first;
 }
 
-void	push(t_node *to, t_node *from, char *cmd)
+void	push(t_stack *to, t_stack *from, char *cmd)
 {
-	t_node	*x;
-	t_node	*tmp;
+	t_stack	*x;
+	t_stack	*tmp;
 
 	ft_printf("%s\n", cmd);
 	// 옮길 것이 없으면 아무것도 x
@@ -49,9 +52,10 @@ void	push(t_node *to, t_node *from, char *cmd)
 	tmp->pre = x;
 }
 
-void	rotate(t_node *head, t_node *first, char *cmd)
+// first가 마지막 원소가 됨
+void	rotate(t_stack *head, t_stack *first, char *cmd)
 {
-	t_node	*last;
+	t_stack	*last;
 
 	ft_printf("%s\n", cmd);
 	// 원소가 하나 이하면 그대로
@@ -66,9 +70,10 @@ void	rotate(t_node *head, t_node *first, char *cmd)
 	first->next = head;
 }
 
-void	reverse_rotate(t_node *head, t_node *first, char *cmd)
+// last가 first가 됨
+void	r_rotate(t_stack *head, t_stack *first, char *cmd)
 {
-	t_node	*last;
+	t_stack	*last;
 
 	ft_printf("%s\n", cmd);
 	if (first == head || first->next == head)
