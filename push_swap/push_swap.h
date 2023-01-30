@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/27 16:08:36 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:15:24 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ typedef struct s_stack
 	struct s_stack	*pre;
 	struct s_stack	*next;
 } t_stack;
+
+typedef struct s_pivot
+{
+	int	small;
+	int	big;
+} t_pivot;
 
 void	swap(t_stack *head, t_stack *first, char *cmd);
 void	push(t_stack *to, t_stack *from, char *cmd);

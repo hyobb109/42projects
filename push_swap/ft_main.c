@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/27 16:10:40 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:30:13 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,16 @@ void	sort_3(t_stack *a, t_stack *first, t_stack *second, t_stack *third)
 	if (first->n < second->n && second->n < third->n)
 		return ;
 	//  1 3 2 의 경우
-	if (first->n < second->n)
+	if (first->n < second->n && first->n < third->n)
 	{
-		r_rotate(a, first, "rra");
 		swap(a, first, "sa");
+		rotate(a, a->next, "ra");
 	}
-	// 역순인 경우 => sa가 안 됨... 확인 필요
+	// 역순인 경우
 	else if (first->n > second->n && second->n > third->n)
 	{
 		rotate(a, first, "ra");
-		print_lst(a);
-		swap(a, first, "sa");
-		print_lst(a);
+		swap(a, a->next, "sa");
 	}
 	//  3 1 2의 경우
 	else if (first->n > third->n && third->n > second->n)
@@ -144,28 +142,64 @@ void	sort_3(t_stack *a, t_stack *first, t_stack *second, t_stack *third)
 	// 2 3 1 의 경우
 	else
 		r_rotate(a, first, "rra");
+	print_lst(a);
 }
 
-void	small_sort(t_stack *a)
+void	small_sort(t_stack *a, t_stack *b)
 {
+	// // 2개 보내고 3 정렬 후 합침
+	// if (a->size == 5)
+	// {
+		
+	// }
+	// // 최솟값을 b로 보내고 3개 정렬....
+	// if (a->size == 4)
+	// {
+	// }
 	if (a->size == 2)
 		rotate(a, a->next, "ra");
-	else
+	if (a->size == 3)
 		sort_3(a, a->next, a->next->next, a->pre);
-	exit (0);
+	b->n = 0;
 }
 
 void	ft_sort(t_stack *a, t_stack *b)
 {
-	if (a->size < 4)
-		small_sort(a);
+	if (a->size < 6)
+		small_sort(a, b);
 	b->n = 0;
+}
+
+int	*copy_lst(t_stack *a, int i)
+{
+	int		*arr;
+	t_stack	*lst;
+
+	arr = malloc(sizeof(int) * a->size);
+	if (arr == NULL)
+		exit(1);
+	lst = a->next;
+	while (++i < a->size)
+	{
+		arr[i] = lst->n;
+		lst = lst->next;
+	}
+	return (arr);
+}
+
+// arr 정렬 후 중간값 2개, 최댓값, 최솟값 찾기
+t_pivot	init_pivot(int *arr)
+{
+	t_pivot	p;
+
+	return (p);
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
 	t_stack	*b;
+	int		*arr;
 
 	if (argc < 2)
 		exit(1);
@@ -176,8 +210,11 @@ int	main(int argc, char **argv)
 	ft_printf("A size = %d\n", a->size); //delete;
 	if (a->size == 1 || (a->size == 2 && a->pre->n > a->next->n))
 		exit(0);
+	arr = copy_lst(a, -1);
+	
+	// 배열 출력
+	// for (int i = 0; i < a->size; i++)
+	// 	ft_printf("%d ", arr[i]);
 	ft_sort(a, b);
-	print_lst(a); //delete
-	test_rules(a, b); // delete
 	exit(0);
 }

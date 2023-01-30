@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:31:36 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/27 15:50:43 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:40:44 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	swap(t_stack *head, t_stack *first, char *cmd)
 
 	ft_printf("%s\n", cmd);
 	second = first->next;
-	ft_printf("%d %d\n", first->n, second->n); // 이상함...
 	if (second == head)
 		return ;
 	third = second->next;
@@ -41,10 +40,12 @@ void	push(t_stack *to, t_stack *from, char *cmd)
 	if (from->next == from)
 		return ;
 	// from 연결 
+	(from->size)--;
 	x = from->next;
 	from->next = x->next;
 	x->next->pre = from;
 	// to 연결
+	(to->size)++;
 	tmp = to->next;
 	to->next = x;
 	x->pre = to;
