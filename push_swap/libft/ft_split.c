@@ -86,9 +86,9 @@ char	**ft_split(char const *s, char c)
 {
 	char			**res;
 	unsigned int	cnt;
-
+/*
 	if (*s == '\0')
-		ft_error();
+		ft_error();*/
 	while (*s == c && c != '\0')
 		s++;
 	if (*s == '\0')
