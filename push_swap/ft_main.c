@@ -6,11 +6,18 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/30 21:30:13 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:24:06 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+// 배열 출력 -> 지우기
+void	print_arr(int *arr, int size)
+{
+	for (int i = 0; i < size; i++)
+		ft_printf("%d ", arr[i]);
+}
 
 // delete
 void	print_lst(t_stack *lst)
@@ -23,6 +30,13 @@ void	print_lst(t_stack *lst)
 	while (lst != head)
 	{
 		ft_printf("%d ", lst->n);
+		lst = lst->next;
+	}
+	ft_printf("\n---idx---\n");
+	lst = head->next;
+	while (lst != head)
+	{
+		ft_printf("%d ", lst->i);
 		lst = lst->next;
 	}
 	ft_printf("\n==========\n");
@@ -84,11 +98,28 @@ void	parse_args(int argc, char **argv, t_stack *a)
 	}
 }
 
-// 중복, size 같이 체크
-void	check_dup(t_stack *head, t_stack *stack)
+void	indexing(t_stack *head, t_stack *stack, t_stack *curr)
+{
+	// if (curr->n < head->min);
+	// 	head->min = curr->n;
+	// if (curr->n > head->max)
+	// 	head->max = curr->n;
+	curr->i = 0;
+	while (stack != head)
+	{
+		if (curr->n > stack->n)
+			(curr->i)++;
+		stack = stack->next;
+	}
+}
+
+// 중복, size, 인덱싱, 정렬여부 같이 체크
+int	check_lst(t_stack *head, t_stack *stack)
 {
 	t_stack	*tmp;
+	int		sorted;
 
+	sorted = 1;
 	while (stack != head)
 	{
 		tmp = stack->next;
@@ -96,11 +127,15 @@ void	check_dup(t_stack *head, t_stack *stack)
 		{
 			if (stack->n == tmp->n)
 				ft_error();
+			if (stack->n > tmp-> n)
+				sorted = 0;
 			tmp = tmp->next;
 		}
+		indexing(head, head->next, stack);
 		stack = stack->next;
 		(head->size)++;
 	}
+	return (sorted);
 }
 
 t_stack	*create_head(void)
@@ -113,36 +148,39 @@ t_stack	*create_head(void)
 	head->pre = head;
 	head->next = head;
 	head->size = 0;
+	head->i = -1;
+	// head->min = 2147483650;
+	// head->max = -2147483650;
 	return (head);
 }
 
-void	sort_3(t_stack *a, t_stack *first, t_stack *second, t_stack *third)
+// 대소관계 수정 필요!!!
+void	sort_3(t_stack *a)
 {
-	// 이미 정렬된 경우
-	if (first->n < second->n && second->n < third->n)
-		return ;
-	//  1 3 2 의 경우
-	if (first->n < second->n && first->n < third->n)
-	{
-		swap(a, first, "sa");
+	t_stack	*mid;
+
+	mid = a->next->next;
+	if (a->next->i > a->pre->i && a->next->i > mid->i)
 		rotate(a, a->next, "ra");
-	}
-	// 역순인 경우
-	else if (first->n > second->n && second->n > third->n)
-	{
-		rotate(a, first, "ra");
+	else if (a->next->i == 0 || !(a->pre->i == 2 && mid->i == 0))
+		r_rotate(a, a->next, "rra");
+	mid = a->next->next;
+	if (a->pre->i == 2 && a->next->next->i == 0)
 		swap(a, a->next, "sa");
-	}
-	//  3 1 2의 경우
-	else if (first->n > third->n && third->n > second->n)
-		rotate(a, first, "ra");
-	// 2 1 3 의 경우
-	else if (second->n < third->n)
-		swap(a, first, "sa");
-	// 2 3 1 의 경우
-	else
-		r_rotate(a, first, "rra");
-	print_lst(a);
+}
+
+void	sort_4(t_stack *a, t_stack *b)
+{
+	t_stack *tmp;
+
+	if (a->pre->i == 0)
+		r_rotate(a, a->next, "rra");
+	tmp = a->next;
+	while (tmp->i != 0)
+		rotate(a, a->next, "ra");
+	push(b, a, "pb");
+	sort_3(a);
+	push(a, b, "pa");
 }
 
 void	small_sort(t_stack *a, t_stack *b)
@@ -159,7 +197,10 @@ void	small_sort(t_stack *a, t_stack *b)
 	if (a->size == 2)
 		rotate(a, a->next, "ra");
 	if (a->size == 3)
-		sort_3(a, a->next, a->next->next, a->pre);
+		sort_3(a);
+	if (a->size == 4)
+		sort_4(a, b);
+	print_lst(a);
 	b->n = 0;
 }
 
@@ -187,14 +228,6 @@ int	*copy_lst(t_stack *a, int i)
 	return (arr);
 }
 
-// arr 정렬 후 중간값 2개, 최댓값, 최솟값 찾기
-t_pivot	init_pivot(int *arr)
-{
-	t_pivot	p;
-
-	return (p);
-}
-
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
@@ -206,15 +239,10 @@ int	main(int argc, char **argv)
 	a = create_head();
 	b = create_head();
 	parse_args(argc, argv, a);
-	check_dup(a, a->next);
-	ft_printf("A size = %d\n", a->size); //delete;
-	if (a->size == 1 || (a->size == 2 && a->pre->n > a->next->n))
+	if (check_lst(a, a->next))
 		exit(0);
+	ft_printf("A size = %d\n", a->size); //delete;
 	arr = copy_lst(a, -1);
-	
-	// 배열 출력
-	// for (int i = 0; i < a->size; i++)
-	// 	ft_printf("%d ", arr[i]);
 	ft_sort(a, b);
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/30 21:15:24 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:11:53 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 typedef struct s_stack
 {
 	int				n;
+	int				i;
 	int				size;
+	// long long		min;
+	// long long		max;
 	struct s_stack	*pre;
 	struct s_stack	*next;
 } t_stack;
