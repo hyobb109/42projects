@@ -6,63 +6,55 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/01 22:24:06 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:54:39 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// 배열 출력 -> 지우기
-void	print_arr(int *arr, int size)
-{
-	for (int i = 0; i < size; i++)
-		ft_printf("%d ", arr[i]);
-}
-
 // delete
-void	print_lst(t_stack *lst)
+void	print_stack(t_node *a, t_node *b)
 {
-	t_stack	*head;
+	t_node	*a_head;
+	t_node	*b_head;
 
-	head = lst;
-	lst = head->next;
-	ft_printf("==========\n");
-	while (lst != head)
+	ft_printf("====A : %d====\n", a->size);
+	a_head = a;
+	a = a_head->next;
+	while (a != a_head)
 	{
-		ft_printf("%d ", lst->n);
-		lst = lst->next;
+		ft_printf("%d ", a->i);
+		a = a->next;
 	}
-	ft_printf("\n---idx---\n");
-	lst = head->next;
-	while (lst != head)
+	ft_printf("\n====B : %d====\n", b->size);
+	b_head = b;
+	b = b_head->next;
+	while (b != b_head)
 	{
-		ft_printf("%d ", lst->i);
-		lst = lst->next;
+		ft_printf("%d ", b->i);
+		b = b->next;
 	}
 	ft_printf("\n==========\n");
 }
 
 // delete
-void	test_rules(t_stack *a, t_stack *b)
+void	test_rules(t_node *a, t_node *b)
 {
 	push(b, a, "pb");
-	ft_printf("stcak A\n");
-	print_lst(a);
-	ft_printf("stcak B\n");
-	print_lst(b);
+	print_stack(a, b);
 	swap(a, a->next, "sa");
-	print_lst(a);
+	print_stack(a, b);
 	rotate(a, a->next, "ra");
-	print_lst(a);
+	print_stack(a, b);
 	r_rotate(a, a->next, "rra");
-	print_lst(a);
+	print_stack(a, b);
 }
 
-void	link_list(char *num, t_stack *a, t_stack **curr)
+void	link_list(char *num, t_node *a, t_node **curr)
 {
-	t_stack	*new;
+	t_node	*new;
 
-	new = malloc(sizeof(t_stack));
+	new = malloc(sizeof(t_node));
 	if (new == NULL)
 		exit(1);
 	new->n = ft_atoi(num);
@@ -81,11 +73,11 @@ void	link_list(char *num, t_stack *a, t_stack **curr)
 	*curr = new;
 }
 
-void	parse_args(int argc, char **argv, t_stack *a)
+void	parse_args(int argc, char **argv, t_node *a)
 {
 	int		i;
 	int		j;
-	t_stack	*curr;
+	t_node	*curr;
 	char	**numset;
 
 	i = 0;
@@ -98,51 +90,47 @@ void	parse_args(int argc, char **argv, t_stack *a)
 	}
 }
 
-void	indexing(t_stack *head, t_stack *stack, t_stack *curr)
+void	indexing(t_node *head, t_node *lst, t_node *curr)
 {
-	// if (curr->n < head->min);
-	// 	head->min = curr->n;
-	// if (curr->n > head->max)
-	// 	head->max = curr->n;
 	curr->i = 0;
-	while (stack != head)
+	while (lst != head)
 	{
-		if (curr->n > stack->n)
+		if (curr->n > lst->n)
 			(curr->i)++;
-		stack = stack->next;
+		lst = lst->next;
 	}
 }
 
 // 중복, size, 인덱싱, 정렬여부 같이 체크
-int	check_lst(t_stack *head, t_stack *stack)
+int	check_lst(t_node *head, t_node *lst)
 {
-	t_stack	*tmp;
+	t_node	*tmp;
 	int		sorted;
 
 	sorted = 1;
-	while (stack != head)
+	while (lst != head)
 	{
-		tmp = stack->next;
+		tmp = lst->next;
 		while (tmp != head)
 		{
-			if (stack->n == tmp->n)
+			if (lst->n == tmp->n)
 				ft_error();
-			if (stack->n > tmp-> n)
+			if (lst->n > tmp-> n)
 				sorted = 0;
 			tmp = tmp->next;
 		}
-		indexing(head, head->next, stack);
-		stack = stack->next;
+		indexing(head, head->next, lst);
+		lst = lst->next;
 		(head->size)++;
 	}
 	return (sorted);
 }
 
-t_stack	*create_head(void)
+t_node	*create_head(void)
 {
-	t_stack	*head;
+	t_node	*head;
 
-	head = malloc(sizeof(t_stack));
+	head = malloc(sizeof(t_node));
 	if (head == NULL)
 		exit(1);
 	head->pre = head;
@@ -154,85 +142,101 @@ t_stack	*create_head(void)
 	return (head);
 }
 
-// 대소관계 수정 필요!!!
-void	sort_3(t_stack *a)
+void	sort_3(t_node *a)
 {
-	t_stack	*mid;
+	t_node	*mid;
 
 	mid = a->next->next;
+	// 정렬되어 있으면 리턴
+	if (a->next->i < mid->i && mid->i < a->pre->i)
+		return ;
+	// 첫번째가 최대일 때
 	if (a->next->i > a->pre->i && a->next->i > mid->i)
 		rotate(a, a->next, "ra");
-	else if (a->next->i == 0 || !(a->pre->i == 2 && mid->i == 0))
+	// 첫번째가 최소거나 1, 0, 3 이 아닐 때
+	else if (a->next->i < mid->i && a->next->i < a->pre->i)
+		r_rotate(a, a->next, "rra");
+	else if (!(a->pre->i > a->next->i && a->pre->i > mid->i && a->next->i > mid->i))
 		r_rotate(a, a->next, "rra");
 	mid = a->next->next;
-	if (a->pre->i == 2 && a->next->next->i == 0)
+	if (a->pre->i > a->next->i && a->pre->i > mid->i && a->next->i > mid->i)
 		swap(a, a->next, "sa");
 }
 
-void	sort_4(t_stack *a, t_stack *b)
+void	sort_4(t_node *a, t_node *b)
 {
-	t_stack *tmp;
-
 	if (a->pre->i == 0)
 		r_rotate(a, a->next, "rra");
-	tmp = a->next;
-	while (tmp->i != 0)
+	while (a->next->i != 0)
 		rotate(a, a->next, "ra");
 	push(b, a, "pb");
 	sort_3(a);
 	push(a, b, "pa");
 }
 
-void	small_sort(t_stack *a, t_stack *b)
+void	small_sort(t_node *a, t_node *b)
 {
-	// // 2개 보내고 3 정렬 후 합침
-	// if (a->size == 5)
-	// {
-		
-	// }
-	// // 최솟값을 b로 보내고 3개 정렬....
-	// if (a->size == 4)
-	// {
-	// }
 	if (a->size == 2)
 		rotate(a, a->next, "ra");
 	if (a->size == 3)
 		sort_3(a);
 	if (a->size == 4)
 		sort_4(a, b);
-	print_lst(a);
-	b->n = 0;
+	// 5개 정렬
 }
 
-void	ft_sort(t_stack *a, t_stack *b)
+void	a_to_b(t_node *a, t_node *b)
 {
-	if (a->size < 6)
-		small_sort(a, b);
-	b->n = 0;
-}
+	int	num;
+	int	k;
 
-int	*copy_lst(t_stack *a, int i)
-{
-	int		*arr;
-	t_stack	*lst;
-
-	arr = malloc(sizeof(int) * a->size);
-	if (arr == NULL)
-		exit(1);
-	lst = a->next;
-	while (++i < a->size)
+	num = 0;
+	k = a->size / 5;
+	ft_printf("num: %d, k = %d\n", num, k);
+	while (a->size)
 	{
-		arr[i] = lst->n;
-		lst = lst->next;
+		// print_lst(a);
+		// print_lst(b);
+		if (a->next->i <= num++)
+			push(a, b, "pb");
+		if (a->next->i > num && a->next->i <= num + k)
+		{
+			push(a, b, "pb");
+			rotate(b, b->next, "rb");
+			num++;
+		}
+		if (a->next->i > num + k)
+			rotate(a, a->next, "ra");
 	}
-	return (arr);
+}
+
+void	b_to_a(t_node *a, t_node *b)
+{
+	// 최댓값 찾아서 순서대로 푸쉬
+	while (b->size)
+	{
+		if (b->next->i == b->size - 1)
+			push(b, a, "pa");
+		else
+			r_rotate(b, b->next, "rrb");
+	}
+}
+
+void	ft_sort(t_node *a, t_node *b)
+{
+	if (a->size < 5)
+		small_sort(a, b);
+	// a -> b
+	a_to_b(a, b);
+	print_stack(a, b);
+	b_to_a(a, b);
+	print_stack(a, b);
 }
 
 int	main(int argc, char **argv)
 {
-	t_stack	*a;
-	t_stack	*b;
-	int		*arr;
+	t_node	*a;
+	t_node	*b;
 
 	if (argc < 2)
 		exit(1);
@@ -241,8 +245,6 @@ int	main(int argc, char **argv)
 	parse_args(argc, argv, a);
 	if (check_lst(a, a->next))
 		exit(0);
-	ft_printf("A size = %d\n", a->size); //delete;
-	arr = copy_lst(a, -1);
 	ft_sort(a, b);
 	exit(0);
 }
