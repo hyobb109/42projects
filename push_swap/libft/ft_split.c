@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 19:53:02 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/02 13:50:46 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/02 13:52:37 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	**ft_split(char const *s, char c)
 		ft_error();
 	cnt = cntstr(s, c);
 	res = (char **)malloc(sizeof(char *) * (cnt + 1));
-	if (res == NULL)
+	if (res == 0)
 		return (0);
 	return (result(res, s, c, cnt));
 }
