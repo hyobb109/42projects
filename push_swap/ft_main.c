@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/02 19:54:39 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:07:02 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,11 +226,14 @@ void	ft_sort(t_node *a, t_node *b)
 {
 	if (a->size < 5)
 		small_sort(a, b);
-	// a -> b
-	a_to_b(a, b);
-	print_stack(a, b);
-	b_to_a(a, b);
-	print_stack(a, b);
+	else
+	{
+		// a -> b
+		a_to_b(a, b);
+		print_stack(a, b);
+		b_to_a(a, b);
+		print_stack(a, b);
+	}
 }
 
 int	main(int argc, char **argv)
