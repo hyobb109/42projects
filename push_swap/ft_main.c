@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/02 20:07:02 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:11:33 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,9 @@ void	sort_4(t_node *a, t_node *b)
 		r_rotate(a, a->next, "rra");
 	while (a->next->i != 0)
 		rotate(a, a->next, "ra");
-	push(b, a, "pb");
+	push(a, b, "pb");
 	sort_3(a);
-	push(a, b, "pa");
+	push(b, a, "pa");
 }
 
 void	small_sort(t_node *a, t_node *b)
