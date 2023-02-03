@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/02 20:11:33 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/03 22:29:21 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,6 @@ t_node	*create_head(void)
 	head->next = head;
 	head->size = 0;
 	head->i = -1;
-	// head->min = 2147483650;
-	// head->max = -2147483650;
 	return (head);
 }
 
@@ -174,6 +172,23 @@ void	sort_4(t_node *a, t_node *b)
 	push(b, a, "pa");
 }
 
+void	sort_5(t_node *a, t_node *b)
+{
+	while (a->size > 3)
+	{
+		if (a->pre->i == 1 || a->pre->i == 0)
+			r_rotate(a, a->next, "rra");
+		if (a->next->i == 1 || a->next->i == 0)
+			push(a, b, "pb");
+		rotate(a, a->next, "ra");
+	}
+	sort_3(a);
+	if (b->next->i < b->pre->i)
+		swap(b, b->next, "sb");
+	push(b, a, "pa");
+	push(b, a, "pa");
+}
+
 void	small_sort(t_node *a, t_node *b)
 {
 	if (a->size == 2)
@@ -182,57 +197,166 @@ void	small_sort(t_node *a, t_node *b)
 		sort_3(a);
 	if (a->size == 4)
 		sort_4(a, b);
-	// 5개 정렬
+	if (a->size == 5)
+		sort_5(a, b);
 }
 
-void	a_to_b(t_node *a, t_node *b)
+// 수정 필요..
+void	a_to_b(t_node *a, t_node *b, int num, int k)
 {
-	int	num;
-	int	k;
-
-	num = 0;
-	k = a->size / 5;
-	ft_printf("num: %d, k = %d\n", num, k);
+	int cnt = 0;
 	while (a->size)
 	{
 		// print_lst(a);
 		// print_lst(b);
-		if (a->next->i <= num++)
-			push(a, b, "pb");
-		if (a->next->i > num && a->next->i <= num + k)
+		// ft_printf("\n");
+		if (a->next->i <= num)
 		{
+			// ft_printf("top %d is less than num %d\n", a->next->i, num);
+			push(a, b, "pb");
+			num++;
+		}
+		else if (a->next->i > num && a->next->i <= num + k)
+		{
+			// ft_printf("top %d is between num %d and num+k %d\n", a->next->i, num, num + k);
 			push(a, b, "pb");
 			rotate(b, b->next, "rb");
 			num++;
 		}
-		if (a->next->i > num + k)
+		else if (a->next->i > num + k)
+		{
+			// ft_printf("top %d is more than num %d\n", a->next->i, num);
 			rotate(a, a->next, "ra");
+		}
+		cnt++;
 	}
+	// ft_printf("A to B count: %d\n", cnt);
 }
 
-void	b_to_a(t_node *a, t_node *b)
+void	b_to_a(t_node *a, t_node *b, int k)
 {
+	int	chunk;
+	// int cnt = 0;
 	// 최댓값 찾아서 순서대로 푸쉬
 	while (b->size)
 	{
+		chunk = k;
+
+		if (b->pre->i == b->size - 1)
+			r_rotate(b, b->next, "rrb");
 		if (b->next->i == b->size - 1)
 			push(b, a, "pa");
 		else
-			r_rotate(b, b->next, "rrb");
+		{
+			rotate(b, b->next, "rb");
+			// top 어디있는지 찾아서 rb나 rrb..?
+		}
+		// else
+		// {
+		// 	while (b->size > 1 && b->next->i < b->next->next->i)
+		// 		swap(b, b->next, "sb");
+		// 	r_rotate(b, b->next, "rrb");
+		// }
 	}
+	// ft_printf("B to A count: %d\n", cnt);
 }
+
+// int	top_from_top(t_node *b, int max, int k)
+// {
+// 	int		cnt;
+// 	t_node	*top;
+
+// 	cnt = 0;
+// 	top = b->next;
+// 	while (k && top->next != b)
+// 	{
+// 		if (top->i == max)
+// 		{
+// 			cnt++;
+// 			max--;
+// 		}
+// 		else
+// 			top = top->next;
+// 		k--;
+// 	}
+// 	return (cnt);
+// }
+
+// int	top_from_bottom(t_node *b, int max, int k)
+// {
+// 	int		cnt;
+// 	t_node	*top;
+
+// 	cnt = 0;
+// 	top = b->pre;
+// 	while (k && top->pre != b)
+// 	{
+// 		if (top->i == max)
+// 		{
+// 			cnt++;
+// 			max--;
+// 		}
+// 		else
+// 			top = top->pre;
+// 		k--;
+// 	}
+// 	return (cnt);
+// }
+
+// void	b_to_a(t_node *a, t_node *b, int k)
+// {
+// 	int	chunk;
+// 	int	i;
+// 	int	cnt;
+// 	// 최댓값 찾아서 순서대로 푸쉬
+// 	while (b->size)
+// 	{
+// 		chunk = k;
+// 		cnt = top_from_top(b, b->size - 1, chunk);
+// 		ft_printf("** cnt: %d, chunk: %d\n", cnt, chunk);
+// 		i = 0;
+// 		while (i < cnt && chunk)
+// 		{
+// 			if (b->next->i == b->size - 1)
+// 			{
+// 				push(b, a, "pa");
+// 				i++;
+// 			}
+// 			else
+// 				rotate(b, b->next, "rb");
+// 			chunk--;
+// 		}
+// 		// 윗 부분에서 넘어간 값들 더해줌
+// 		chunk = k + k - cnt;
+// 		cnt = top_from_bottom(b, b->size - 1, chunk);
+// 		ft_printf("** cnt: %d, chunk: %d\n", cnt, chunk);
+// 		while (cnt && chunk)
+// 		{
+// 			r_rotate(b, b->next, "rb");
+// 			if (b->next->i == b->size - 1)
+// 			{
+// 				push(b, a, "pa");
+// 				cnt--;
+// 			}
+// 			chunk--;
+// 		}
+// 	}
+// }
 
 void	ft_sort(t_node *a, t_node *b)
 {
-	if (a->size < 5)
+	int	k;
+
+	k = 1;
+	if (a->size <= 5)
 		small_sort(a, b);
 	else
 	{
 		// a -> b
-		a_to_b(a, b);
-		print_stack(a, b);
-		b_to_a(a, b);
-		print_stack(a, b);
+		a_to_b(a, b, 0, k);
+		// print_stack(a, b);
+		b_to_a(a, b, k);
+		// print_stack(a, b);
 	}
 }
 
