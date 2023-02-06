@@ -12,44 +12,6 @@
 
 #include "push_swap.h"
 
-// delete
-void	print_stack(t_node *a, t_node *b)
-{
-	t_node	*a_head;
-	t_node	*b_head;
-
-	ft_printf("====A : %d====\n", a->size);
-	a_head = a;
-	a = a_head->next;
-	while (a != a_head)
-	{
-		ft_printf("%d ", a->i);
-		a = a->next;
-	}
-	ft_printf("\n====B : %d====\n", b->size);
-	b_head = b;
-	b = b_head->next;
-	while (b != b_head)
-	{
-		ft_printf("%d ", b->i);
-		b = b->next;
-	}
-	ft_printf("\n==========\n");
-}
-
-// delete
-void	test_rules(t_node *a, t_node *b)
-{
-	push(b, a, "pb");
-	print_stack(a, b);
-	swap(a, a->next, "sa");
-	print_stack(a, b);
-	rotate(a, a->next, "ra");
-	print_stack(a, b);
-	r_rotate(a, a->next, "rra");
-	print_stack(a, b);
-}
-
 void	link_list(char *num, t_node *a, t_node **curr)
 {
 	t_node	*new;
@@ -140,31 +102,31 @@ t_node	*create_head(void)
 	return (head);
 }
 
-void	sort_3(t_node *a)
+void sort_3(t_node *a)
 {
-	t_node	*mid;
-	t_node	*last;
+	int	mid;
+	int	last;
 
-	mid = a->next->next;
-	last = mid->next;
+	mid = a->next->next->i;
+	last = a->next->next->next->i;
 	// 정렬되어 있으면 리턴
-	if (a->next->i < mid->i && mid->i < last->i)
-		return ;
+	if (a->next->i < mid && mid < last)
+		return;
 	// 첫번째가 최대일 때
-	if (a->next->i > last->i && a->next->i > mid->i)
+	if (a->next->i > last && a->next->i > mid)
 		rotate(a, a->next, "ra");
 	// 첫번째가 최소거나 1, 0, 3 이 아닐 때
-	else if (a->next->i < mid->i && a->next->i < last->i)
+	else if (a->next->i < mid && a->next->i < last)
 		r_rotate(a, a->next, "rra");
-	else if (!(last->i > a->next->i && last->i > mid->i && a->next->i > mid->i))
+	else if (!(last > a->next->i && last > mid && a->next->i > mid))
 		r_rotate(a, a->next, "rra");
-	mid = a->next->next;
-	last = mid->next;
-	if (last->i > a->next->i && last->i > mid->i && a->next->i > mid->i)
+	mid = a->next->next->i;
+	last = a->next->next->next->i;
+	if (last > a->next->i && last > mid && a->next->i > mid)
 		swap(a, a->next, "sa");
 }
 
-void	sort_4(t_node *a, t_node *b)
+void sort_4(t_node *a, t_node *b)
 {
 	if (a->pre->i == 0)
 		r_rotate(a, a->next, "rra");
@@ -175,7 +137,7 @@ void	sort_4(t_node *a, t_node *b)
 	push(b, a, "pa");
 }
 
-void	sort_5(t_node *a, t_node *b)
+void sort_5(t_node *a, t_node *b)
 {
 	while (a->size > 3)
 	{
@@ -192,7 +154,7 @@ void	sort_5(t_node *a, t_node *b)
 	push(b, a, "pa");
 }
 
-void	small_sort(t_node *a, t_node *b)
+void small_sort(t_node *a, t_node *b)
 {
 	if (a->size == 2)
 		rotate(a, a->next, "ra");
@@ -204,100 +166,128 @@ void	small_sort(t_node *a, t_node *b)
 		sort_5(a, b);
 }
 
-// 수정 필요..
+// rr 확인!
 void	a_to_b(t_node *a, t_node *b, int num, int k)
 {
 	int cnt = 0;
+	t_pivot	flag;
+
 	while (a->size)
 	{
-		// print_lst(a);
-		// print_lst(b);
-		// ft_printf("\n");
-		if (a->next->i <= num)
+		flag.low = 0;
+		flag.high = 0;
+		if (a->next->i <= num + k)
 		{
-			// ft_printf("top %d is less than num %d\n", a->next->i, num);
 			push(a, b, "pb");
-			num++;
+			if (a->next->i > num++) // 중간 범위면 rb 플래그 남김
+				flag.low = 1;
 		}
-		else if (a->next->i > num && a->next->i <= num + k)
+		if (a->next->i > num + k)
 		{
-			// ft_printf("top %d is between num %d and num+k %d\n", a->next->i, num, num + k);
-			push(a, b, "pb");
+			// 마지막이 작거나 중간 범위이면 rra
+			if (a->pre->i <= num + k)
+				flag.high = 2;
+			else
+				flag.high = 1;
+		}
+		if (flag.low && flag.high == 1)
+			rr(a, b);
+		else if (flag.low)
 			rotate(b, b->next, "rb");
-			num++;
-		}
-		else if (a->next->i > num + k)
-		{
-			// ft_printf("top %d is more than num %d\n", a->next->i, num);
+		else if (flag.high == 1)
 			rotate(a, a->next, "ra");
-		}
-		cnt++;
+		if (flag.high == 2)
+			r_rotate(a, a->next, "rra");
 	}
-	// ft_printf("A to B count: %d\n", cnt);
 }
 
-void	b_to_a(t_node *a, t_node *b, int k)
+int find_max(t_node *head, int max)
 {
-	int	chunk;
-	// int cnt = 0;
+	t_node *top;
+	int		cnt;
+
+	cnt = 0;
+	top = head->next;
+	while (top->i != max)
+	{
+		top = top->next;
+		cnt++;
+	}
+	return cnt;
+}
+
+void	b_to_a(t_node *a, t_node *b)
+{
+	int	pos;
 	// 최댓값 찾아서 순서대로 푸쉬
 	while (b->size)
 	{
-		chunk = k;
-
-		if (b->pre->i == b->size - 1)
-			r_rotate(b, b->next, "rrb");
-		if (b->next->i == b->size - 1)
-			push(b, a, "pa");
+		// 최댓값 찾아서 첫번째에 올림, 뒤쪽에 있으면 rrb, 아니면 rb
+		pos = find_max(b, b->size - 1);
+		if (pos > b->size / 2 + 0.5)
+		{
+			while (b->next->i != b->size - 1)
+				r_rotate(b, b->next, "rrb");
+		}
 		else
 		{
-			rotate(b, b->next, "rb");
+			while (b->next->i != b->size - 1)
+				rotate(b, b->next, "rb");
 		}
+		push(b, a, "pa");
 	}
-	// ft_printf("B to A count: %d\n", cnt);
 }
 
-// int	top_from_top(t_node *b, int max, int k)
-// {
-// 	int		cnt;
-// 	t_node	*top;
+t_pivot set_pivot(int size)
+{
+	t_pivot pivot;
 
-// 	cnt = 0;
-// 	top = b->next;
-// 	while (k && top->next != b)
-// 	{
-// 		if (top->i == max)
-// 		{
-// 			cnt++;
-// 			max--;
-// 		}
-// 		else
-// 			top = top->next;
-// 		k--;
-// 	}
-// 	return (cnt);
-// }
+	pivot.low = size / 3;
+	pivot.high = size - size / 3;
+	return (pivot);
+}
 
-// int	top_from_bottom(t_node *b, int max, int k)
-// {
-// 	int		cnt;
-// 	t_node	*top;
+void	greedy_a_to_b(t_node *a, t_node *b)
+{
+	t_pivot	p;
+	t_pivot flag;
+	int		remainder;
 
-// 	cnt = 0;
-// 	top = b->pre;
-// 	while (k && top->pre != b)
-// 	{
-// 		if (top->i == max)
-// 		{
-// 			cnt++;
-// 			max--;
-// 		}
-// 		else
-// 			top = top->pre;
-// 		k--;
-// 	}
-// 	return (cnt);
-// }
+	p = set_pivot(a->size);
+	remainder = a->size - p.high;
+	// a to b :  작은수 -> 중간 수 -> 큰 수 차례대로 pb
+	while (a->size >= remainder)
+	{
+		flag.low = 0;
+		flag.high = 0;
+		// 중간, 작은 덩어리
+		if (a->next->i <= p.high)
+		{
+			push(a, b, "pb");
+			if (a->next->i <= p.low) // 작은덩어리는 rb 필요
+				flag.low = 1;
+		}
+		// 큰 덩어리
+		if (a->next->i > p.high)
+		{
+			// 마지막이 작거나 중간 범위이면 rra
+			if (a->pre->i <= p.high)
+				flag.high = 2;
+			else
+				flag.high = 1;
+		}
+		if (flag.low && flag.high == 1)
+			rr(a, b);
+		else if (flag.low)
+			rotate(b, b->next, "rb");
+		else if (flag.high == 1)
+			rotate(a, a->next, "ra");
+		if (flag.high == 2)
+			r_rotate(a, a->next, "rra");
+	}
+	while (a->size)
+		push(a, b, "pb");
+}
 
 // void	b_to_a(t_node *a, t_node *b, int k)
 // {
@@ -338,114 +328,64 @@ void	b_to_a(t_node *a, t_node *b, int k)
 // 	}
 // }
 
-int	find_min(t_node *head, int min)
-{
-	int		cnt;
-	t_node	*top;
+// int find_min(t_node *head, int min)
+// {
+// 	int cnt;
+// 	t_node *top;
 
-	cnt = 0;
-	top = head->next;
-	while (top->i != min)
-	{
-		top = top->next;
-		cnt++;
-	}
-	return cnt;
-}
+// 	cnt = 0;
+// 	top = head->next;
+// 	while (top->i != min)
+// 	{
+// 		top = top->next;
+// 		cnt++;
+// 	}
+// 	return cnt;
+// }
 
-t_pivot	set_pivot(int size)
-{
-	t_pivot	pivot;
+// void	sorting(t_node *a, t_node *b)
+// {
+// 	int	pos;
+// 	int	min;
 
-	pivot.low = size / 3;
-	pivot.high = size - size / 3;
-	return (pivot);
-}
-
-
-void	greedy_a_to_b(t_node *a, t_node *b)
-{
-	t_pivot	p;
-	t_pivot flag;
-	int		remainder;
-
-	p = set_pivot(a->size);
-	remainder = a->size - p.high;
-	// a to b :  작은수 -> 중간 수 -> 큰 수 차례대로 pb
-	while (a->size >= remainder)
-	{
-		flag.low = 0;
-		flag.high = 0;
-		// 큰 덩어리
-		if (a->next->i > p.high)
-		{
-			if (a->pre->i <= p.high)
-				r_rotate(a, a->next, "rra");
-			else
-				flag.high = 1;
-		}
-		// 작은 덩어리
-		if (a->next->i <= p.low)
-		{
-			push(a, b, "pb");
-			flag.low = 1;
-		}
-		if (flag.high && flag.low)
-			rr(a, b);
-		else if (flag.high)
-			rotate(a, a->next, "ra");
-		else if (flag.low)
-			rotate(b, b->next, "rb");
-		// 중간 덩어리
-		if (a->next->i > p.low && a->next->i <= p.high)
-			push(a, b, "pb");
-	}
-	while (a->size)
-		push(a, b, "pb");
-}
-
-void	sorting(t_node *a, t_node *b)
-{
-	int	pos;
-	int	min;
-
-	min = 0;
-	while (a->size > 3)
-	{
-		pos = find_min(a, min);
-		if (pos > a->size / 2 + 0.5)
-		{
-			while (a->next->i != min)
-				r_rotate(a, a->next, "rra");
-		}
-		else
-		{
-			while (a->next->i != min)
-				rotate(a, a->next, "ra");
-		}
-		push(a, b, "pb");
-		min++;
-	}
-	sort_3(a);
-	while (b->size)
-		push(b, a, "pa");
-}
+// 	min = 0;
+// 	while (a->size > 3)
+// 	{
+// 		pos = find_min(a, min);
+// 		if (pos > a->size / 2 + 0.5)
+// 		{
+// 			while (a->next->i != min)
+// 				r_rotate(a, a->next, "rra");
+// 		}
+// 		else
+// 		{
+// 			while (a->next->i != min)
+// 				rotate(a, a->next, "ra");
+// 		}
+// 		push(a, b, "pb");
+// 		min++;
+// 	}
+// 	sort_3(a);
+// 	while (b->size)
+// 		push(b, a, "pa");
+// }
 
 void	ft_sort(t_node *a, t_node *b)
 {
 	int	k;
 
-	k = a->size / 2 + 1;
+	// k의 값...??
+	k = a->size / 150 + 1;
 	if (a->size <= 5)
 		small_sort(a, b);
 	else
 	{
-		greedy_a_to_b(a, b);
+		// greedy_a_to_b(a, b);
 		// sorting(a, b);
 		// a -> b
-		// a_to_b(a, b, 0, k);
+		a_to_b(a, b, 0, k);
 		// print_stack(a, b);
-		// b_to_a(a, b, k);
+		b_to_a(a, b);
 		// print_stack(a, b);
 	}
 }

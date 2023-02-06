@@ -35,4 +35,9 @@ void	rotate(t_node *head, t_node *first, char *cmd);
 void	r_rotate(t_node *head, t_node *first, char *cmd);
 void	rr(t_node *a, t_node *b);
 
+// delete!!!
+void print_stack(t_node *a, t_node *b);
+void test_rules(t_node *a, t_node *b);
+//
+
 #endif
