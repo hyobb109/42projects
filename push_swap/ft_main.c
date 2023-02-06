@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:14:22 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/03 22:29:21 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:02:25 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,11 +193,11 @@ void	small_sort(t_node *a, t_node *b)
 {
 	if (a->size == 2)
 		rotate(a, a->next, "ra");
-	if (a->size == 3)
+	else if (a->size == 3)
 		sort_3(a);
-	if (a->size == 4)
+	else if (a->size == 4)
 		sort_4(a, b);
-	if (a->size == 5)
+	else if (a->size == 5)
 		sort_5(a, b);
 }
 
@@ -249,14 +249,7 @@ void	b_to_a(t_node *a, t_node *b, int k)
 		else
 		{
 			rotate(b, b->next, "rb");
-			// top 어디있는지 찾아서 rb나 rrb..?
 		}
-		// else
-		// {
-		// 	while (b->size > 1 && b->next->i < b->next->next->i)
-		// 		swap(b, b->next, "sb");
-		// 	r_rotate(b, b->next, "rrb");
-		// }
 	}
 	// ft_printf("B to A count: %d\n", cnt);
 }
@@ -308,7 +301,6 @@ void	b_to_a(t_node *a, t_node *b, int k)
 // 	int	chunk;
 // 	int	i;
 // 	int	cnt;
-// 	// 최댓값 찾아서 순서대로 푸쉬
 // 	while (b->size)
 // 	{
 // 		chunk = k;
@@ -343,6 +335,48 @@ void	b_to_a(t_node *a, t_node *b, int k)
 // 	}
 // }
 
+int	find_min(t_node *head, int min)
+{
+	int		cnt;
+	t_node	*top;
+
+	cnt = 0;
+	top = head->next;
+	while (top->i != min)
+	{
+		top = top->next;
+		cnt++;
+	}
+	return cnt;
+}
+
+void	sorting(t_node *a, t_node *b)
+{
+	int	pos;
+	int	min;
+
+	min = 0;
+	while (a->size > 3)
+	{
+		pos = find_min(a, min);
+		if (pos > a->size / 2 + 0.5)
+		{
+			while (a->next->i != min)
+				r_rotate(a, a->next, "rra");
+		}
+		else
+		{
+			while (a->next->i != min)
+				rotate(a, a->next, "ra");
+		}
+		push(a, b, "pb");
+		min++;
+	}
+	sort_3(a);
+	while (b->size)
+		push(b, a, "pa");
+}
+
 void	ft_sort(t_node *a, t_node *b)
 {
 	int	k;
@@ -352,10 +386,11 @@ void	ft_sort(t_node *a, t_node *b)
 		small_sort(a, b);
 	else
 	{
+		sorting(a, b);
 		// a -> b
-		a_to_b(a, b, 0, k);
+		// a_to_b(a, b, 0, k);
 		// print_stack(a, b);
-		b_to_a(a, b, k);
+		// b_to_a(a, b, k);
 		// print_stack(a, b);
 	}
 }
