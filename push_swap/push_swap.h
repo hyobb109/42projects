@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/03 14:48:47 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:00:49 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@ typedef struct s_node
 	struct s_node	*next;
 } t_node;
 
+typedef struct s_pivot
+{
+	int	low;
+	int	high;
+} t_pivot;
+
 void	swap(t_node *head, t_node *first, char *cmd);
 void	push(t_node *from, t_node *to, char *cmd);
 void	rotate(t_node *head, t_node *first, char *cmd);
 void	r_rotate(t_node *head, t_node *first, char *cmd);
+void	rr(t_node *a, t_node *b);
 
 #endif

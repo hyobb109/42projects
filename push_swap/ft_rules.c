@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:31:36 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/03 14:21:28 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:08:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	rotate(t_node *head, t_node *first, char *cmd)
 	// 원소가 하나 이하면 그대로
 	if (first == head || first->next == head)
 		return ;
-	ft_printf("%s\n", cmd);
+	if (cmd[0] == 'r')
+		ft_printf("%s\n", cmd);
 	last = head->pre;
 	head->next = first->next;
 	first->next->pre = head;
@@ -78,7 +79,8 @@ void	r_rotate(t_node *head, t_node *first, char *cmd)
 
 	if (first == head || first->next == head)
 		return ;
-	ft_printf("%s\n", cmd);
+	if (cmd[0] == 'r')
+		ft_printf("%s\n", cmd);
 	last = head->pre;
 	head->next = last;
 	head->pre = last->pre;
@@ -86,4 +88,10 @@ void	r_rotate(t_node *head, t_node *first, char *cmd)
 	first->pre = last;
 	last->pre = head;
 	last->next = first;
+}
+
+void	rr(t_node *a, t_node *b)
+{
+	rotate(a, a->next, "do not print");
+	rotate(b, b->next, "rr");
 }
