@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 15:24:59 by hyobicho          #+#    #+#              #
-#    Updated: 2023/01/26 03:45:12 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/02/07 20:39:53 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,14 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_FLAG = -Llibft -lft
 SRCS = \
 ft_main.c \
-ft_rules.c
+ft_lst_creation.c \
+ft_cmd_swap.c \
+ft_cmd_push.c \
+ft_cmd_rotate.c \
+ft_cmd_reverse.c \
+ft_hardsorting.c \
+ft_sort_utils.c \
+test_utils.c
 B_SRCS = ft_checker.c
 M_OBJ = $(SRCS:.c=.o)
 B_OBJ = $(B_SRCS:.c=.o)
