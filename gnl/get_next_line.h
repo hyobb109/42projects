@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:26:38 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/12/20 18:29:24 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/08 21:52:21 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
+#  define BUFFER_SIZE 5
 # endif
 
 typedef struct s_info

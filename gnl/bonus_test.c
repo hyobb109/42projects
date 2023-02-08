@@ -51,11 +51,9 @@ char	*ft_strjoin(char *old, t_info *data)
 	return (new);
 }
 
-static int	is_new_line(char *tmp_buff, ssize_t i)
+static int	is_new_line(char *tmp_buff, ssize_t total)
 {
-	if (i == 0 && tmp_buff[i] == '\n')
-		return (1);
-	if (i > 0 && tmp_buff[i - 1] == '\n')
+	if (total > 0 && tmp_buff[total - 1] == '\n')
 		return (1);
 	return (0);
 }
