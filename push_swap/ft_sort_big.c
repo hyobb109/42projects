@@ -6,63 +6,11 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:24:00 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 04:07:09 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 04:56:17 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static int	find_pos(t_node *head, int target, int flag)
-{
-	t_node	*top;
-	int		cnt;
-
-	cnt = 0;
-	top = head->next;
-	if (flag)
-	{
-		while (top->i > target)
-		{
-			top = top->next;
-			cnt++;
-		}
-	}
-	else
-	{
-		while (top->i != target)
-		{
-			top = top->next;
-			cnt++;
-		}
-	}
-	return (cnt);
-}
-
-static void	cmd_loop(t_node *stack, int target, void (*cmd)(t_node *), int flag)
-{
-	if (flag)
-	{
-		while (stack->next->i > target)
-			cmd(stack);
-	}
-	else
-	{
-		while (stack->next->i != target)
-			cmd(stack);
-	}
-}
-
-static void	check_flag(t_node *a, t_node *b, t_flag f, int target)
-{
-	if (f.rb && f.ra == 1)
-		rr(a, b);
-	else if (f.rb)
-		rb(b);
-	else if (f.ra == 1)
-		cmd_loop(a, target, ra, 1);
-	else if (f.ra == -1)
-		cmd_loop(a, target, rra, 1);
-}
 
 static void	a_to_b(t_node *a, t_node *b, int num, int k)
 {
@@ -83,7 +31,7 @@ static void	a_to_b(t_node *a, t_node *b, int num, int k)
 		if (a->next->i > num + k)
 		{
 			// pos 는 다음에 푸쉬할 것의 위치 => pos가 위쪽이면 ra, 아래쪽이면 rra
-			pos = find_pos(a, num + k, 1);
+			pos = find_range(a, num + k);
 			if (pos > a->size / 2 + 0.5)
 				f.ra = -1;
 			else
@@ -104,7 +52,7 @@ static void	b_to_a(t_node *a, t_node *b)
 	while (b->size)
 	{
 		// 최댓값 찾아서 첫번째에 올림, 뒤쪽에 있으면 rrb, 아니면 rb
-		max = find_pos(b, b->size - 1, 0);
+		max = find_max(b, b->size - 1);
 		if (max > b->size / 2 + 0.5)
 			cmd_loop(b, b->size - 1, rrb, 0);
 		else

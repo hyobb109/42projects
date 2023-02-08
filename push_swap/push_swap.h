@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 03:30:51 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 04:58:02 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	rrb(t_node *b);
 void	rrr(t_node *a, t_node *b);
 
 void	ft_sort(t_node *a, t_node *b);
+int		find_range(t_node *head, int target);
+int		find_max(t_node *head, int target);
+void	cmd_loop(t_node *stack, int target, void (*cmd)(t_node *), int flag);
+void	check_flag(t_node *a, t_node *b, t_flag f, int target);
 void	small_sort(t_node *a, t_node *b);
 
 void	print_stack(t_node *a, t_node *b); // 지우기
