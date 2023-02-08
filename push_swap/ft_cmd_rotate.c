@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:20:49 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/07 21:02:25 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 00:19:29 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	rr(t_node *a, t_node *b)
 
 void	ra(t_node *a)
 {
-	rotate(a, a->next);
-	ft_printf("%s\n", "ra");
+	if (rotate(a, a->next))
+		ft_printf("%s\n", "ra");
 }
 
 void	rb(t_node *b)
 {
-	rotate(b, b->next);
-	ft_printf("%s\n", "rb");
+	if (rotate(b, b->next))
+		ft_printf("%s\n", "rb");
 }

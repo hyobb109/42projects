@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:56:12 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 20:08:20 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 03:45:55 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_error(void)
 {
-	ft_printf("Error\n");
-	exit(1);
+	write(STDERR_FILENO, "Error\n", 6);
+	exit(EXIT_FAILURE);
 }

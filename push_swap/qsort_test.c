@@ -116,19 +116,19 @@ int *q_sort2(int *arr, int left, int right)
 	return (arr);
 }
 
-int main(int argc, char **argv)
-{
-	if (argc > 1)
-	{
-		n = argc - 1;
-		int *arr = malloc(sizeof(int) * n);
-		for (int i = 0; i < n; i++)
-		{
-			arr[i] = atoi(argv[i + 1]);
-		}
-		arr = q_sort2(arr, 0, n-1);
-		print(arr);
-		free(arr);
-	}
-	return (0);
-}
+// int main(int argc, char **argv)
+// {
+// 	if (argc > 1)
+// 	{
+// 		n = argc - 1;
+// 		int *arr = malloc(sizeof(int) * n);
+// 		for (int i = 0; i < n; i++)
+// 		{
+// 			arr[i] = atoi(argv[i + 1]);
+// 		}
+// 		arr = q_sort2(arr, 0, n-1);
+// 		print(arr);
+// 		free(arr);
+// 	}
+// 	return (0);
+// }

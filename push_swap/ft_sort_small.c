@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hardsorting.c                                   :+:      :+:    :+:   */
+/*   ft_sort_small.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:29:59 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/07 20:58:41 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 03:54:07 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void sort_3(t_node *a)
+static void	sort_3(t_node *a)
 {
 	int	mid;
 	int	last;
@@ -21,7 +21,7 @@ static void sort_3(t_node *a)
 	last = a->next->next->next->i;
 	// 정렬되어 있으면 리턴
 	if (a->next->i < mid && mid < last)
-		return;
+		return ;
 	// 첫번째가 최대일 때
 	if (a->next->i > last && a->next->i > mid)
 		ra(a);
@@ -36,7 +36,7 @@ static void sort_3(t_node *a)
 		sa(a);
 }
 
-static void sort_4(t_node *a, t_node *b)
+static void	sort_4(t_node *a, t_node *b)
 {
 	if (a->pre->i == 0)
 		rra(a);
@@ -47,7 +47,7 @@ static void sort_4(t_node *a, t_node *b)
 	pa(a, b);
 }
 
-static void sort_5(t_node *a, t_node *b)
+static void	sort_5(t_node *a, t_node *b)
 {
 	while (a->size > 3)
 	{
@@ -64,7 +64,7 @@ static void sort_5(t_node *a, t_node *b)
 	pa(a, b);
 }
 
-void small_sort(t_node *a, t_node *b)
+void	small_sort(t_node *a, t_node *b)
 {
 	if (a->size == 2)
 		ra(a);

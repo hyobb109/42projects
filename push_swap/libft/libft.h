@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:51:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/01/20 16:17:34 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 03:28:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,28 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
+
+typedef struct s_info
+{
+	char			buffer[BUFFER_SIZE];
+	ssize_t			idx;
+	ssize_t			rbyte;
+	ssize_t			len;
+	ssize_t			total;
+	int				fd;
+	struct s_info	*pre;
+	struct s_info	*next;
+}	t_info;
+
+void	init_data(t_info *data, int fd);
+t_info	*find_data(t_info **head, int fd);
+char	*free_res_gnl(char *tmp_buff, t_info *data, t_info **head);
+char	*ft_strjoin_gnl(char *s1, t_info *data);
+char	*get_next_line(int fd);
 
 void	ft_error(void);
 int		ft_printf(const char *format, ...);

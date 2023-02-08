@@ -6,14 +6,14 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:31:36 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/07 20:50:12 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 00:19:41 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 // last가 first가 됨
-static int	r_rotate(t_node *head, t_node *first)
+int	r_rotate(t_node *head, t_node *first)
 {
 	t_node	*last;
 
@@ -31,14 +31,14 @@ static int	r_rotate(t_node *head, t_node *first)
 
 void	rra(t_node *a)
 {
-	r_rotate(a, a->next);
-	ft_printf("%s\n", "rra");
+	if (r_rotate(a, a->next))
+		ft_printf("%s\n", "rra");
 }
 
 void	rrb(t_node *b)
 {
-	r_rotate(b, b->next);
-	ft_printf("%s\n", "rrb");
+	if (r_rotate(b, b->next))
+		ft_printf("%s\n", "rrb");
 }
 
 void	rrr(t_node *a, t_node *b)

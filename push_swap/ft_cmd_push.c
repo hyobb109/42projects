@@ -6,13 +6,13 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:16:15 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/07 20:58:14 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 00:19:11 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	push(t_node *from, t_node *to)
+int	push(t_node *from, t_node *to)
 {
 	t_node	*x;
 	t_node	*top;
@@ -37,12 +37,12 @@ static int	push(t_node *from, t_node *to)
 
 void	pa(t_node *a, t_node *b)
 {
-	push(b, a);
-	ft_printf("%s\n", "pa");
+	if (push(b, a))
+		ft_printf("%s\n", "pa");
 }
 
 void	pb(t_node *a, t_node *b)
 {
-	push(a, b);
-	ft_printf("%s\n", "pb");
+	if (push(a, b))
+		ft_printf("%s\n", "pb");
 }

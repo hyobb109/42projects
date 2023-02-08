@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2023/01/20 16:19:56 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/02/08 23:21:41 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = \
+get_next_line.c \
+get_next_line_utils.c \
 ft_error.c \
 ft_printf.c \
 ft_convert_hex.c \
