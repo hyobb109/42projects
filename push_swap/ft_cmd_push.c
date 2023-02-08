@@ -15,7 +15,7 @@
 static int	push(t_node *from, t_node *to)
 {
 	t_node	*x;
-	t_node	*b_top;
+	t_node	*top;
 
 	// 옮길 것이 없으면 아무것도 x
 	if (from->next == from)
@@ -27,11 +27,11 @@ static int	push(t_node *from, t_node *to)
 	x->next->pre = from;
 	// to 연결
 	(to->size)++;
-	b_top = to->next;
+	top = to->next;
 	to->next = x;
 	x->pre = to;
-	x->next = b_top;
-	b_top->pre = x;
+	x->next = top;
+	top->pre = x;
 	return (1);
 }
 
