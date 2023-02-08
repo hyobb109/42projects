@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:26:18 by hyobicho          #+#    #+#             */
-/*   Updated: 2022/12/20 18:13:17 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/08 22:21:52 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ char	*free_res(char *tmp_buff, t_info *data, t_info **head)
 	return (0);
 }
 
-void	*ft_memcpy(void *dst, const void *src, ssize_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	unsigned char	*dst1;
 	unsigned char	*src1;
-	ssize_t			i;
+	size_t			i;
 
 	if (dst == NULL && src == NULL)
 		return (dst);

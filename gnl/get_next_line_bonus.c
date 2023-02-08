@@ -6,13 +6,13 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 17:02:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/08 22:09:49 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/08 22:18:03 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static int	is_new_line(char *tmp_buff, ssize_t total) // 고치기
+static int	is_new_line(char *tmp_buff, ssize_t total)
 {
 	if (total > 0 && tmp_buff[total - 1] == '\n')
 		return (1);
