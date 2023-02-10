@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:24:00 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 04:56:17 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/10 12:43:32 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_sort(t_node *a, t_node *b)
 	if (a->size < 35)
 		k = 5;
 	else
-		k = 0.03 * a->size + 12.5;
+		k = 0.045 * a->size + 7.5;
 	if (a->size <= 5)
 		small_sort(a, b);
 	else
