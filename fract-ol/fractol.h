@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/13 22:00:44 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/14 21:07:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@
 #include <math.h>
 #include "./minilibx/mlx.h"
 
-# define WIDTH 1500
-# define HEIGHT 1500
-# define MAX_N 128
+# define WIDTH 800
+# define HEIGHT 800
+# define N_MAX 128
+# define X_MAX 2
+# define Y_MAX 2
+# define X_MIN -2
+# define Y_MIN -2
 
 typedef struct	s_data {
 	void	*img;
@@ -30,6 +34,17 @@ typedef struct	s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
+
+typedef struct s_coord
+{
+	double	x;
+	double	y;
+}	t_coord;
+
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}	t_vars;
 
 #endif

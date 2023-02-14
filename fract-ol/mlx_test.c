@@ -6,13 +6,13 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/13 22:13:27 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/14 22:00:37 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	deal_key(void)
+int	deal_key()
 {
 	// if key가 esc면 프로그램 종료
 	exit(EXIT_SUCCESS);
@@ -26,17 +26,17 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	get_depth(double x, double y)
+int	get_depth(double x, double y, t_coord c)
 {
 	int	n;
 	double	nx;
 	double	ny;
 
 	n = 0;
-	while (n <= MAX_N)
+	while (n < N_MAX)
 	{
-		nx = pow(x, 2) + pow(y, 2) + x;
-		ny = 2 * x * y + y;
+		nx = pow(x, 2) - pow(y, 2) + c.x;
+		ny = 2 * x * y + c.y;
 		if (pow(nx, 2) + pow(ny, 2) > 4)
 			return (n);
 		x = nx;
@@ -46,53 +46,67 @@ int	get_depth(double x, double y)
 	return (n);
 }
 
+// void	get_coord(int h, int w, t_coord *c)
+// {
+// 	c->x = w + (4.0 / WIDTH) * w - 2.0; 
+// 	c->y = h + (4.0 / HEIGHT) * h - 2.0; 
+// }
+
 void	mandelbrot(t_data *data)
 {
-	int	a;
-	int	b;
-	int n;
+	t_coord c;
+	int		h;
+	int		w;
+	int 	n;
 
-	a = 0;
-	while (a < WIDTH)
+	h = 0;
+	while (h < HEIGHT)
 	{
-		b = 0;
-		while (b < HEIGHT)
+		c.y = 2 - (4.0 / HEIGHT) * h;
+		w = 0;
+		while (w < WIDTH)
 		{
-			// 좌표 변환...
-			get_coord();
-			n = get_depth((double)a, (double)b);
-			if (n < 30)
-				my_mlx_pixel_put(data, a, b, 0x000000);
-			else if (n < 60)
-				my_mlx_pixel_put(data, a, b, 0xccffff);
-			else if (n < 100)
-				my_mlx_pixel_put(data, a, b, 0x99cfee);
-			else
-				my_mlx_pixel_put(data, a, b, 0xffffff);
-			b++;
+			c.x = - 2 + (4.0 / WIDTH) * w;
+			n = get_depth(c.x, c.y, c);
+			// if (n)
+				// printf("(%d, %d) => (%f, %f), n: %d\n", h, w, c.x, c.y, n);
+			// if (n < 30)
+			// 	my_mlx_pixel_put(data, h, w, 0x606060);
+			// else if (n < 60)
+			// 	my_mlx_pixel_put(data, h, w, 0xccffff);
+			// else if (n < 100)
+			// 	my_mlx_pixel_put(data, h, w, 0x99cfee);
+			// else
+				my_mlx_pixel_put(data, h, w, 1343 * n);
+			w++;
 		}
-		a++;
+		h++;
 	}
 }
 
+// void terminate()
+// {
+// 	exit()
+// }
+
 int main()
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
+	t_vars ptr;
 	t_data	img;
 
 	// set up the connection to the display
 	// non-null pointer is returned as a connection identifier
-	mlx_ptr = mlx_init();
+	ptr.mlx = mlx_init();
 	// manage windows
-	win_ptr = mlx_new_window(mlx_ptr, WIDTH, HEIGHT, "test");
-	img.img = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
+	ptr.win = mlx_new_window(ptr.mlx, WIDTH, HEIGHT, "my fract-ol");
+	img.img = mlx_new_image(ptr.mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	mandelbrot(&img);
-	mlx_put_image_to_window(mlx_ptr, win_ptr, img.img, 0, 0);
-	mlx_key_hook(win_ptr, deal_key, 0);
+	mlx_put_image_to_window(ptr.mlx, ptr.win, img.img, 0, 0);
+	mlx_key_hook(ptr.win, deal_key, &ptr);
+	// mlx_mouse_hook(ptr.win, terminate, &ptr);
 	// handle keyboard or mouse events
 	// infinite loop that waits for an event
-	mlx_loop(mlx_ptr);
+	mlx_loop(ptr.mlx);
 	return (0);
 }
