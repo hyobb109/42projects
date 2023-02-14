@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/14 22:00:37 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/14 22:12:02 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,32 @@ int	get_depth(double x, double y, t_coord c)
 void	mandelbrot(t_data *data)
 {
 	t_coord c;
-	int		h;
-	int		w;
+	int		x;
+	int		y;
 	int 	n;
 
-	h = 0;
-	while (h < HEIGHT)
+	x = 0;
+	while (x < HEIGHT)
 	{
-		c.y = 2 - (4.0 / HEIGHT) * h;
-		w = 0;
-		while (w < WIDTH)
+		c.x = - 2 + (4.0 / HEIGHT) * x;
+		y = 0;
+		while (y < WIDTH)
 		{
-			c.x = - 2 + (4.0 / WIDTH) * w;
+			c.y =  2 - (4.0 / WIDTH) * y;
 			n = get_depth(c.x, c.y, c);
 			// if (n)
-				// printf("(%d, %d) => (%f, %f), n: %d\n", h, w, c.x, c.y, n);
+				// printf("(%d, %d) => (%f, %f), n: %d\n", x, y, c.x, c.y, n);
 			// if (n < 30)
-			// 	my_mlx_pixel_put(data, h, w, 0x606060);
+			// 	my_mlx_pixel_put(data, x, y, 0x606060);
 			// else if (n < 60)
-			// 	my_mlx_pixel_put(data, h, w, 0xccffff);
+			// 	my_mlx_pixel_put(data, x, y, 0xccffff);
 			// else if (n < 100)
-			// 	my_mlx_pixel_put(data, h, w, 0x99cfee);
+			// 	my_mlx_pixel_put(data, x, y, 0x99cfee);
 			// else
-				my_mlx_pixel_put(data, h, w, 1343 * n);
-			w++;
+				my_mlx_pixel_put(data, x, y, 1343 * n);
+			y++;
 		}
-		h++;
+		x++;
 	}
 }
 
@@ -103,7 +103,7 @@ int main()
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	mandelbrot(&img);
 	mlx_put_image_to_window(ptr.mlx, ptr.win, img.img, 0, 0);
-	mlx_key_hook(ptr.win, deal_key, &ptr);
+	// mlx_key_hook(ptr.win, deal_key, &ptr);
 	// mlx_mouse_hook(ptr.win, terminate, &ptr);
 	// handle keyboard or mouse events
 	// infinite loop that waits for an event
