@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/14 22:05:27 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:03:54 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,23 @@
 # define WIDTH 800
 # define HEIGHT 800
 # define N_MAX 128
-# define X_MAX 2
-# define Y_MAX 2
-# define X_MIN -2
-# define Y_MIN -2
+# define ESC 53
+# define LEFT 123
+# define RIGHT 124
+# define DOWN 125
+# define UP 126
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
 
 typedef struct	s_data {
+	void	*mlx;
+	void	*win;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	double	boundary;
 }	t_data;
 
 typedef struct s_coord
@@ -42,9 +48,6 @@ typedef struct s_coord
 	double	y;
 }	t_coord;
 
-typedef struct	s_vars {
-	void	*mlx;
-	void	*win;
-}	t_vars;
+void	mandelbrot(t_data *data);
 
 #endif
