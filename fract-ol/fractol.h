@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 01:23:40 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/17 06:14:42 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 #include <math.h>
 #include "./minilibx/mlx.h"
 
+# define SIDE 200
 # define WIDTH 800
 # define HEIGHT 800
 # define N_MAX 128
+# define EXIT 17
 # define ESC 53
 # define LEFT 123
 # define RIGHT 124
@@ -60,7 +62,7 @@ typedef struct s_coord
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	mandelbrot(t_data *data);
 void	julia(t_data *data);
-int		get_depth(double x, double y, t_coord c);
+int		get_depth(double x, double y, double a, double b);
 int 	fractal_loop(t_data *data);
 void	fractal_type(int argc, char **argv, t_data *data);
 int		ft_strcmp(const char *s1, const char *s2);

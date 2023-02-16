@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 01:27:55 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/17 06:20:01 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,20 @@ int	deal_mouse(int button, int x, int y, t_data *data)
 	// 확대 -> 경계값 작아짐, 축소 -> 경계값 커짐
 	if (button == SCROLL_UP)
 	{
-		data->boundary *= 0.9;
 		//printf("boundary: %f\n", data->boundary);
+		data->boundary *= 0.9;
 	}
 	else if (button == SCROLL_DOWN)
 	{
-		data->boundary += data->boundary * 0.05;
-		//printf("(%d, %d)\n", x, y);
 		//printf("boundary: %f\n", data->boundary);
+		data->boundary *= 1.1;
 	}
-	else if (button == L_CLICK)
+	else if (button == L_CLICK && x > 0 && y > 0)
 	{
-		printf("(%d, %d)\n", x, y);
+		// printf("(%d, %d)\n", x, y);
 		data->color = 0x000100;
 	}
-	else if (button == R_CLICK)
+	else if (button == R_CLICK && x > 0 && y > 0)
 	{
 		data->color = 0x010100;
 	}
@@ -79,24 +78,71 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	get_depth(double x, double y, t_coord c)
+int	get_depth(double x, double y, double a, double b)
 {
-	int	n;
-	double	nx;
-	double	ny;
+	int		n;
+	t_coord	new;
 
 	n = 0;
 	while (n < N_MAX)
 	{
-		nx = pow(x, 2) - pow(y, 2) + c.x;
-		ny = 2 * x * y + c.y;
-		if (pow(nx, 2) + pow(ny, 2) > 4)
+		new.x = pow(x, 2) - pow(y, 2) + a;
+		new.y = 2 * x * y + b;
+		if (pow(new.x, 2) + pow(new.y, 2) > 4)
 			return (n);
-		x = nx;
-		y = ny;
+		x = new.x;
+		y = new.y;
 		n++;
 	}
 	return (n);
+}
+
+int	get_depth_t(double x, double y, double a, double b)
+{
+	int		n;
+	t_coord	new;
+
+	n = 0;
+	while (n < N_MAX)
+	{
+		new.x = pow(x, 2) - pow(y, 2) + a;
+		new.y = 2 * x * y + b;
+		if (pow(new.x, 2) + pow(new.y, 2) > 4)
+			return (n);
+		x = new.x;
+		y = -new.y;
+		n++;
+	}
+	return (n);
+}
+
+void	tricorn(t_data *data)
+{
+	t_coord new;
+	int		x;
+	int		y;
+	int 	n;
+
+	x = 0;
+	while (x < WIDTH)
+	{
+		new.x = data->x_min + (data->boundary / WIDTH) * x;
+		y = 0;
+		while (y < HEIGHT)
+		{
+			new.y = data->y_max - (data->boundary / HEIGHT) * y;
+			n = get_depth_t(new.x, -new.y, new.x, new.y);
+			// if (n)
+			// 	printf("(%d, %d) => (%f, %f), n: %d\n", x, y, new.x, new.y, n);
+			if (n == N_MAX)
+				my_mlx_pixel_put(data, x, y, 0x000000);
+			else
+				my_mlx_pixel_put(data, x, y, 0xffffff - data->color * n);
+				// my_mlx_pixel_put(data, x, y, 0x000000 + data->color * n);
+			y++;
+		}
+		x++;
+	}
 }
 
 void	mandelbrot(t_data *data)
@@ -114,7 +160,7 @@ void	mandelbrot(t_data *data)
 		while (y < HEIGHT)
 		{
 			new.y = data->y_max - (data->boundary / HEIGHT) * y;
-			n = get_depth(new.x, new.y, new);
+			n = get_depth(new.x, new.y, new.x, new.y);
 			// if (n)
 			// 	printf("(%d, %d) => (%f, %f), n: %d\n", x, y, new.x, new.y, n);
 			if (n == N_MAX)
@@ -126,26 +172,6 @@ void	mandelbrot(t_data *data)
 		}
 		x++;
 	}
-}
-
-int	get_depth_j(double x, double y, double a, double b)
-{
-	int	n;
-	double	nx;
-	double	ny;
-
-	n = 0;
-	while (n < N_MAX)
-	{
-		nx = pow(x, 2) - pow(y, 2) + a;
-		ny = 2 * x * y + b;
-		if (pow(nx, 2) + pow(ny, 2) > 4)
-			return (n);
-		x = nx;
-		y = ny;
-		n++;
-	}
-	return (n);
 }
 
 void	julia(t_data *data)
@@ -163,7 +189,7 @@ void	julia(t_data *data)
 		while (y < HEIGHT)
 		{
 			new.y = data->y_max - (data->boundary / HEIGHT) * y;
-			n = get_depth_j(new.x, new.y, data->a, data->b);
+			n = get_depth(new.x, new.y, data->a, data->b);
 			// if (n)
 			// 	printf("(%d, %d) => (%f, %f), n: %d\n", x, y, new.x, new.y, n);
 			if (n == N_MAX)
@@ -252,6 +278,8 @@ void	ft_error(int code)
 	{
 		printf("Mandelbrot\n");
 		printf("Julia\n");
+		// bonus
+		printf("Tricorn\n");
 	}
 	else if (code == 2)
 	{
@@ -259,7 +287,7 @@ void	ft_error(int code)
 	}
 	else if (code == 3)
 	{
-		printf("Not a valid number!\n");
+		printf("Invalid number!\n");
 	}
 	exit(EXIT_FAILURE);
 }
@@ -278,6 +306,8 @@ void	fractal_type(int argc, char **argv, t_data *data)
 			data->b = get_offset(argv[3]);
 			data->type = 2;
 		}
+		else if (ft_strcmp(argv[1], "Tricorn") == 0)
+			data->type = 3;
 		else
 			ft_error(1);
 		return ;
@@ -291,6 +321,9 @@ int fractal_loop(t_data *data)
 		mandelbrot(data);
 	else if (data->type == 2)
 		julia(data);
+	// bonus
+	else if (data->type == 3)
+		tricorn(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
@@ -301,6 +334,11 @@ void	init_data(t_data *data)
 	data->y_max = 2.5;
 	data->boundary = 5;
 	data->color = 0x000005;
+}
+
+int	ft_exit(void)
+{
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char **argv)
@@ -319,6 +357,7 @@ int main(int argc, char **argv)
 	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 	mlx_key_hook(data.win, deal_key, &data);
 	mlx_mouse_hook(data.win, deal_mouse, &data);
+	mlx_hook(data.win, EXIT, 0, ft_exit, &data);
 	mlx_loop_hook(data.mlx, fractal_loop, &data);
 	// handle keyboard or mouse events
 	// infinite loop that waits for an event
