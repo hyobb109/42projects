@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/16 20:33:28 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:23:40 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 # define RIGHT 124
 # define DOWN 125
 # define UP 126
+# define R 15
 # define L_CLICK 1
+# define R_CLICK 2
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 
@@ -41,9 +43,12 @@ typedef struct	s_data {
 	int		line_length;
 	int		endian;
 	int		type;
-	int		x;
-	int		y;
+	int		color;
+	double	x_min;
+	double	y_max;
 	double	boundary;
+	double	a;
+	double	b;
 }	t_data;
 
 typedef struct s_coord
@@ -52,6 +57,16 @@ typedef struct s_coord
 	double	y;
 }	t_coord;
 
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	mandelbrot(t_data *data);
+void	julia(t_data *data);
+int		get_depth(double x, double y, t_coord c);
+int 	fractal_loop(t_data *data);
+void	fractal_type(int argc, char **argv, t_data *data);
+int		ft_strcmp(const char *s1, const char *s2);
+int		deal_mouse(int button, int x, int y, t_data *data);
+int		deal_key(int button, t_data *data);
+void	init_data(t_data *data);
+void	ft_error(int code);
 
 #endif
