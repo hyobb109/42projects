@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   fractol_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:42:05 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/17 07:38:48 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#ifndef FRACTOL_BONUS_H
+# define FRACTOL_BONUS_H
 
 # include <fcntl.h>
 # include <stdio.h>
@@ -63,8 +63,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 double	get_offset(char *str, int i, int sign, int p);
 
 void	init_data(t_data *data);
-int		fractal_loop(t_data *data);
-int		get_depth(double x, double y, double a, double b);
+int		fractal_loop_bonus(t_data *data);
 void	mandelbrot(t_data *data);
 void	julia(t_data *data);
 void	tricorn(t_data *data);
@@ -74,6 +73,6 @@ int		deal_mouse(int button, int x, int y, t_data *data);
 int		deal_key(int key, t_data *data);
 
 int		ft_exit(void);
-void	ft_error(int code);
+void	ft_error_bonus(int code);
 
 #endif
