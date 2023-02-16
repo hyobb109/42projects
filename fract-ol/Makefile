@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 15:24:59 by hyobicho          #+#    #+#              #
-#    Updated: 2023/02/15 17:24:48 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/02/16 18:47:25 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ $(NAME): $(M_OBJ)
 # endif
 
 %.o : %.c
-	$(CC) -c $(CFLAGS) -I$(MLX_DIR) $< -o $@
+	$(CC) -c $(CFLAGS) -I$(MLX_DIR) -O3 $< -o $@
 
 clean:
 	rm -f $(M_OBJ) 

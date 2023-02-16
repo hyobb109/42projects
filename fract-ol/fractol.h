@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/15 19:03:54 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:33:28 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define RIGHT 124
 # define DOWN 125
 # define UP 126
+# define L_CLICK 1
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 
@@ -39,6 +40,9 @@ typedef struct	s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		type;
+	int		x;
+	int		y;
 	double	boundary;
 }	t_data;
 
