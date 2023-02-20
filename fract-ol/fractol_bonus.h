@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:38:48 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:03:29 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <math.h>
 # include "./minilibx/mlx.h"
 
-# define SIDE 200
 # define WIDTH 800
 # define HEIGHT 800
 # define N_MAX 128
@@ -36,6 +35,17 @@
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 
+typedef enum e_type
+{
+	WRONG_INPUT = 1,
+	NO_INPUT,
+	INVALID_NUMBER,
+	MANDELBROT,
+	JULIA,
+	TROCORN,
+	BURNINGSHIP
+}	t_type;
+
 typedef struct s_data {
 	void	*mlx;
 	void	*win;
@@ -47,7 +57,7 @@ typedef struct s_data {
 	int		type;
 	int		color;
 	double	x_min;
-	double	y_max;
+	double	y_min;
 	double	boundary;
 	double	a;
 	double	b;
@@ -67,6 +77,7 @@ int		fractal_loop_bonus(t_data *data);
 void	mandelbrot(t_data *data);
 void	julia(t_data *data);
 void	tricorn(t_data *data);
+void	burningship(t_data *data);
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		deal_mouse(int button, int x, int y, t_data *data);

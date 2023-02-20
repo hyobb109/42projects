@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 06:39:56 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:41:53 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:49:50 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	mandelbrot(t_data *data)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			new.y = data->y_max - (data->boundary / HEIGHT) * y;
+			new.y = data->y_min + (data->boundary / HEIGHT) * y;
 			n = get_depth(new.x, new.y, new.x, new.y);
 			if (n == N_MAX)
 				my_mlx_pixel_put(data, x, y, 0x000000);
@@ -71,7 +71,7 @@ void	julia(t_data *data)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			new.y = data->y_max - (data->boundary / HEIGHT) * y;
+			new.y = data->y_min + (data->boundary / HEIGHT) * y;
 			n = get_depth(new.x, new.y, data->a, data->b);
 			if (n == N_MAX)
 				my_mlx_pixel_put(data, x, y, 0x000000);
@@ -116,7 +116,7 @@ void	tricorn(t_data *data)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			new.y = data->y_max - (data->boundary / HEIGHT) * y;
+			new.y = data->y_min + (data->boundary / HEIGHT) * y;
 			n = get_depth_t(new.x, -new.y, new.x, new.y);
 			if (n == N_MAX)
 				my_mlx_pixel_put(data, x, y, 0x000000);

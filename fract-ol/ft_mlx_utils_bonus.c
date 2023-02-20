@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mlx_utils.c                                     :+:      :+:    :+:   */
+/*   ft_mlx_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 06:24:36 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/20 16:33:37 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:59:06 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 int	deal_key(int key, t_data *data)
 {

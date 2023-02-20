@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fractal.c                                       :+:      :+:    :+:   */
+/*   ft_burningship_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 06:34:54 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/20 16:35:08 by hyobicho         ###   ########.fr       */
+/*   Created: 2023/02/20 16:46:15 by hyobicho          #+#    #+#             */
+/*   Updated: 2023/02/20 16:49:15 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
-int	get_depth(double x, double y, double a, double b)
+static int	get_depth_bs(double x, double y, double a, double b)
 {
 	int		n;
 	t_coord	new;
@@ -21,7 +21,7 @@ int	get_depth(double x, double y, double a, double b)
 	while (n < N_MAX)
 	{
 		new.x = pow(x, 2) - pow(y, 2) + a;
-		new.y = 2 * x * y + b;
+		new.y = fabs(2 * x * y) + b;
 		if (pow(new.x, 2) + pow(new.y, 2) > 4)
 			return (n);
 		x = new.x;
@@ -31,7 +31,7 @@ int	get_depth(double x, double y, double a, double b)
 	return (n);
 }
 
-void	mandelbrot(t_data *data)
+void	burningship(t_data *data)
 {
 	t_coord	new;
 	int		x;
@@ -46,7 +46,7 @@ void	mandelbrot(t_data *data)
 		while (y < HEIGHT)
 		{
 			new.y = data->y_min + (data->boundary / HEIGHT) * y;
-			n = get_depth(new.x, new.y, new.x, new.y);
+			n = get_depth_bs(new.x, new.y, new.x, new.y);
 			if (n == N_MAX)
 				my_mlx_pixel_put(data, x, y, 0x000000);
 			else
@@ -55,40 +55,4 @@ void	mandelbrot(t_data *data)
 		}
 		x++;
 	}
-}
-
-void	julia(t_data *data)
-{
-	t_coord	new;
-	int		x;
-	int		y;
-	int		n;
-
-	x = 0;
-	while (x < WIDTH)
-	{
-		new.x = data->x_min + (data->boundary / WIDTH) * x;
-		y = 0;
-		while (y < HEIGHT)
-		{
-			new.y = data->y_min + (data->boundary / HEIGHT) * y;
-			n = get_depth(new.x, new.y, data->a, data->b);
-			if (n == N_MAX)
-				my_mlx_pixel_put(data, x, y, 0x000000);
-			else
-				my_mlx_pixel_put(data, x, y, 0xffffff - data->color * n);
-			y++;
-		}
-		x++;
-	}
-}
-
-int	fractal_loop(t_data *data)
-{
-	if (data->type == MANDELBROT)
-		mandelbrot(data);
-	else if (data->type == JULIA)
-		julia(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	return (0);
 }

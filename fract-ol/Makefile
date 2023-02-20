@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 15:24:59 by hyobicho          #+#    #+#              #
-#    Updated: 2023/02/17 07:50:53 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/02/20 17:03:15 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,9 @@ ft_fractal.c
 B_SRCS = \
 ft_main_bonus.c \
 ft_check_para_bonus.c \
-ft_mlx_utils.c \
-ft_fractal_bonus.c
+ft_mlx_utils_bonus.c \
+ft_fractal_bonus.c \
+ft_burningship_bonus.c
 M_OBJ = $(SRCS:.c=.o)
 B_OBJ = $(B_SRCS:.c=.o)
 MLX_DIR = ./minilibx/

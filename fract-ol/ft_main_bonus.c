@@ -6,35 +6,22 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:39:39 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:55:21 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol_bonus.h"
 
-void	ft_error_bonus(int code)
-{
-	if (code == 1)
-	{
-		printf("Mandelbrot\n");
-		printf("Julia\n");
-		printf("Tricorn\n");
-	}
-	else if (code == 2)
-		printf("You need to put two valid numbers for Julia set\n");
-	else if (code == 3)
-		printf("Invalid number!\n");
-	exit(EXIT_FAILURE);
-}
-
 int	fractal_loop_bonus(t_data *data)
 {
-	if (data->type == 1)
+	if (data->type == MANDELBROT)
 		mandelbrot(data);
-	else if (data->type == 2)
+	else if (data->type == JULIA)
 		julia(data);
-	else if (data->type == 3)
+	else if (data->type == TROCORN)
 		tricorn(data);
+	else if (data->type == BURNINGSHIP)
+		burningship(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
@@ -44,22 +31,24 @@ static void	fractal_type_bonus(int argc, char **argv, t_data *data)
 	if (argc > 1)
 	{
 		if (ft_strcmp(argv[1], "Mandelbrot") == 0)
-			data->type = 1;
+			data->type = MANDELBROT;
 		else if (ft_strcmp(argv[1], "Julia") == 0)
 		{
 			if (argc != 4)
-				ft_error_bonus(2);
+				ft_error_bonus(NO_INPUT);
 			data->a = get_offset(argv[2], 0, 1, 1);
 			data->b = get_offset(argv[3], 0, 1, 1);
-			data->type = 2;
+			data->type = JULIA;
 		}
 		else if (ft_strcmp(argv[1], "Tricorn") == 0)
-			data->type = 3;
+			data->type = TROCORN;
+		else if (ft_strcmp(argv[1], "Burningship") == 0)
+			data->type = BURNINGSHIP;
 		else
-			ft_error_bonus(1);
+			ft_error_bonus(WRONG_INPUT);
 		return ;
 	}
-	ft_error_bonus(1);
+	ft_error_bonus(WRONG_INPUT);
 }
 
 int	main(int argc, char **argv)

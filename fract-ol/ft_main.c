@@ -6,45 +6,31 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:50:57 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:01:11 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-void	ft_error(int code)
-{
-	if (code == 1)
-	{
-		printf("Mandelbrot\n");
-		printf("Julia\n");
-	}
-	else if (code == 2)
-		printf("You need to put two valid numbers for Julia set\n");
-	else if (code == 3)
-		printf("Invalid number!\n");
-	exit(EXIT_FAILURE);
-}
 
 static void	fractal_type(int argc, char **argv, t_data *data)
 {
 	if (argc > 1)
 	{
 		if (ft_strcmp(argv[1], "Mandelbrot") == 0)
-			data->type = 1;
+			data->type = MANDELBROT;
 		else if (ft_strcmp(argv[1], "Julia") == 0)
 		{
 			if (argc != 4)
-				ft_error(2);
+				ft_error(NO_INPUT);
 			data->a = get_offset(argv[2], 0, 1, 1);
 			data->b = get_offset(argv[3], 0, 1, 1);
-			data->type = 2;
+			data->type = JULIA;
 		}
 		else
-			ft_error(1);
+			ft_error(WRONG_INPUT);
 		return ;
 	}
-	ft_error(1);
+	ft_error(WRONG_INPUT);
 }
 
 int	main(int argc, char **argv)

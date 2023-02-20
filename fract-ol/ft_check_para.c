@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 06:36:04 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:41:41 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:01:39 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,21 @@ double	get_offset(char *str, int i, int sign, int p)
 		while (ft_isdigit(str[++i]))
 			num.y += (str[i] - '0') / pow(10, p++);
 	if (str[i])
-		ft_error(3);
+		ft_error(INVALID_NUMBER);
 	res = num.x + num.y;
 	return (sign * res);
+}
+
+void	ft_error(int code)
+{
+	if (code == WRONG_INPUT)
+	{
+		printf("Mandelbrot\n");
+		printf("Julia\n");
+	}
+	else if (code == NO_INPUT)
+		printf("You need to put two valid numbers for Julia set\n");
+	else if (code == INVALID_NUMBER)
+		printf("Invalid number!\n");
+	exit(EXIT_FAILURE);
 }

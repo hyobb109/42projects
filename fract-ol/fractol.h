@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:40:58 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/17 07:42:05 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:56:38 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <math.h>
 # include "./minilibx/mlx.h"
 
-# define SIDE 200
 # define WIDTH 800
 # define HEIGHT 800
 # define N_MAX 128
@@ -36,6 +35,15 @@
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 
+typedef enum e_type
+{
+	WRONG_INPUT = 1,
+	NO_INPUT,
+	INVALID_NUMBER,
+	MANDELBROT,
+	JULIA
+}	t_type;
+
 typedef struct s_data {
 	void	*mlx;
 	void	*win;
@@ -44,10 +52,10 @@ typedef struct s_data {
 	int		bpp;
 	int		len;
 	int		endian;
-	int		type;
+	t_type	type;
 	int		color;
 	double	x_min;
-	double	y_max;
+	double	y_min;
 	double	boundary;
 	double	a;
 	double	b;
