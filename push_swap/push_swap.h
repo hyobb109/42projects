@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:15:21 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 04:58:02 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:06:17 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ typedef struct s_flag
 	int	ra;
 	int	rb;
 }	t_flag;
+
+typedef struct s_pivot
+{
+	int	low;
+	int	high;
+}	t_pivot;
 
 t_node	*create_head(void);
 void	parse_args(int argc, char **argv, t_node *a);

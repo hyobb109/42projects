@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:29:59 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 03:54:07 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/02/13 12:21:43 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	sort_3(t_node *a)
 	// 정렬되어 있으면 리턴
 	if (a->next->i < mid && mid < last)
 		return ;
-	// 첫번째가 최대일 때
+	// 첫번째가 최대일 때 3 2 1
 	if (a->next->i > last && a->next->i > mid)
 		ra(a);
-	// 첫번째가 최소거나 1, 0, 3 이 아닐 때
+	// 첫번째가 최소거나 1, 0, 3 이 아닐 때 -> 3 1 0 / 1 3 2 => 2 1 3
 	else if (a->next->i < mid && a->next->i < last)
 		rra(a);
 	else if (!(last > a->next->i && last > mid && a->next->i > mid))
