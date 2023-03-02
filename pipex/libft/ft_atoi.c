@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 04:50:31 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 03:52:15 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/02 11:42:55 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int	ft_atoi(const char *str)
 	flag = 0;
 	i = check_str(str, &sign, &flag);
 	if (!ft_isdigit(str[i]))
-		ft_error();
+		ft_error("NaN");
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + str[i] - '0';
 		i++;
 	}
 	if (overflow(sign * res, i, flag) || str[i])
-		ft_error();
+		ft_error("Overflow");
 	return (res * sign);
 }

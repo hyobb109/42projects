@@ -6,14 +6,14 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:56:12 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/09 03:45:55 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/02 11:39:48 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_error(void)
+void	ft_error(char *message)
 {
-	write(STDERR_FILENO, "Error\n", 6);
+	perror(message);
 	exit(EXIT_FAILURE);
 }

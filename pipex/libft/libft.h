@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:51:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/02/21 15:57:16 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/02 11:41:34 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
@@ -39,7 +40,7 @@ char	*free_res_gnl(char *tmp_buff, t_info *data, t_info **head);
 char	*ft_strjoin_gnl(char *s1, t_info *data);
 char	*get_next_line(int fd);
 
-void	ft_error(void);
+void	ft_error(char *message);
 int		ft_printf(const char *format, ...);
 int		ft_putchar(va_list ap);
 int		ft_putstr(va_list ap);
@@ -56,7 +57,6 @@ int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		ft_atoi(const char *str);
-int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);

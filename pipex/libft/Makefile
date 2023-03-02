@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2023/02/21 15:57:30 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/02/08 23:21:41 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ ft_toupper.c \
 ft_tolower.c \
 ft_strchr.c \
 ft_strrchr.c \
-ft_strcmp.c \
 ft_strncmp.c \
 ft_memchr.c \
 ft_memcmp.c \
