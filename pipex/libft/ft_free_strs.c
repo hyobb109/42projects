@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_free_strs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/19 19:56:12 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/03 21:58:59 by hyobicho         ###   ########.fr       */
+/*   Created: 2023/03/03 20:46:44 by hyobicho          #+#    #+#             */
+/*   Updated: 2023/03/03 22:05:20 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_error(char *message)
+void	free_strs(char **strs)
 {
-	perror(message);
-	exit(EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
 }

@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:51:52 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/02 11:41:34 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/03 20:48:35 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_info	*find_data(t_info **head, int fd);
 char	*free_res_gnl(char *tmp_buff, t_info *data, t_info **head);
 char	*ft_strjoin_gnl(char *s1, t_info *data);
 char	*get_next_line(int fd);
+void	free_strs(char **strs);
 
 void	ft_error(char *message);
 int		ft_printf(const char *format, ...);

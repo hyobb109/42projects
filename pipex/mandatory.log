@@ -1,0 +1,298 @@
+============================================================================
+
+
+      BASIC TEST
+      NUMBER 5
+      < input grep Hello | awk '{count++} END {print count}' > output
+
+
+ - Bash output file:
+2
+\EOF
+
+ - Pipex output file: Empty
+
+ - Bash standard stream: None
+
+ - Pipex standard stream:
+awk: syntax error at source line 1
+ context is
+	 >>> ' <<< 
+awk: bailing out at source line 1
+\EOF
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      BASIC TEST
+      NUMBER 6
+      < input grep Hello | awk "{count++} END {print count}" > output
+
+
+ - Bash output file:
+2
+\EOF
+
+ - Pipex output file: Empty
+
+ - Bash standard stream: None
+
+ - Pipex standard stream:
+awk: non-terminated string {count++}... at source line 1
+ context is
+	 >>>  <<< 
+awk: giving up
+ source line number 2
+\EOF
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      BASIC TEST
+      NUMBER 7
+      < input grep Hello | awk '"{count++} END {print count}"' > output
+
+
+ - Bash output file:
+Hello World!
+Hello World!
+\EOF
+
+ - Pipex output file: Empty
+
+ - Bash standard stream: None
+
+ - Pipex standard stream:
+awk: syntax error at source line 1
+ context is
+	 >>> ' <<< 
+awk: bailing out at source line 1
+\EOF
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      BASIC TEST
+      NUMBER 8
+      < input grep Hello | awk "'{count++} END {print count}'" > output
+
+
+ - Bash output file: Empty
+
+ - Pipex output file: Empty
+
+ - Bash standard stream:
+awk: syntax error at source line 1
+ context is
+	 >>> ' <<< 
+awk: bailing out at source line 1
+\EOF
+
+ - Pipex standard stream:
+awk: non-terminated string '{count++}... at source line 1
+ context is
+	 >>>  <<< 
+awk: giving up
+ source line number 2
+\EOF
+
+ - Bash exit code value: 2
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      ERROR TEST
+      NUMBER 1
+      < input grep Hello | wc -l > output
+
+
+ - Bash output file:
+       0
+\EOF
+
+ - Pipex output file: Empty
+
+ - Bash standard stream:
+pipex: input: No such file or directory
+\EOF
+
+ - Pipex standard stream:
+pipex: input: No such file or directory
+\EOF
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      ERROR TEST
+      NUMBER 2
+      < input grep Hello | wc -l > output (No environment)
+
+
+ - Bash output file:
+       1
+\EOF
+
+ - Pipex output file: Empty
+
+ - Bash standard stream: None
+
+ - Pipex standard stream: None
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 11
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      ERROR TEST
+      NUMBER 3
+      < input fizzBuzz | ls -l src/ > output
+
+
+ - Bash output file:
+total 56
+-rw-r--r--  1 hyobicho  2022_seoul  4652 Dec 13 21:41 main.c
+-rw-r--r--  1 hyobicho  2022_seoul   833 Dec 13 21:41 runTest.c
+-rw-r--r--  1 hyobicho  2022_seoul  8583 Dec 13 21:41 test.c
+-rw-r--r--  1 hyobicho  2022_seoul   427 Dec 13 21:41 utils.c
+\EOF
+
+ - Pipex output file:
+total 56
+-rw-r--r--  1 hyobicho  2022_seoul  4652 Dec 13 21:41 main.c
+-rw-r--r--  1 hyobicho  2022_seoul   833 Dec 13 21:41 runTest.c
+-rw-r--r--  1 hyobicho  2022_seoul  8583 Dec 13 21:41 test.c
+-rw-r--r--  1 hyobicho  2022_seoul   427 Dec 13 21:41 utils.c
+\EOF
+
+ - Bash standard stream:
+pipex: fizzBuzz: command not found
+\EOF
+
+ - Pipex standard stream:
+Run Error: No such file or directory
+\EOF
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      ERROR TEST
+      NUMBER 4
+      < input ls -l src/ | buzzFizz > output
+
+
+ - Bash output file: Empty
+
+ - Pipex output file: Empty
+
+ - Bash standard stream:
+pipex: buzzFizz: command not found
+\EOF
+
+ - Pipex standard stream:
+Run Error: No such file or directory
+\EOF
+
+ - Bash exit code value: 127
+
+ - Pipex exit code value: 0
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      ERROR TEST
+      NUMBER 5
+      < input fizzBuzz | wc -l > output (No environment)
+
+
+ - Bash output file:
+       0
+\EOF
+
+ - Pipex output file: Empty
+
+ - Bash standard stream:
+pipex: fizzBuzz: command not found
+\EOF
+
+ - Pipex standard stream: None
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 11
+
+File permissions of output files match
+
+
+============================================================================
+
+
+      ERROR TEST
+      NUMBER 6
+      < input grep Hello | buzzFizz > output (No environment)
+
+
+ - Bash output file: Empty
+
+ - Pipex output file: Empty
+
+ - Bash standard stream:
+pipex: buzzFizz: command not found
+\EOF
+
+ - Pipex standard stream: None
+
+ - Bash exit code value: 127
+
+ - Pipex exit code value: 11
+
+File permissions of output files match
+
+

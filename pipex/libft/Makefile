@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 17:43:15 by hyobicho          #+#    #+#              #
-#    Updated: 2023/02/08 23:21:41 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/03/03 20:48:29 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = \
+ft_free_strs.c \
 get_next_line.c \
 get_next_line_utils.c \
 ft_error.c \
@@ -60,16 +61,16 @@ M_OBJ = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(M_OBJ)
-	ar rc $@ $^
+	@ar rc $@ $^
 
 %.o : %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -f $(M_OBJ)
+	@rm -f $(M_OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: 
 	make fclean
