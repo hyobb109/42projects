@@ -6,13 +6,13 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 15:24:59 by hyobicho          #+#    #+#              #
-#    Updated: 2023/03/02 11:47:10 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/03/03 18:50:20 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 LIBFT_FLAG = -Llibft -lft
 LIBFT_DIR = ./libft/
 SRCS = \
