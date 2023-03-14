@@ -6,12 +6,11 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:48:05 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/13 17:54:10 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:58:49 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
-
 
 void print_test(char **strs)
 {

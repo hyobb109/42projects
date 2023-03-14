@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:34:37 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/13 18:29:54 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:55:39 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,15 @@ void	do_pipe(t_pipe *data)
 	{
 		// 병렬로 자식 생성
 		pid = fork();
-		// 자식 프로세스의 
 		if (pid < 0)
 			ft_error("Fork Error");
 		if (pid == 0)
 			first_child(data);
+	// 자식 프로세스 종료될 때까지 기다림
+		if (wait(&data->wstatus) < 0)
+			ft_error("Wait Error");
+		ft_printf("status: %d\n", data->wstatus);
 	}
-	// 자식 프로세스 pid = 0
 	else
 		second_child(data);
-	wait(&data->wstatus);
-	ft_printf("status: %d\n", data->wstatus);
 }

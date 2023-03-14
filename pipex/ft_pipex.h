@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:49:12 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/13 17:53:05 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:43:00 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "./libft/libft.h"
 # include <fcntl.h>
-# include <sys/types.h>
 # include <sys/wait.h>
 
 typedef enum e_type
