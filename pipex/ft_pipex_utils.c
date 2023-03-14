@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:34:37 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/14 18:55:39 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:36:26 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,20 @@ static void	run_cmd(t_pipe *data, char *cmd)
 	// ft_printf("path: %s\n", path);
 	if (execve(path, full_cmd, data->envp) < 0)
 		ft_error(ft_strjoin("pipex: ", cmd));
-	free(path);
-	free_strs(full_cmd);
 }
 
 // 자식1 프로세스 : infile을 cmd1의 입력으로 받고 출력 결과를 fd[WRITE]으로 보냄
 static void	first_child(t_pipe *data)
 {
-	if (close(data->fd[READ]) < 0)
+	if (close(data->fds[READ]) < 0)
 		ft_error("Close Error");
 	// file1 없을 때?
-	// if (data->fd1 != -1)
-	if (dup2(data->fd1, STDIN_FILENO) < 0)
+	// if (data->infile != -1)
+	if (dup2(data->infile, STDIN_FILENO) < 0)
 		ft_error("Fd1 dup2 Error");
-	if (dup2(data->fd[WRITE], STDOUT_FILENO) < 0)
+	if (dup2(data->fds[WRITE], STDOUT_FILENO) < 0)
 		ft_error("fd[WRITE] dup 2 Error");
-	if (close(data->fd1) < 0 || close(data->fd[WRITE]) < 0)
+	if (close(data->infile) < 0 || close(data->fds[WRITE]) < 0)
 		ft_error("Close Error");
 	run_cmd(data, data->cmd1);
 }
@@ -55,23 +53,24 @@ static void	first_child(t_pipe *data)
 // 자식2 프로세스 : 입력 부분을 fd[READ]로 받아서 읽고 outfile에 출력 결과 씀
 static void	second_child(t_pipe *data)
 {
-	if (close(data->fd[WRITE]) < 0)
+	if (close(data->fds[WRITE]) < 0)
 		ft_error("Close Error");
-	if (dup2(data->fd[READ], STDIN_FILENO) < 0)
+	if (dup2(data->fds[READ], STDIN_FILENO) < 0)
 		ft_error("fd[READ] dup 2 Error");
-	if (dup2(data->fd2, STDOUT_FILENO) < 0)
-		ft_error("fd2 dup2 Error");
-	if (close(data->fd2) || close(data->fd[READ]) < 0)
+	if (dup2(data->outfile, STDOUT_FILENO) < 0)
+		ft_error("outfile dup2 Error");
+	if (close(data->outfile) || close(data->fds[READ]) < 0)
 		ft_error("Close Error");
 	run_cmd(data, data->cmd2);
 }
 
+// 고칠 것!! -> pipe + fork 2번씩
 void	do_pipe(t_pipe *data)
 {
 	pid_t	pid;
 
 	// pipe 생성
-	if (pipe(data->fd) < 0)
+	if (pipe(data->fds) < 0)
 		ft_error("Pipe Error");
 	// 프로세스 복사
 	pid = fork();
@@ -86,11 +85,12 @@ void	do_pipe(t_pipe *data)
 			ft_error("Fork Error");
 		if (pid == 0)
 			first_child(data);
-	// 자식 프로세스 종료될 때까지 기다림
-		if (wait(&data->wstatus) < 0)
-			ft_error("Wait Error");
-		ft_printf("status: %d\n", data->wstatus);
 	}
 	else
 		second_child(data);
+	// 자식 프로세스 종료될 때까지 기다림 
+	while (waitpid(-1, &data->wstatus, 0) != -1)
+	{
+		ft_printf("status: %d\n", data->wstatus);
+	}		
 }

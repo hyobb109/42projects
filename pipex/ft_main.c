@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:48:05 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/14 18:58:49 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:23:20 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ static void	get_paths(t_pipe *data)
 static void	init_pipe_data(t_pipe *data, char **argv, char **envp)
 {
 	data->wstatus = 0;
-	data->fd1 = open(argv[1], O_RDONLY);
-	if (data->fd1 < 0)
+	data->infile = open(argv[1], O_RDONLY);
+	if (data->infile < 0)
 		perror(ft_strjoin("pipex: ", argv[1]));
-	data->fd2 = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (data->fd2 < 0)
+	data->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (data->outfile < 0)
 		perror(ft_strjoin("pipex: ", argv[4]));
 	data->cmd1 = argv[2];
 	data->cmd2 = argv[3];
