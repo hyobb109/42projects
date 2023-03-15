@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:49:12 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/14 22:06:47 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/15 18:12:44 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ typedef enum e_type
 
 typedef struct s_pipe
 {
-	int		wstatus;
+	int		status;
 	int		fds[2];
-	int		infile;
-	int		outfile;
+	int		infile_fd;
+	int		outfile_fd;
+	char	*infile;
+	char	*outfile;
 	char	*cmd1;
 	char	*cmd2;
 	char	**envp;
