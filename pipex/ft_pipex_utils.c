@@ -6,11 +6,19 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:34:37 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/15 21:40:42 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:30:30 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
+
+// void print_test(char **strs)
+// {
+// 	for (int i = 0; strs[i]; i++)
+// 	{
+// 		ft_printf("strs[%d] = %s\n", i, strs[i]);
+// 	}
+// }
 
 static void	run_cmd(t_pipe *data, char *cmd)
 {
@@ -19,7 +27,6 @@ static void	run_cmd(t_pipe *data, char *cmd)
 	int		i;
 
 	full_cmd = ft_split(cmd, ' ');
-	// int execve(const char *pathname, char *const argv[], char *const envp[]);
 	// 명령어 경로 찾기
 	i = -1;
 	while (data->paths[++i])
@@ -29,16 +36,16 @@ static void	run_cmd(t_pipe *data, char *cmd)
 			break ;
 		free(path);
 	}
-	// ft_printf("path: %s\n", path);
+	//  ft_printf("path: %s\n", path);
+	//  print_test(full_cmd);
 	if (execve(path, full_cmd, data->envp) < 0)
-	{
-		//ft_error(cmd);
-	}
+		ft_error("Command Not Found");
 }
 
 // 자식1 프로세스 : infile을 cmd1의 입력으로 받고 출력 결과를 fds[WRITE]으로 보냄
 static void	first_child(t_pipe *data)
 {
+	// ft_printf("First Child Pid: %d\n", getpid());
 	if (close(data->fds[READ]) < 0)
 		ft_error("Close Error");
 	// file1 없을 때?
@@ -51,13 +58,14 @@ static void	first_child(t_pipe *data)
 	if (dup2(data->fds[WRITE], STDOUT_FILENO) < 0)
 		ft_error("fds[WRITE] dup 2 Error");
 	if (close(data->infile_fd) < 0 || close(data->fds[WRITE]) < 0)
-		ft_error("Close Error");
+		ft_error("First Child Close Error");
 	run_cmd(data, data->cmd1);
 }
 
 // 자식2 프로세스 : 입력 부분을 fds[READ]로 받아서 읽고 outfile에 출력 결과 씀
 static void	second_child(t_pipe *data)
 {
+	// ft_printf("Second Child Pid: %d\n", getpid());
 	if (close(data->fds[WRITE]) < 0)
 		ft_error("Close Error");
 	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -68,7 +76,7 @@ static void	second_child(t_pipe *data)
 	if (dup2(data->outfile_fd, STDOUT_FILENO) < 0)
 		ft_error("outfile dup2 Error");
 	if (close(data->outfile_fd) || close(data->fds[READ]) < 0)
-		ft_error("Close Error");
+		ft_error("Second Child Close Error");
 	run_cmd(data, data->cmd2);
 }
 
@@ -95,12 +103,13 @@ void	do_pipe(t_pipe *data)
 	}
 	else
 		second_child(data);
+	// ft_printf("Parent Pid: %d\n", getpid());
 	// 부모 프로세스 fd 닫음
 	if (close(data->fds[READ]) < 0 || close(data->fds[WRITE]) < 0)
-		ft_error("*Close Error");
+		ft_error("Parent Close Error");
 	// 자식 프로세스 종료될 때까지 기다림 
 	while (waitpid(-1, &data->status, 0) != -1)
 	{
-		// ft_printf("status: %d\n", data->status);
+		// ft_printf("status: %d\n", WEXITSTATUS(data->status));
 	}		
 }

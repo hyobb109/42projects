@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 19:53:02 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/02 11:45:02 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:18:04 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**free_res(char **res, int i)
 	while (i-- > 0)
 		free(res[i]);
 	free(res);
-	return (0);
+	exit(EXIT_FAILURE);
 }
 
 static char	**result(char **res, char const *str, char c, int cnt)
@@ -94,6 +94,6 @@ char	**ft_split(char const *s, char c)
 	cnt = cntstr(s, c);
 	res = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (res == 0)
-		return (0);
+		ft_error("malloc error");
 	return (result(res, s, c, cnt));
 }

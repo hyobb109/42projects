@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:49:12 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/15 18:12:44 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:29:53 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ typedef struct s_pipe
 }	t_pipe;
 
 void	do_pipe(t_pipe *data);
+// delete
+// void	print_test(char **strs);
 
 #endif
