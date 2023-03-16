@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:34:37 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/16 22:30:30 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:36:03 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	first_child(t_pipe *data)
 	// file1 없을 때?
 	data->infile_fd = open(data->infile, O_RDONLY);
 	if (data->infile_fd < 0)
-		perror(data->infile);
+		ft_error(data->infile);
 	// if (data->infile != -1)
 	if (dup2(data->infile_fd, STDIN_FILENO) < 0)
 		ft_error("infile dup2 Error");
@@ -70,7 +70,7 @@ static void	second_child(t_pipe *data)
 		ft_error("Close Error");
 	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->outfile_fd < 0)
-		perror(data->outfile);
+		ft_error(data->outfile);
 	if (dup2(data->fds[READ], STDIN_FILENO) < 0)
 		ft_error("fds[READ] dup 2 Error");
 	if (dup2(data->outfile_fd, STDOUT_FILENO) < 0)
