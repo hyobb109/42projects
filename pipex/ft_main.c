@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:48:05 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/16 22:29:33 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:19:43 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ static void	init_pipe_data(t_pipe *data, char **argv, char **envp)
 {
 	data->status = 0;
 	data->infile = argv[1];
-	// data->infile_fd = STDIN_FILENO;
 	data->cmd1 = argv[2];
 	data->cmd2 = argv[3];
 	data->outfile = argv[4];
-	// data->outfile_fd = STDOUT_FILENO;
 	data->envp = envp;
 	get_paths(data);
 	// print_test(data->paths);
