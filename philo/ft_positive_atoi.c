@@ -26,10 +26,8 @@ static int	whitespace(char a)
 	return (0);
 }
 
-static int	overflow(long long res, int len, int flag)
+static int	overflow(long long res, int len)
 {
-	if (flag)
-		len--;
 	if (len > 10 || res > 2147483647)
 		return (1);
 	return (0);
@@ -39,26 +37,21 @@ int	ft_positive_atoi(const char *str)
 {
 	long long	res;
 	int			i;
-	int			flag;
 
+	while (whitespace(*str))
+		str++;
+	if (*str == '+')
+		str++;
+	while (*str == '0')
+		str++;
 	res = 0;
 	i = 0;
-	flag = 0;
-	while (whitespace(str[i]))
-		i++;
-	if (str[i] == '+')
-	{
-		i++;
-		flag = 1;
-	}
-	if (!ft_isdigit(str[i]))
-		return (0);
 	while (ft_isdigit(str[i]))
 	{
 		res = res * 10 + str[i] - '0';
 		i++;
 	}
-	if (overflow(res, i, flag) || str[i])
+	if (overflow(res, i) || str[i])
 		return (0);
 	return (res);
 }
