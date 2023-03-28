@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:43:56 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/24 21:17:39 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:32:13 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,44 @@ int check_args(int argc, char **argv, t_philo *info)
 	return (VALID);
 }
 
+void	*start_routine(void *arg)
+{
+	t_philo	*info;
+
+	info = (t_philo *)arg;
+	printf("philosopher %d thread creation\n", info->n);
+	return 0;
+}
+
+int	ft_error(char *message)
+{
+	ft_putstr_fd(message, 2);
+	return (EXIT_FAILURE);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	info;
 
 	// 인자 체크
 	if (check_args(argc, argv, &info) == INVALID)
-	{
-		ft_putstr_fd("Invalid Arguments\n", 2);
- 		return (0);
-	}
-	// 인자 출력 테스트
+		return (ft_error("Error: Invalid Arguments\n"));
+	/* 인자 출력 테스트
 	for (int i = 0; i < 5; i++)
 	{
 		printf("args[%d] = %d\n", i, info.args[i]);
+	}*/
+
+	info.n = 0;
+	while (++info.n <= info.args[PHILOSOPHERS])
+	{
+		if (pthread_create(&info.tid, NULL, start_routine, &info) != 0)
+			return (ft_error("Error: pthread_create failed\n"));
+		//  생성된 스레드가 종료될 때까지 기다림
+		if (pthread_join(info.tid, NULL) != 0)
+			return (ft_error("Error: pthread_join failed\n"));
+		printf("thread joined\n");
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 

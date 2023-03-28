@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/24 21:06:12 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:26:34 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ typedef enum e_args
 
 typedef struct s_philo
 {
-	int	args[5];
+	int		args[5];
+	pthread_t	tid;
+	int		n;
 } t_philo;
 
 size_t	ft_strlen(const char *s);
