@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/28 22:26:34 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:13:25 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,33 @@ typedef enum e_error
 	VALID
 }	t_error;
 
-typedef enum e_args
+typedef enum e_arguments
 {
 	PHILOSOPHERS,
 	DIE,
 	EAT,
 	SLEEP,
 	MUST_EAT
-}	t_args;
+}	t_arguments;
+
+typedef struct	s_args
+{
+	int	ac;
+	int	av[5];
+} t_args;
 
 typedef struct s_philo
 {
-	int		args[5];
-	pthread_t	tid;
 	int		n;
+	t_args	args;
+	pthread_t	tid;
+	struct timeval	start_time;
+	struct timeval	end_time;
 } t_philo;
 
 size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_positive_atoi(const char *str);
+int		ft_error(char *message);
 
 #endif
