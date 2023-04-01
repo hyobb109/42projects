@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/30 20:13:25 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:40:27 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,24 @@ typedef enum e_arguments
 	MUST_EAT
 }	t_arguments;
 
-typedef struct	s_args
-{
-	int	ac;
-	int	av[5];
-} t_args;
-
 typedef struct s_philo
 {
 	int		n;
-	t_args	args;
+	int		eat;
 	pthread_t	tid;
-	struct timeval	start_time;
-	struct timeval	end_time;
+	struct timeval	finish_eating;
+	struct s_info	*info;
 } t_philo;
+
+typedef struct	s_info
+{
+	int	ac;
+	int	av[5];
+	t_philo	*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print;
+	struct timeval	start_time;
+} t_info;
 
 size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);

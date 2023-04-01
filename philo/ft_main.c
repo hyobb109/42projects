@@ -6,26 +6,13 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:43:56 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/03/30 21:53:59 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:42:42 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
 
 //// !!! philo 디렉토리 안에 넣기 !!!
-
-//테스트테스트
-void time_test()
-{
-	struct timeval	start_time;
-	struct timeval	end_time;
-	
-	gettimeofday(&start_time, NULL);
-	printf("%ld %d\n", start_time.tv_sec, start_time.tv_usec);
-	// usleep(1000000);
-	gettimeofday(&end_time, NULL);
-	printf("%ld %d\n", end_time.tv_sec, end_time.tv_usec);
-}
 
 size_t	ft_strlen(const char *s)
 {
@@ -47,7 +34,7 @@ void	ft_putstr_fd(char *s, int fd)
 	write(fd, s, len);
 }
 
-int check_args(int argc, char **argv, t_args *args)
+int check_args(int argc, char **argv, t_info *args)
 {
 	int	i;
 	// 개수 체크
@@ -77,17 +64,67 @@ long long	get_time(struct timeval start)
 	return ((curr.tv_sec - start.tv_sec) * 1000 + (curr.tv_usec - start.tv_usec) / 1000);
 }
 
+// 철학자 루틴 (밥 -> 잠 -> 생각)
+// 해야할 것!
+// 1. 출력 시간 순서대로 : print에 mutex lock을 걸어라 -> 제대로 됐나 확인 필요
+// 2. usleep 시간 쪼개기 : 프로세스 주기 검색해보기
 void	*start_routine(void *arg)
 {
 	t_philo	*philo;
 	// pthread_t tid = pthread_self();
 
 	philo = (t_philo *)arg;
-	usleep(1000000);
-	printf("philosopher %d thread creation, tid: %u\n", philo->n, (unsigned int)philo->tid);
-	printf("%lld %d has taken a fork\n", get_time(philo->start_time), philo->n);
-	// args[DIE]만큼 먹지 않으면 사망
-	return 0;
+	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
+	while (1)
+	{
+		// 홀수 -> 왼쪽 포크 먼저
+		if (philo->n % 2)
+		{
+			pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
+			pthread_mutex_lock(&philo->info->forks[philo->n]);
+		}
+		// 짝수 -> 오른쪽 포크 먼저
+		else
+		{
+			pthread_mutex_lock(&philo->info->forks[philo->n]);
+			pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
+		}
+		pthread_mutex_lock(&philo->info->print);
+		printf("%lld %d has taken a fork\n", get_time(philo->info->start_time), philo->n);
+		printf("%lld %d has taken a fork\n", get_time(philo->info->start_time), philo->n);
+		pthread_mutex_unlock(&philo->info->print);
+		pthread_mutex_lock(&philo->info->print);
+		printf("%lld %d is eating\n", get_time(philo->info->start_time), philo->n);
+		pthread_mutex_unlock(&philo->info->print);
+		usleep(philo->info->av[EAT] * 1000);
+		// 다 먹은 시간 저장
+		gettimeofday(&philo->finish_eating, NULL);
+		// 포크 내려둠
+		pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
+		pthread_mutex_unlock(&philo->info->forks[philo->n]);
+		// 먹는 횟수 제한 있을 때
+		if (++philo->eat == philo->info->av[MUST_EAT] && philo->info->ac == 5)
+		{
+			// info->av[MUST_EAT] 만큼 먹으면 종료
+			return (0);
+		}
+		pthread_mutex_lock(&philo->info->print);
+		printf("%lld %d is sleeping\n", get_time(philo->info->start_time), philo->n);
+		pthread_mutex_unlock(&philo->info->print);
+		usleep(philo->info->av[SLEEP] * 1000);
+		pthread_mutex_lock(&philo->info->print);
+		printf("%lld %d is thinking\n", get_time(philo->info->start_time), philo->n);
+		pthread_mutex_unlock(&philo->info->print);
+		// 다 먹고 나서 args[DIE]만큼 먹지 않으면 사망 -> 한명이라도 사망하면 시뮬레이션 모두 종료
+		if (get_time(philo->finish_eating) >= philo->info->av[DIE])
+		{
+			pthread_mutex_lock(&philo->info->print);
+			printf("%lld %d died\n", get_time(philo->info->start_time), philo->n);
+			pthread_mutex_unlock(&philo->info->print);
+			return (0);
+		}
+	}
+	return (0);
 }
 
 int	ft_error(char *message)
@@ -109,13 +146,12 @@ int	free_philo(t_philo *philos, char *message)
 
 int	main(int argc, char **argv)
 {
-	t_args		args;
-	t_philo		*philos;
-	struct timeval	curr;
+	t_info		info;
+	int	i;
 	
 	// atexit(check_leak);
 	// 인자 체크
-	if (check_args(argc, argv, &args) == INVALID)
+	if (check_args(argc, argv, &info) == INVALID)
 		return (ft_error("Error: Invalid Arguments\n"));
 	// 인자 출력 테스트
 	// printf("args.ac = %d\n", args.ac);
@@ -123,27 +159,47 @@ int	main(int argc, char **argv)
 	// {
 	// 	printf("args[%d] = %d\n", i, args.av[i]);
 	// }
-	philos = (t_philo *)malloc(sizeof(t_philo) * args.av[PHILOSOPHERS]);
-	if (philos == NULL)
+	info.philos = (t_philo *)malloc(sizeof(t_philo) * info.av[PHILOSOPHERS]);
+	if (info.philos == NULL)
 		return (ft_error("Error: malloc failed\n"));
-	gettimeofday(&curr, NULL);
-	int	i = -1;
-	while (++i < args.av[PHILOSOPHERS])
+	info.forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info.av[PHILOSOPHERS]);
+	if (info.forks == NULL)
+		return (free_philo(info.philos, "Error: fork malloc failed\n"));
+	pthread_mutex_init(&info.print, NULL);
+	i = -1;
+	while (++i < info.av[PHILOSOPHERS])
 	{
-		philos[i].n = i + 1;
-		philos[i].args = args;
-		philos[i].start_time = curr;
-		if (pthread_create(&philos[i].tid, NULL, start_routine, &philos[i]) != 0)
-			return (free_philo(philos, "Error: pthread_create failed\n"));
+		if (pthread_mutex_init(&info.forks[i], NULL) != 0)
+		{
+			free(info.forks);
+			return (free_philo(info.philos, "Error: mutex init failed\n"));
+		}
+	}
+	gettimeofday(&info.start_time, NULL);
+	i = -1;
+	while (++i < info.av[PHILOSOPHERS])
+	{
+		info.philos[i].n = i + 1;
+		info.philos[i].eat = 0;
+		info.philos[i].info = &info;
+		if (pthread_create(&info.philos[i].tid, NULL, start_routine, &info.philos[i]) != 0)
+			return (free_philo(info.philos, "Error: pthread_create failed\n"));
 	}
 	//  생성된 스레드가 종료될 때까지 기다림s != 0)
 	i = -1;
-	while(++i < args.av[PHILOSOPHERS])
+	while(++i < info.av[PHILOSOPHERS])
 	{
-		if (pthread_join(philos[i].tid, NULL) != 0)
-			return (free_philo(philos, "Error: pthread_join failed\n"));
-		printf("thread %d joined\n", i + 1);
+		if (pthread_join(info.philos[i].tid, NULL) != 0)
+			return (free_philo(info.philos, "Error: pthread_join failed\n"));
+		// printf("thread %d joined\n", i + 1);
 	}
-	free(philos);
+	i = -1;
+	while (++i < info.av[PHILOSOPHERS])
+	{
+		pthread_mutex_destroy(&info.forks[i]);
+	}
+	pthread_mutex_destroy(&info.print);
+	free(info.philos);
+	free(info.forks);
 	return (EXIT_SUCCESS);
 }
