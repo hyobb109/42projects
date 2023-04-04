@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:43:56 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/01 16:42:42 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/04 20:57:34 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,15 @@ long long	get_time(struct timeval start)
 	return ((curr.tv_sec - start.tv_sec) * 1000 + (curr.tv_usec - start.tv_usec) / 1000);
 }
 
-// 철학자 루틴 (밥 -> 잠 -> 생각)
-// 해야할 것!
-// 1. 출력 시간 순서대로 : print에 mutex lock을 걸어라 -> 제대로 됐나 확인 필요
-// 2. usleep 시간 쪼개기 : 프로세스 주기 검색해보기
-void	*start_routine(void *arg)
+void	print_state(t_philo *philo, char *message)
 {
-	t_philo	*philo;
-	// pthread_t tid = pthread_self();
+	pthread_mutex_lock(&philo->info->print);
+	printf("%lld %d %s\n", get_time(philo->info->start_time), philo->n, message);
+	pthread_mutex_unlock(&philo->info->print);
+}
 
-	philo = (t_philo *)arg;
-	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
-	while (1)
-	{
+void	get_forks(t_philo *philo)
+{
 		// 홀수 -> 왼쪽 포크 먼저
 		if (philo->n % 2)
 		{
@@ -89,16 +85,43 @@ void	*start_routine(void *arg)
 			pthread_mutex_lock(&philo->info->forks[philo->n]);
 			pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
 		}
-		pthread_mutex_lock(&philo->info->print);
-		printf("%lld %d has taken a fork\n", get_time(philo->info->start_time), philo->n);
-		printf("%lld %d has taken a fork\n", get_time(philo->info->start_time), philo->n);
-		pthread_mutex_unlock(&philo->info->print);
-		pthread_mutex_lock(&philo->info->print);
-		printf("%lld %d is eating\n", get_time(philo->info->start_time), philo->n);
-		pthread_mutex_unlock(&philo->info->print);
-		usleep(philo->info->av[EAT] * 1000);
-		// 다 먹은 시간 저장
-		gettimeofday(&philo->finish_eating, NULL);
+		print_state(philo, "has taken a fork");
+		print_state(philo, "has taken a fork");
+}
+
+// 철학자 루틴 (밥 -> 잠 -> 생각)
+// 해야할 것!
+// 1. 출력 시간 순서대로 : print에 mutex lock을 걸어라 -> 제대로 됐나 확인 필요
+// 2. usleep 시간 쪼개기 : 프로세스 주기 검색해보기
+void	*start_routine(void *arg)
+{
+	t_philo	*philo;
+	// pthread_t tid = pthread_self();
+
+	philo = (t_philo *)arg;
+	philo->exit_flag = 0;
+	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
+	while (1)
+	{
+		get_forks(philo);
+		print_state(philo, "is eating");
+		// 죽는 시간이 먹는 시간보다 짧으면 사망
+		if (philo->info->av[DIE] < philo->info->av[EAT])
+		{
+			usleep(philo->info->av[DIE] * 1000);
+			print_state(philo, "died");
+			philo->exit_flag = 1;
+			// 포크 내려둠
+			pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
+			pthread_mutex_unlock(&philo->info->forks[philo->n]);
+			break ;
+		}
+		else
+		{
+			usleep(philo->info->av[EAT] * 1000);
+			// 다 먹은 시간 저장
+			gettimeofday(&philo->finish_eating, NULL);
+		}
 		// 포크 내려둠
 		pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
 		pthread_mutex_unlock(&philo->info->forks[philo->n]);
@@ -106,22 +129,18 @@ void	*start_routine(void *arg)
 		if (++philo->eat == philo->info->av[MUST_EAT] && philo->info->ac == 5)
 		{
 			// info->av[MUST_EAT] 만큼 먹으면 종료
-			return (0);
+			philo->exit_flag = 1;
+			break ;
 		}
-		pthread_mutex_lock(&philo->info->print);
-		printf("%lld %d is sleeping\n", get_time(philo->info->start_time), philo->n);
-		pthread_mutex_unlock(&philo->info->print);
+		print_state(philo, "is sleeping");
 		usleep(philo->info->av[SLEEP] * 1000);
-		pthread_mutex_lock(&philo->info->print);
-		printf("%lld %d is thinking\n", get_time(philo->info->start_time), philo->n);
-		pthread_mutex_unlock(&philo->info->print);
+		print_state(philo, "is thinking");
 		// 다 먹고 나서 args[DIE]만큼 먹지 않으면 사망 -> 한명이라도 사망하면 시뮬레이션 모두 종료
 		if (get_time(philo->finish_eating) >= philo->info->av[DIE])
 		{
-			pthread_mutex_lock(&philo->info->print);
-			printf("%lld %d died\n", get_time(philo->info->start_time), philo->n);
-			pthread_mutex_unlock(&philo->info->print);
-			return (0);
+			print_state(philo, "died");
+			philo->exit_flag = 1;
+			break ;
 		}
 	}
 	return (0);
@@ -153,12 +172,7 @@ int	main(int argc, char **argv)
 	// 인자 체크
 	if (check_args(argc, argv, &info) == INVALID)
 		return (ft_error("Error: Invalid Arguments\n"));
-	// 인자 출력 테스트
-	// printf("args.ac = %d\n", args.ac);
-	// for (int i = 0; i < args.ac; i++)
-	// {
-	// 	printf("args[%d] = %d\n", i, args.av[i]);
-	// }
+	// init info
 	info.philos = (t_philo *)malloc(sizeof(t_philo) * info.av[PHILOSOPHERS]);
 	if (info.philos == NULL)
 		return (ft_error("Error: malloc failed\n"));
@@ -191,6 +205,8 @@ int	main(int argc, char **argv)
 	{
 		if (pthread_join(info.philos[i].tid, NULL) != 0)
 			return (free_philo(info.philos, "Error: pthread_join failed\n"));
+		if (info.philos[i].exit_flag)
+			break ;
 		// printf("thread %d joined\n", i + 1);
 	}
 	i = -1;

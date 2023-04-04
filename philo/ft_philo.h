@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/01 16:40:27 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/04 20:51:53 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ typedef enum e_arguments
 	DIE,
 	EAT,
 	SLEEP,
-	MUST_EAT
+	MUST_EAT,
 }	t_arguments;
 
 typedef struct s_philo
 {
 	int		n;
 	int		eat;
+	int		exit_flag;
 	pthread_t	tid;
 	struct timeval	finish_eating;
 	struct s_info	*info;
