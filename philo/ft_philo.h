@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/06 21:21:45 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:56:52 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ typedef enum e_arguments
 	MUST_EAT,
 }	t_arguments;
 
+typedef struct s_status
+{
+	int		die;
+	int		eat;
+} t_status;
+
 typedef struct s_philo
 {
 	int		n;
@@ -57,14 +63,15 @@ typedef struct	s_info
 	t_philo	*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
-	// pthread_mutex_t	life;
-	// pthread_mutex_t	state;
+	pthread_mutex_t	state;
 	struct timeval	start_time;
 } t_info;
 
-size_t	ft_strlen(const char *s);
-void	ft_putstr_fd(char *s, int fd);
 int		ft_positive_atoi(const char *str);
 int		ft_error(char *message);
+int		check_args(int argc, char **argv, t_info *args);
+int		free_philo(t_philo *philos, char *message);
+int		init_info(t_info *info);
+void	*start_routine(void *arg);
 
 #endif

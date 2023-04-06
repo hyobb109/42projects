@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 15:40:46 by hyobicho          #+#    #+#              #
-#    Updated: 2023/03/24 20:42:12 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/04/06 21:57:31 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = \
 ft_main.c \
+ft_utils.c \
+ft_init.c \
+ft_routine1.c \
 ft_positive_atoi.c
 M_OBJ = $(SRCS:.c=.o)
 
