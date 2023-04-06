@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/04 20:51:53 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:21:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+#define C_NRML "\033[0m"
+#define C_RED  "\033[31m"
+#define C_YLLW "\033[33m"
+#define C_GREN "\033[32m"
+#define C_BLUE "\033[34m"
 
 typedef enum e_error
 {
@@ -39,7 +45,6 @@ typedef struct s_philo
 {
 	int		n;
 	int		eat;
-	int		exit_flag;
 	pthread_t	tid;
 	struct timeval	finish_eating;
 	struct s_info	*info;
@@ -52,6 +57,8 @@ typedef struct	s_info
 	t_philo	*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
+	// pthread_mutex_t	life;
+	// pthread_mutex_t	state;
 	struct timeval	start_time;
 } t_info;
 
