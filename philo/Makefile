@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 15:40:46 by hyobicho          #+#    #+#              #
-#    Updated: 2023/04/06 21:57:31 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/04/08 00:54:20 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS = \
 ft_main.c \
 ft_utils.c \
 ft_init.c \
-ft_routine1.c \
+ft_routine.c \
 ft_positive_atoi.c
 M_OBJ = $(SRCS:.c=.o)
 
@@ -40,4 +40,3 @@ re:
 	make all
 
 .PHONY: all re clean fclean
-

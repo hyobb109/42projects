@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:41:01 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/06 21:51:58 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/08 05:10:03 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,27 @@ static int	init_mutexes(t_info *info)
 			return (0);
 		}
 	}
-	if (pthread_mutex_init(&info->print, NULL) || pthread_mutex_init(&info->state, NULL))
+	if (pthread_mutex_init(&info->lock, NULL))
 	{
 		free(info->forks);
 		return (0);
 	}
 	return (1);
+}
+
+void	init_philos(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info->av[PHILOSOPHERS])
+	{
+		info->philos[i].n = i + 1;
+		info->philos[i].eat = 0;
+		// info->philos[i].status = THINKING;
+		info->philos[i].eat_start = info->start_time;
+		info->philos[i].info = info;
+	}
 }
 
 int	init_info(t_info *info)
@@ -42,7 +57,10 @@ int	init_info(t_info *info)
 	if (info->forks == NULL)
 		return (free_philo(info->philos, "Error: fork malloc failed\n"));
 	gettimeofday(&info->start_time, NULL);
+	init_philos(info);
 	if (!init_mutexes(info))
 		return (free_philo(info->philos, "Error: mutex init failed\n"));
+	info->finished = 0;
+	info->dead = 0;
 	return (0);
 }

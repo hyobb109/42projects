@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/06 21:56:52 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/08 05:01:37 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,20 @@ typedef enum e_arguments
 	MUST_EAT,
 }	t_arguments;
 
-typedef struct s_status
+typedef enum e_status
 {
-	int		die;
-	int		eat;
-} t_status;
+	EATING,
+	SLEEPING,
+	THINKING
+}	t_status;
 
 typedef struct s_philo
 {
-	int		n;
-	int		eat;
-	pthread_t	tid;
-	struct timeval	finish_eating;
+	pthread_t		tid;
+	int				n;
+	int				eat;
+	int				status;
+	struct timeval	eat_start;
 	struct s_info	*info;
 } t_philo;
 
@@ -62,8 +64,9 @@ typedef struct	s_info
 	int	av[5];
 	t_philo	*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	print;
-	pthread_mutex_t	state;
+	pthread_mutex_t	lock;
+	int		finished;
+	int		dead;
 	struct timeval	start_time;
 } t_info;
 
