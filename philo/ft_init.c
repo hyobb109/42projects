@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:41:01 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/08 05:10:03 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/10 20:28:10 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_mutexes(t_info *info)
 			return (0);
 		}
 	}
-	if (pthread_mutex_init(&info->lock, NULL))
+	if (pthread_mutex_init(&info->lock, NULL) || pthread_mutex_init(&info->print, NULL) || pthread_mutex_init(&info->lock2, NULL))
 	{
 		free(info->forks);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:43:56 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/08 03:47:03 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/10 21:40:00 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,18 @@ void	monitor_threads(t_info *info)
 	i = 0;
 	while (1)
 	{
+		check_life(&info->philos[i]);
 		if (info->finished == info->av[PHILOSOPHERS])
 		{
+			printf("finished!!!\n");
 			break;
 		}
 		if (info->dead)
+		{
+			printf("dead..\n");
 			break;
+		}
+		i = (i + 1) % info->av[PHILOSOPHERS];
 	}
 }
 
@@ -79,6 +85,8 @@ int	main(int argc, char **argv)
 		pthread_mutex_destroy(&info.forks[i]);
 	}
 	pthread_mutex_destroy(&info.lock);
+	pthread_mutex_destroy(&info.lock2);
+	pthread_mutex_destroy(&info.print);
 	// free_all()
 	free(info.philos);
 	free(info.forks);
