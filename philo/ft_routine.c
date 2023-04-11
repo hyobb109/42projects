@@ -62,6 +62,7 @@ void	check_life(t_philo *philo)
 		print_state(philo, "died", C_RED);
 		if (philo->status == EATING)
 			put_down_forks(philo);
+		philo->status = DEAD;
 		philo->info->dead = 1;
 	}
 	pthread_mutex_unlock(&philo->info->lock2);
@@ -69,31 +70,30 @@ void	check_life(t_philo *philo)
 
 int	get_forks(t_philo *philo)
 {
-	if (philo->info->dead)
-		return (0);
-	// 홀수 -> 왼쪽 포크 먼저
+	// 철학자 1명이면 왼쪽 포크 하나만 듦
 	if (philo->info->av[PHILOSOPHERS] == 1)
 	{
 		pthread_mutex_lock(&philo->info->forks[0]);
-		print_state(philo, "has taken a fork", C_NRML);
+		print_state(philo, "has taken a left fork", C_NRML);
 		return (0);
 	}
+	// 홀수 -> 왼쪽 포크 먼저
 	if (philo->n % 2)
 	{
-		// check_life(philo);
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
 		if (philo->info->dead)
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
 			return (1);
 		}
-		// check_life(philo);
+		print_state(philo, "has taken a left fork", C_NRML);
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
 		if (philo->info->dead)
 		{
-			pthread_mutex_unlock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
+			put_down_forks(philo);
 			return (0);
 		}
+		print_state(philo, "has taken a right fork", C_NRML);
 	}
 	// 짝수 -> 오른쪽 포크 먼저
 	else
@@ -102,18 +102,22 @@ int	get_forks(t_philo *philo)
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
 		if (philo->info->dead)
 		{
+			print_state(philo, "put down the right fork", C_NRML);
 			pthread_mutex_unlock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
 			return (0);
 		}
+		print_state(philo, "has taken a right fork", C_NRML);
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
 		if (philo->info->dead)
 		{
-			pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
+			print_state(philo, "put down both forks", C_NRML);
+			put_down_forks(philo);
 			return (0);
 		}
+		print_state(philo, "has taken a left fork", C_NRML);
 	}
-	print_state(philo, "has taken a fork", C_NRML);
-	print_state(philo, "has taken a fork", C_NRML);
+	// print_state(philo, "has taken a fork", C_NRML);
+	// print_state(philo, "has taken a fork", C_NRML);
 	return (1);
 }
 
@@ -139,7 +143,6 @@ static void	eat_count(t_philo *philo)
 	{
 		if (!get_forks(philo))
 			break;
-	
 		philo->status = EATING;
 		
 		// 먹기 시작한 시간 저장
@@ -182,29 +185,36 @@ static void	eat_forever(t_philo *philo)
 	// 모두 살아있을 때 루틴 반복
 	while (!philo->info->dead)
 	{
+		print_state(philo, "===========1============\n", C_NRML);
 		// 포크 집음
 		if (!get_forks(philo))
 			break;
+		print_state(philo, "===========2============\n", C_NRML);
 		philo->status = EATING;
 		// 먹기 시작한 시간 체크하고 상태 출력
 		pthread_mutex_lock(&philo->info->lock);
 		gettimeofday(&philo->eat_start, NULL);
 		pthread_mutex_unlock(&philo->info->lock);
 		print_state(philo, "is eating", C_GREN);
-		// 죽는 시간이 먹는 시간보다 짧으면 사망 !!
+
+		print_state(philo, "===========3============\n", C_NRML);
 		// 먹는 시간동안 sleep
 		if (!newsleep(philo, philo->info->av[EAT]))
 			break;
+		print_state(philo, "===========4============\n", C_NRML);
 
 		// usleep(philo->info->av[EAT] * 1000);
 		// 다 먹으면 포크 순서대로 내려둠
 		if (!put_down_forks(philo))
 			break;
+		print_state(philo, "===========5============\n", C_NRML);
+
 		// 포그 내려두고 자는 시간동안 잠
 		philo->status = SLEEPING;
 		print_state(philo, "is sleeping", C_BLUE);
 		if (!newsleep(philo, philo->info->av[SLEEP]))
 			break;
+		print_state(philo, "===========6============\n", C_NRML);
 		// usleep(philo->info->av[SLEEP] * 1000);
 
 		// 다 자면 생각
