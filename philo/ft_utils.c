@@ -6,35 +6,22 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:33:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/06 21:55:09 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:48:11 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
 
-static size_t	ft_strlen(const char *s)
+int	ft_error(char *message)
 {
 	size_t	len;
 
 	len = 0;
-	if (s == 0)
-		return (0);
-	while (s[len])
+	if (!message)
+		return (EXIT_FAILURE);
+	while (message[len])
 		len++;
-	return (len);
-}
-
-static void	ft_putstr_fd(char *s, int fd)
-{
-	size_t	len;
-
-	len = ft_strlen(s);
-	write(fd, s, len);
-}
-
-int	ft_error(char *message)
-{
-	ft_putstr_fd(message, 2);
+	write(2, message, len);
 	return (EXIT_FAILURE);
 }
 
@@ -56,8 +43,9 @@ int check_args(int argc, char **argv, t_info *args)
 	return (VALID);
 }
 
-int	free_philo(t_philo *philos, char *message)
+int	free_all(t_info	*info, char *message)
 {
-	free(philos);
+	free(info->philos);
+	free(info->forks);
 	return (ft_error(message));
 }
