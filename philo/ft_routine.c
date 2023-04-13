@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:55:44 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/12 22:30:05 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:41:57 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	print_state(t_philo *philo, char *message, char *color)
 {
 	pthread_mutex_lock(&philo->info->print);
+	if (philo->info->dead)
+		return ;
 	printf("%s", color);
 	printf("%lld %d %s\n", get_time_diff(philo->info->start_time), philo->n, message);
 	printf("%s", C_NRML);
@@ -131,9 +133,9 @@ static void	eat_forever(t_philo *philo)
 			break;
 		philo->status = EATING;
 		// 먹기 시작한 시간 체크하고 상태 출력
-		// pthread_mutex_lock(&philo->info->time);
+		 pthread_mutex_lock(&philo->info->time);
 		gettimeofday(&philo->eat_start, NULL);
-		// pthread_mutex_unlock(&philo->info->time);
+		 pthread_mutex_unlock(&philo->info->time);
 		print_state(philo, "is eating", C_GREN);
 		// 먹는 시간동안 sleep
 		if (!newsleep(philo, philo->info->av[EAT]))
@@ -164,6 +166,10 @@ void	*start_routine(void *arg)
 	// pthread_t tid = pthread_self();
 
 	philo = (t_philo *)arg;
+	if (philo->n % 2 == 0)
+	{
+		usleep(100);
+	} 
 	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
 	if (philo->info->ac == 5)
 		eat_count(philo);

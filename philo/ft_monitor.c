@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 18:23:51 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/12 22:23:52 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:41:42 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 void	check_life(t_philo *philo)
 {
-	long long tmp;
-
 	pthread_mutex_lock(&philo->info->life);
-	if ((tmp = get_time_diff(philo->eat_start)) >= philo->info->av[DIE])
+	if (get_time_diff(philo->eat_start) >= philo->info->av[DIE])
 	{
-		printf("%lld\n", tmp);
 		print_state(philo, "died", C_RED);
 		if (philo->status == EATING)
 			put_down_forks(philo);
