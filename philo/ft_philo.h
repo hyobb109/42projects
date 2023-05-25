@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/13 21:30:06 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:08:36 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct	s_info
 	pthread_mutex_t	time;
 	pthread_mutex_t	eat_count;
 	pthread_mutex_t	life;
+	pthread_mutex_t	flag;
 	int				finished;
 	int				dead;
 	struct timeval	start_time;
@@ -85,12 +86,13 @@ int			join_threads(t_info *info);
 int			destroy_mutexes(t_info *info);
 
 void		monitor_threads(t_info *info);
-void		check_life(t_philo *philo);
 
 void		*start_routine(void *arg);
 void		put_down_forks(t_philo *philo);
 void		print_state(t_philo *philo, char *message, char *color);
 long long	get_time_diff(struct timeval start);
 int			newsleep(t_philo *philo, long long time);
+int			finished(t_info *info);
+int			dead(t_info *info);
 
 #endif
