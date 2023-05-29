@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:08:25 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/05/25 18:41:46 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:28:25 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	newsleep(t_philo *philo, long long time)
 	start = curr_time();
 	while (curr_time() - start <= time)
 	{
-		if (dead(philo->info) || finished(philo->info))
+		if (check_life(philo) || finished(philo))
 		{
 			if (philo->status == EATING)
 				put_down_forks(philo);

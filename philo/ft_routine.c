@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:55:44 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/05/25 18:49:24 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:28:04 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_state(t_philo *philo, char *message, char *color)
 {
 	pthread_mutex_lock(&philo->info->print);
-	if (dead(philo->info))
+	if (check_life(philo))
 	{
 		pthread_mutex_unlock(&philo->info->print);
 		return ;
@@ -56,13 +56,13 @@ int	get_forks(t_philo *philo)
 	if (philo->n % 2)
 	{
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
-		if (dead(philo->info))
+		if (check_life(philo))
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
 			return (0);
 		}
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
-		if (dead(philo->info))
+		if (check_life(philo))
 		{
 			put_down_forks(philo);
 			return (0);
@@ -72,20 +72,20 @@ int	get_forks(t_philo *philo)
 	else
 	{
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
-		if (dead(philo->info))
+		if (check_life(philo))
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
 			return (0);
 		}
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
-		if (dead(philo->info))
+		if (check_life(philo))
 		{
 			put_down_forks(philo);
 			return (0);
 		}
 	}
 	pthread_mutex_lock(&philo->info->print);
-	if (dead(philo->info))
+	if (check_life(philo))
 	{
 		pthread_mutex_unlock(&philo->info->print);
 		return (0);
@@ -100,48 +100,11 @@ int	get_forks(t_philo *philo)
 	return (1);
 }
 
-static void	eat_count(t_philo *philo)
-{
-	// printf("finished: %d\n", philo->info->finished);
-	// ***모든 철학자가*** info->av[MUST_EAT] 만큼 먹을 때까지 or 모두 살아있을 때 루틴 실행
-	while (!finished(philo->info) && !dead(philo->info))
-	{
-		if (!get_forks(philo))
-			break;
-		philo->status = EATING;
-		pthread_mutex_lock(&philo->info->time);
-		gettimeofday(&philo->eat_start, NULL);
-		pthread_mutex_unlock(&philo->info->time);
-		print_state(philo, "is eating", C_GREN);
-		if (!newsleep(philo, philo->info->av[EAT]))
-			break;
-		put_down_forks(philo);
-		if (++philo->eat == philo->info->av[MUST_EAT])
-		{
-			pthread_mutex_lock(&philo->info->eat_count);
-			philo->info->finished++;
-			pthread_mutex_unlock(&philo->info->eat_count);
-		}
-		philo->status = SLEEPING;
-		print_state(philo, "is sleeping", C_BLUE);
-		if (!newsleep(philo, philo->info->av[SLEEP]))
-			break;
-		philo->status = THINKING;
-		print_state(philo, "is thinking", C_YLLW);
-		if (philo->info->av[PHILOSOPHERS] % 2 == 0)
-			continue ;
-		if (!newsleep(philo, philo->idle_time / 2))
-			break ;
-		// usleep(500);
-		// printf("must eat: %d, philo %d eat %d times, info->finished: %d\n", philo->info->av[MUST_EAT], philo->n, philo->eat, philo->info->finished);
-	}
-}
-
-static void	eat_forever(t_philo *philo)
+static void	eat_routine(t_philo *philo)
 {
 	// 모두 살아있을 때 루틴 반복
 	// args[DIE]만큼 먹지 않으면 사망 -> 한명이라도 사망하면 시뮬레이션 모두 종료
-	while (!dead(philo->info))
+	while (!finished(philo) && !check_life(philo))
 	{
 		if (!get_forks(philo))
 			break;
@@ -156,6 +119,12 @@ static void	eat_forever(t_philo *philo)
 			break;
 		// 다 먹으면 포크 순서대로 내려둠
 		put_down_forks(philo);
+		if (philo->info->ac == 5 && ++philo->eat == philo->info->av[MUST_EAT])
+		{
+			pthread_mutex_lock(&philo->info->eat_count);
+			philo->info->finished++;
+			pthread_mutex_unlock(&philo->info->eat_count);
+		}
 		// 포크 내려두고 자는 시간동안 잠
 		philo->status = SLEEPING;
 		print_state(philo, "is sleeping", C_BLUE);
@@ -185,9 +154,6 @@ void	*start_routine(void *arg)
 		newsleep(philo, 100);
 	} 
 	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
-	if (philo->info->ac == 5)
-		eat_count(philo);
-	else
-		eat_forever(philo);
+	eat_routine(philo);
 	return (0);
 }
