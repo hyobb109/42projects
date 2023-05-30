@@ -21,7 +21,8 @@ int	ft_error(char *message)
 		return (EXIT_FAILURE);
 	while (message[len])
 		len++;
-	write(2, message, len);
+	// write(2, message, len);
+	perror("message");
 	return (EXIT_FAILURE);
 }
 

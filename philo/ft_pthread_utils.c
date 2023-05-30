@@ -61,10 +61,23 @@ int	destroy_mutexes(t_info *info)
 	while (++i < info->av[PHILOSOPHERS])
 	{
 		if (pthread_mutex_destroy(&info->forks[i]))
-			return (free_all(info, "Error: mutex destroy failed\n"));
+			return (free_all(info, "Error: fork mutex destroy failed\n"));
+			// pthread_mutex_unlock(&info->forks[i]);
 	}
-	if (pthread_mutex_destroy(&info->flag) || pthread_mutex_destroy(&info->print) || pthread_mutex_destroy(&info->time) || \
-		pthread_mutex_destroy(&info->eat_count) || pthread_mutex_destroy(&info->life))
-		return (free_all(info, "Error: mutex destroy fa iled\n"));
+	if (pthread_mutex_destroy(&info->flag))
+		return (free_all(info, "Error: flag mutex destroy failed\n"));
+		// pthread_mutex_unlock(&info->flag);
+	if (pthread_mutex_destroy(&info->print))
+		return (free_all(info, "Error: print mutex destroy failed\n"));
+		// pthread_mutex_unlock(&info->print);
+	if (pthread_mutex_destroy(&info->time))
+		return (free_all(info, "Error: time mutex destroy failed\n"));
+		// pthread_mutex_unlock(&info->time);
+	if (pthread_mutex_destroy(&info->eat_count))
+		return (free_all(info, "Error: eat_count mutex destroy failed\n"));
+		// pthread_mutex_unlock(&info->eat_count);
+	if (pthread_mutex_destroy(&info->life))
+		return (free_all(info, "Error: life mutex destroy failed\n"));
+		// pthread_mutex_unlock(&info->life);
 	return (0);
 }
