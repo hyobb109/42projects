@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:55:44 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/05/29 22:28:04 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:19:32 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 void	print_state(t_philo *philo, char *message, char *color)
 {
 	pthread_mutex_lock(&philo->info->print);
-	if (check_life(philo))
+	if (dead(philo))
 	{
 		pthread_mutex_unlock(&philo->info->print);
 		return ;
 	}
-	printf("%s", color);
-	printf("%lld %d %s\n", get_time_diff(philo->info->start_time), philo->n, message);
+	printf("%s%lld %d %s\n", color, get_time_diff(philo->info->start_time), philo->n, message);
 	printf("%s", C_NRML);
 	pthread_mutex_unlock(&philo->info->print);
 }
@@ -56,13 +55,13 @@ int	get_forks(t_philo *philo)
 	if (philo->n % 2)
 	{
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
-		if (check_life(philo))
+		if (dead(philo))
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
 			return (0);
 		}
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
-		if (check_life(philo))
+		if (dead(philo))
 		{
 			put_down_forks(philo);
 			return (0);
@@ -72,39 +71,36 @@ int	get_forks(t_philo *philo)
 	else
 	{
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
-		if (check_life(philo))
+		if (dead(philo))
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
 			return (0);
 		}
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
-		if (check_life(philo))
+		if (dead(philo))
 		{
 			put_down_forks(philo);
 			return (0);
 		}
 	}
 	pthread_mutex_lock(&philo->info->print);
-	if (check_life(philo))
+	if (dead(philo))
 	{
 		pthread_mutex_unlock(&philo->info->print);
 		return (0);
 	}
-	printf("%s", C_NRML);
-	printf("%lld %d %s\n", get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
-	printf("%lld %d %s\n", get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
-	printf("%s", C_NRML);
+	printf("%s%lld %d %s\n", C_NRML, get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
+	printf("%s%lld %d %s\n", C_NRML, get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
 	pthread_mutex_unlock(&philo->info->print);
 	// print_state(philo, "has taken a fork", C_NRML);
 	// print_state(philo, "has taken a fork", C_NRML);
 	return (1);
 }
 
+// args[DIE]만큼 먹지 않으면 사망 -> 한명이라도 사망하면 시뮬레이션 모두 종료
 static void	eat_routine(t_philo *philo)
 {
-	// 모두 살아있을 때 루틴 반복
-	// args[DIE]만큼 먹지 않으면 사망 -> 한명이라도 사망하면 시뮬레이션 모두 종료
-	while (!finished(philo) && !check_life(philo))
+	while (!finished(philo) && !dead(philo))
 	{
 		if (!get_forks(philo))
 			break;
@@ -133,7 +129,7 @@ static void	eat_routine(t_philo *philo)
 		// 다 자면 생각 -> 죽는 시간 - (먹는 시간 + 자는 시간)
 		philo->status = THINKING;
 		print_state(philo, "is thinking", C_YLLW);
-		// 전체 철학자 수가 홀수일 때만 유휴시간 10% 만큼 대기 시간 줌 
+		// 전체 철학자 수가 홀수일 때만 유휴시간 50% 만큼 대기 시간 줌 
 		if (philo->info->av[PHILOSOPHERS] % 2 == 0)
 			continue ;
 		if (!newsleep(philo, philo->idle_time / 2))
