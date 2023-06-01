@@ -6,11 +6,23 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 18:23:51 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 22:17:07 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 23:04:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
+
+int	is_eating(t_philo *philo)
+{
+	int	flag;
+
+	flag = 0;
+	pthread_mutex_lock(&philo->info->flag);
+	if (philo->status == EATING)
+		flag = 1;
+	pthread_mutex_unlock(&philo->info->flag);
+	return (flag);
+}
 
 void	check_life(t_philo *philo)
 {
@@ -21,13 +33,9 @@ void	check_life(t_philo *philo)
 		pthread_mutex_unlock(&philo->info->time);
 		printf("%s%lld %d %s\n", C_RED, get_time_diff(philo->info->start_time), philo->n, "died");
 		// print_state(philo, "died", C_RED);
-		if (philo->status == EATING)
+		if (is_eating(philo))
 			put_down_forks(philo);
-		else if (philo->info->av[PHILOSOPHERS] == 1)
-			pthread_mutex_unlock(&philo->info->forks[0]);
-		// pthread_mutex_lock(&philo->info->flag);
 		philo->info->dead = 1;
-		// pthread_mutex_unlock(&philo->info->flag);
 	}
 	else
 		pthread_mutex_unlock(&philo->info->time);

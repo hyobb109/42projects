@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:33:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/04/12 19:48:11 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:53:14 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_error(char *message)
 		return (EXIT_FAILURE);
 	while (message[len])
 		len++;
-	// write(2, message, len);
-	perror("message");
+	write(2, message, len);
+	// perror(message);
 	return (EXIT_FAILURE);
 }
 

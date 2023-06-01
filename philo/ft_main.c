@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:43:56 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 22:14:02 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:32:12 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ int	main(int argc, char **argv)
 	// 	if (detach_threads(&info) == EXIT_FAILURE)
 	// 		return (EXIT_FAILURE);
 	// };
+	printf("14213\n");
 	if (join_threads(&info) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	printf("1fsdfsdf4213\n");
 	if (destroy_mutexes(&info) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	printf("42342341fsdfsdf4213\n");
 	free(info.philos);
 	free(info.forks);
 	return (EXIT_SUCCESS);

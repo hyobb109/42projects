@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 20:48:32 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 23:06:19 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,13 @@ typedef enum e_arguments
 	DIE,
 	EAT,
 	SLEEP,
-	MUST_EAT,
+	MUST_EAT
 }	t_arguments;
 
 typedef enum e_status
 {
 	EATING,
-	SLEEPING,
-	THINKING
+	NOT_EATING
 }	t_status;
 
 typedef struct s_philo
@@ -94,5 +93,6 @@ long long	get_time_diff(struct timeval start);
 int			newsleep(t_philo *philo, long long time);
 int			finished(t_philo *philo);
 int			dead(t_philo *philo);
+int			is_eating(t_philo *philo);
 
 #endif

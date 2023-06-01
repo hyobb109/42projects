@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:55:44 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 22:19:32 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 23:06:22 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,14 @@ void	print_state(t_philo *philo, char *message, char *color)
 
 void	put_down_forks(t_philo *philo)
 {
+	// 1명이면
+	if (philo->info->av[PHILOSOPHERS] == 1)
+	{
+		pthread_mutex_unlock(&philo->info->forks[0]);
+		return ;
+	}
 	// 홀수 -> 오른쪽 포크 먼저
-	if (philo->n % 2)
+	 if (philo->n % 2)
 	{
 		pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
 		pthread_mutex_unlock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
@@ -104,7 +110,9 @@ static void	eat_routine(t_philo *philo)
 	{
 		if (!get_forks(philo))
 			break;
+		pthread_mutex_lock(&philo->info->flag);
 		philo->status = EATING;
+		pthread_mutex_unlock(&philo->info->flag);
 		// 먹기 시작한 시간 체크하고 상태 출력
 		pthread_mutex_lock(&philo->info->time);
 		gettimeofday(&philo->eat_start, NULL);
@@ -115,6 +123,9 @@ static void	eat_routine(t_philo *philo)
 			break;
 		// 다 먹으면 포크 순서대로 내려둠
 		put_down_forks(philo);
+		pthread_mutex_lock(&philo->info->flag);
+		philo->status = NOT_EATING;
+		pthread_mutex_unlock(&philo->info->flag);
 		if (philo->info->ac == 5 && ++philo->eat == philo->info->av[MUST_EAT])
 		{
 			pthread_mutex_lock(&philo->info->eat_count);
@@ -122,12 +133,10 @@ static void	eat_routine(t_philo *philo)
 			pthread_mutex_unlock(&philo->info->eat_count);
 		}
 		// 포크 내려두고 자는 시간동안 잠
-		philo->status = SLEEPING;
 		print_state(philo, "is sleeping", C_BLUE);
 		if (!newsleep(philo, philo->info->av[SLEEP]))
 			break;
 		// 다 자면 생각 -> 죽는 시간 - (먹는 시간 + 자는 시간)
-		philo->status = THINKING;
 		print_state(philo, "is thinking", C_YLLW);
 		// 전체 철학자 수가 홀수일 때만 유휴시간 50% 만큼 대기 시간 줌 
 		if (philo->info->av[PHILOSOPHERS] % 2 == 0)
@@ -136,6 +145,8 @@ static void	eat_routine(t_philo *philo)
 			break;
 		// usleep(500);
 	}
+	if (is_eating(philo))
+		put_down_forks(philo);
 }
 // 철학자 루틴 (밥 -> 잠 -> 생각)
 // -> 행동할 때 마다 생존여부 체크
@@ -145,10 +156,10 @@ void	*start_routine(void *arg)
 	// pthread_t tid = pthread_self();
 
 	philo = (t_philo *)arg;
-	if (philo->n % 2 == 0)
-	{
-		newsleep(philo, 100);
-	} 
+	// if (philo->n % 2 == 0)
+	// {
+	// 	newsleep(philo, 100);
+	// } 
 	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
 	eat_routine(philo);
 	return (0);

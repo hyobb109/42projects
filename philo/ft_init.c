@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:41:01 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/05/25 19:08:39 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:58:56 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_philos(t_info *info)
 		info->philos[i].n = i + 1;
 		info->philos[i].eat = 0;
 		info->philos[i].eat_start = info->start_time;
-		info->philos[i].status = -1;
+		info->philos[i].status = NOT_EATING;
 		info->philos[i].idle_time = info->av[DIE] - info->av[EAT] - info->av[SLEEP];
 		info->philos[i].info = info;
 	}
