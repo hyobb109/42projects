@@ -6,13 +6,13 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 15:40:46 by hyobicho          #+#    #+#              #
-#    Updated: 2023/05/25 18:05:15 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/06/02 21:12:08 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
 SRCS = \
 ft_main.c \
 ft_utils.c \

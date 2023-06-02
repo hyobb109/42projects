@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:55:44 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 23:06:22 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:54:48 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,12 @@ int	get_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->info->print);
 	if (dead(philo))
 	{
+		put_down_forks(philo);
 		pthread_mutex_unlock(&philo->info->print);
 		return (0);
 	}
-	printf("%s%lld %d %s\n", C_NRML, get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
-	printf("%s%lld %d %s\n", C_NRML, get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
+	printf("%s%lld %d %s\n%lld %d %s\n", C_NRML, get_time_diff(philo->info->start_time), philo->n, "has taken a fork",  get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
 	pthread_mutex_unlock(&philo->info->print);
-	// print_state(philo, "has taken a fork", C_NRML);
-	// print_state(philo, "has taken a fork", C_NRML);
 	return (1);
 }
 

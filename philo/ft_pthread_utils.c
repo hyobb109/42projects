@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:51:41 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 22:34:43 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:50:07 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ int	destroy_mutexes(t_info *info)
 	{
 		// pthread_mutex_unlock(&info->forks[i]);
 		if (pthread_mutex_destroy(&info->forks[i]))
-			return (free_all(info, "Error: fork mutex destroy failed\n"));
-			// pthread_mutex_unlock(&info->forks[i]);
+		{
+			printf("forks[%d]\n", i);
+			// return (free_all(info, "Error: fork mutex destroy failed\n"));
+		}
 	}
 	if (pthread_mutex_destroy(&info->flag))
 		return (free_all(info, "Error: flag mutex destroy failed\n"));

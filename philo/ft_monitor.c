@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 18:23:51 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/01 23:04:45 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/02 21:03:42 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,16 @@ int	is_eating(t_philo *philo)
 
 void	check_life(t_philo *philo)
 {
-	// pthread_mutex_lock(&philo->info->life);
 	pthread_mutex_lock(&philo->info->time);
 	if (get_time_diff(philo->eat_start) >= philo->info->av[DIE])
 	{
 		pthread_mutex_unlock(&philo->info->time);
 		printf("%s%lld %d %s\n", C_RED, get_time_diff(philo->info->start_time), philo->n, "died");
 		// print_state(philo, "died", C_RED);
-		if (is_eating(philo))
-			put_down_forks(philo);
 		philo->info->dead = 1;
 	}
 	else
 		pthread_mutex_unlock(&philo->info->time);
-	// pthread_mutex_unlock(&philo->info->life);
 }
 
 int	dead(t_philo *philo)
@@ -82,7 +78,11 @@ void	monitor_threads(t_info *info)
 		check_life(&info->philos[i]);
 		pthread_mutex_unlock(&info->life);
 		if (dead(&info->philos[i]) || finished(&info->philos[i]))
+		{
+			if (is_eating(&info->philos[i]))
+				put_down_forks(&info->philos[i]);
 			break;
+		}
 		i = (i + 1) % info->av[PHILOSOPHERS];
 	}
 }
