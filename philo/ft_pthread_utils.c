@@ -64,7 +64,7 @@ int	destroy_mutexes(t_info *info)
 		if (pthread_mutex_destroy(&info->forks[i]))
 		{
 			printf("forks[%d]\n", i);
-			// return (free_all(info, "Error: fork mutex destroy failed\n"));
+			return (free_all(info, "Error: fork mutex destroy failed\n"));
 		}
 	}
 	if (pthread_mutex_destroy(&info->flag))

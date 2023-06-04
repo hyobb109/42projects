@@ -12,15 +12,16 @@
 
 #include "ft_philo.h"
 
-void	print_state(t_philo *philo, char *message, char *color)
+void	print_state(t_philo *philo, long long time, char *message, char *color)
 {
 	pthread_mutex_lock(&philo->info->print);
-	if (dead(philo))
+	if (dead(philo) || finished(philo))
 	{
 		pthread_mutex_unlock(&philo->info->print);
 		return ;
 	}
-	printf("%s%lld %d %s\n", color, get_time_diff(philo->info->start_time), philo->n, message);
+	// printf("%s%lld %d %s\n", color, get_time_diff(philo->info->start_time), philo->n, message);
+	printf("%s%lld %d %s\n", color, (time - philo->start), philo->n, message);
 	printf("%s", C_NRML);
 	pthread_mutex_unlock(&philo->info->print);
 }
@@ -54,50 +55,52 @@ int	get_forks(t_philo *philo)
 	if (philo->info->av[PHILOSOPHERS] == 1)
 	{
 		pthread_mutex_lock(&philo->info->forks[0]);
-		print_state(philo, "has taken a fork", C_NRML);
+		print_state(philo, curr_time(), "has taken a fork", C_NRML);
 		return (0);
 	}
 	// 홀수 -> 왼쪽 포크 먼저
 	if (philo->n % 2)
 	{
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
-		if (dead(philo))
+		print_state(philo, curr_time(), "has taken a fork", C_NRML);
+		if (dead(philo) || finished(philo))
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n - 1]);
 			return (0);
 		}
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
-		if (dead(philo))
-		{
-			put_down_forks(philo);
-			return (0);
-		}
+		print_state(philo, curr_time(), "has taken a fork", C_NRML);
 	}
 	// 짝수 -> 오른쪽 포크 먼저
 	else
 	{
 		pthread_mutex_lock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
-		if (dead(philo))
+		print_state(philo, curr_time(), "has taken a fork", C_NRML);
+		if (dead(philo) || finished(philo))
 		{
 			pthread_mutex_unlock(&philo->info->forks[philo->n % philo->info->av[PHILOSOPHERS]]);
 			return (0);
 		}
 		pthread_mutex_lock(&philo->info->forks[philo->n - 1]);
-		if (dead(philo))
-		{
-			put_down_forks(philo);
-			return (0);
-		}
+		print_state(philo, curr_time(), "has taken a fork", C_NRML);
 	}
-	pthread_mutex_lock(&philo->info->print);
-	if (dead(philo))
-	{
-		put_down_forks(philo);
-		pthread_mutex_unlock(&philo->info->print);
-		return (0);
-	}
-	printf("%s%lld %d %s\n%lld %d %s\n", C_NRML, get_time_diff(philo->info->start_time), philo->n, "has taken a fork",  get_time_diff(philo->info->start_time), philo->n, "has taken a fork");
-	pthread_mutex_unlock(&philo->info->print);
+	// if (dead(philo) || finished(philo))
+	// {
+	// 	put_down_forks(philo);
+	// 	return (0);
+	// }
+
+	// long long time = curr_time() - philo->start;
+	// pthread_mutex_lock(&philo->info->print);
+	// printf("%s%lld %d %s\n", C_NRML, time, philo->n, "has taken a fork");
+	// printf("%s%lld %d %s\n", C_NRML, time, philo->n, "has taken a fork");
+	// if (dead(philo) || finished(philo))
+	// {
+	// 	put_down_forks(philo);
+	// 	pthread_mutex_unlock(&philo->info->print);
+	// 	return (0);
+	// }
+	// pthread_mutex_unlock(&philo->info->print);
 	return (1);
 }
 
@@ -108,14 +111,15 @@ static void	eat_routine(t_philo *philo)
 	{
 		if (!get_forks(philo))
 			break;
+		// 먹기 시작한 시간 체크하고 상태 출력
+		pthread_mutex_lock(&philo->info->time);
+		// gettimeofday(&philo->last_eat, NULL);
+		philo->last = curr_time();
+		pthread_mutex_unlock(&philo->info->time);
 		pthread_mutex_lock(&philo->info->flag);
 		philo->status = EATING;
 		pthread_mutex_unlock(&philo->info->flag);
-		// 먹기 시작한 시간 체크하고 상태 출력
-		pthread_mutex_lock(&philo->info->time);
-		gettimeofday(&philo->eat_start, NULL);
-		pthread_mutex_unlock(&philo->info->time);
-		print_state(philo, "is eating", C_GREN);
+		print_state(philo, philo->last, "is eating", C_GREN);
 		// 먹는 시간동안 sleep
 		if (!newsleep(philo, philo->info->av[EAT]))
 			break;
@@ -131,15 +135,15 @@ static void	eat_routine(t_philo *philo)
 			pthread_mutex_unlock(&philo->info->eat_count);
 		}
 		// 포크 내려두고 자는 시간동안 잠
-		print_state(philo, "is sleeping", C_BLUE);
+		print_state(philo, curr_time(), "is sleeping", C_BLUE);
 		if (!newsleep(philo, philo->info->av[SLEEP]))
 			break;
 		// 다 자면 생각 -> 죽는 시간 - (먹는 시간 + 자는 시간)
-		print_state(philo, "is thinking", C_YLLW);
+		print_state(philo, curr_time(), "is thinking", C_YLLW);
 		// 전체 철학자 수가 홀수일 때만 유휴시간 50% 만큼 대기 시간 줌 
 		if (philo->info->av[PHILOSOPHERS] % 2 == 0)
 			continue ;
-		if (!newsleep(philo, philo->idle_time / 2))
+		if (!newsleep(philo, philo->thinking_time / 2))
 			break;
 		// usleep(500);
 	}
@@ -154,10 +158,10 @@ void	*start_routine(void *arg)
 	// pthread_t tid = pthread_self();
 
 	philo = (t_philo *)arg;
-	// if (philo->n % 2 == 0)
-	// {
-	// 	newsleep(philo, 100);
-	// } 
+	if (philo->n % 2 == 0)
+	{
+		usleep(500);
+	} 
 	// printf("philosopher %d thread creation, tid: %u\n", info->n, (unsigned int)info->philos[info->n -1].tid);
 	eat_routine(philo);
 	return (0);

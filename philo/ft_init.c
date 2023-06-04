@@ -22,8 +22,11 @@ static int	init_mutexes(t_info *info)
 		if (pthread_mutex_init(&info->forks[i], NULL))
 			return (0);
 	}
-	if (pthread_mutex_init(&info->flag, NULL) || pthread_mutex_init(&info->print, NULL) || pthread_mutex_init(&info->time, NULL) || \
-		pthread_mutex_init(&info->eat_count, NULL) || pthread_mutex_init(&info->life, NULL))
+	if (pthread_mutex_init(&info->flag, NULL) 
+		|| pthread_mutex_init(&info->print, NULL) 
+		|| pthread_mutex_init(&info->time, NULL) 
+		|| pthread_mutex_init(&info->eat_count, NULL) 
+		|| pthread_mutex_init(&info->life, NULL))
 		return (0);
 	return (1);
 }
@@ -37,10 +40,13 @@ void	init_philos(t_info *info)
 	{
 		info->philos[i].n = i + 1;
 		info->philos[i].eat = 0;
-		info->philos[i].eat_start = info->start_time;
+		info->philos[i].last_eat = info->start_time;
 		info->philos[i].status = NOT_EATING;
-		info->philos[i].idle_time = info->av[DIE] - info->av[EAT] - info->av[SLEEP];
+		info->philos[i].thinking_time = (info->av[DIE] - info->av[EAT] - info->av[SLEEP]) / 2;
 		info->philos[i].info = info;
+		// time
+		info->philos[i].start = info->start; //curr_time?
+		info->philos[i].last = info->start;
 	}
 }
 
@@ -56,6 +62,8 @@ int	init_info(t_info *info)
 		return (ft_error("Error: fork malloc failed\n"));
 	}
 	gettimeofday(&info->start_time, NULL);
+	// time
+	info->start = curr_time();
 	init_philos(info);
 	if (!init_mutexes(info))
 		return (free_all(info, "Error: mutex init failed\n"));

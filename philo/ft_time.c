@@ -12,7 +12,7 @@
 
 #include "ft_philo.h"
 
-static long long curr_time(void)
+long long curr_time(void)
 {
 	struct timeval	curr;
 
@@ -31,14 +31,12 @@ long long	get_time_diff(struct timeval start)
 int	newsleep(t_philo *philo, long long time)
 {
 	long long	start;
-
+	// (void)philo;
 	start = curr_time();
-	while (curr_time() - start <= time)
+	while (curr_time() - start < time)
 	{
 		if (dead(philo) || finished(philo))
 		{
-			// if (philo->status == EATING)
-			// 	put_down_forks(philo);
 			return (0);
 		}
 		usleep(100);

@@ -53,8 +53,10 @@ typedef struct s_philo
 	int				n;
 	int				eat;
 	int				status;
-	int				idle_time;
-	struct timeval	eat_start;
+	int				thinking_time;
+	struct timeval	last_eat;
+	long long		start;
+	long long		last;
 	struct s_info	*info;
 } t_philo;
 
@@ -72,6 +74,7 @@ typedef struct	s_info
 	int				finished;
 	int				dead;
 	struct timeval	start_time;
+	long long		start;
 } t_info;
 
 int			ft_positive_atoi(const char *str);
@@ -88,8 +91,9 @@ void		monitor_threads(t_info *info);
 void		check_life(t_philo *philo);
 void		*start_routine(void *arg);
 void		put_down_forks(t_philo *philo);
-void		print_state(t_philo *philo, char *message, char *color);
-long long	get_time_diff(struct timeval start);
+void		print_state(t_philo *philo, long long time, char *message, char *color);
+long long 	get_time_diff(struct timeval start);
+long long 	curr_time(void);
 int			newsleep(t_philo *philo, long long time);
 int			finished(t_philo *philo);
 int			dead(t_philo *philo);

@@ -24,18 +24,33 @@ int	is_eating(t_philo *philo)
 	return (flag);
 }
 
+int	dead_time(t_philo *philo)
+{
+	int			flag;
+
+	flag = 0;
+	pthread_mutex_lock(&philo->info->time);
+	// if (get_time_diff(philo->last_eat) >= philo->info->av[DIE])
+	if (curr_time() - philo->last >= philo->info->av[DIE])
+	{
+		flag = 1;
+		// printf("time: %lld, last: %lld\n", curr_time() - philo->last, philo->last);
+	}
+	pthread_mutex_unlock(&philo->info->time);
+	return (flag);
+}
+
 void	check_life(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->time);
-	if (get_time_diff(philo->eat_start) >= philo->info->av[DIE])
+	pthread_mutex_lock(&philo->info->life);
+	if (dead_time(philo))
 	{
-		pthread_mutex_unlock(&philo->info->time);
-		printf("%s%lld %d %s\n", C_RED, get_time_diff(philo->info->start_time), philo->n, "died");
+		// printf("%s%lld %d %s\n", C_RED, get_time_diff(philo->info->start_time), philo->n, "died");
+		printf("%s%lld %d %s\n", C_RED, (curr_time() - philo->start), philo->n, "died");
 		// print_state(philo, "died", C_RED);
 		philo->info->dead = 1;
 	}
-	else
-		pthread_mutex_unlock(&philo->info->time);
+	pthread_mutex_unlock(&philo->info->life);
 }
 
 int	dead(t_philo *philo)
@@ -74,9 +89,8 @@ void	monitor_threads(t_info *info)
 	i = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&info->life);
+		usleep(100);
 		check_life(&info->philos[i]);
-		pthread_mutex_unlock(&info->life);
 		if (dead(&info->philos[i]) || finished(&info->philos[i]))
 		{
 			if (is_eating(&info->philos[i]))
