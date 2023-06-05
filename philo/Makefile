@@ -6,7 +6,7 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 15:40:46 by hyobicho          #+#    #+#              #
-#    Updated: 2023/06/02 21:12:08 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/06/05 19:28:29 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,14 +14,16 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
 SRCS = \
-ft_main.c \
-ft_utils.c \
-ft_init.c \
-ft_time.c \
-ft_routine.c \
-ft_monitor.c \
-ft_pthread_utils.c \
-ft_positive_atoi.c
+main.c \
+main_utils.c \
+positive_atoi.c \
+pthread_utils.c \
+philo_init.c \
+philo_routine.c \
+philo_status.c \
+time_utils.c \
+fork_utils.c \
+monitor.c
 M_OBJ = $(SRCS:.c=.o)
 
 all: $(NAME)
