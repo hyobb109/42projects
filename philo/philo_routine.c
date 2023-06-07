@@ -55,7 +55,7 @@ static void	eat_routine(t_philo *philo)
 		print_state(philo, curr_time(), "is thinking", C_YLLW);
 		if (philo->info->av[PHILOSOPHERS] % 2 == 0)
 			continue ;
-		if (!newsleep(philo, philo->thinking_time / 2))
+		if (!newsleep(philo, philo->thinking_time))
 			break ;
 	}
 }

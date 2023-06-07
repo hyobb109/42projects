@@ -47,6 +47,7 @@ void	monitor_threads(t_info *info)
 	i = 0;
 	while (1)
 	{
+		usleep(500);
 		check_life(&info->philos[i]);
 		if (dead(&info->philos[i]) || finished(&info->philos[i]))
 		{

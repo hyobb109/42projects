@@ -25,27 +25,15 @@
 # define C_YLLW "\033[33m"
 # define C_GREN "\033[32m"
 # define C_BLUE "\033[34m"
-
-typedef enum e_error
-{
-	INVALID = -1,
-	VALID
-}	t_error;
-
-typedef enum e_arguments
-{
-	PHILOSOPHERS,
-	DIE,
-	EAT,
-	SLEEP,
-	MUST_EAT
-}	t_arguments;
-
-typedef enum e_status
-{
-	EATING,
-	NOT_EATING
-}	t_status;
+# define INVALID -1
+# define VALID 0
+# define PHILOSOPHERS 0
+# define DIE 1
+# define EAT 2
+# define SLEEP 3
+# define MUST_EAT 4
+# define EATING 0
+# define NOT_EATING 1
 
 typedef struct s_philo
 {
@@ -62,12 +50,18 @@ typedef struct s_philo
 	struct s_info	*info;
 }	t_philo;
 
+typedef struct s_fork
+{
+	pthread_mutex_t	f_lock;
+	int				used;
+}	t_fork;
+
 typedef struct s_info
 {
 	int				ac;
 	int				av[5];
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
+	t_fork			*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	time;
 	pthread_mutex_t	eat_count;

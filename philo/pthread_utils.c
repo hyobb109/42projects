@@ -53,9 +53,8 @@ int	destroy_mutexes(t_info *info)
 	i = -1;
 	while (++i < info->av[PHILOSOPHERS])
 	{
-		if (pthread_mutex_destroy(&info->forks[i]))
+		if (pthread_mutex_destroy(&info->forks[i].f_lock))
 		{
-			printf("forks[%d]\n", i);
 			return (free_all(info, "Error: fork mutex destroy failed\n"));
 		}
 	}

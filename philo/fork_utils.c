@@ -30,32 +30,32 @@ int	get_forks(t_philo *philo)
 {
 	if (philo->info->av[PHILOSOPHERS] == 1)
 	{
-		pthread_mutex_lock(&philo->info->forks[0]);
+		pthread_mutex_lock(&philo->info->forks[0].f_lock);
 		print_state(philo, curr_time(), "has taken a fork", C_NRML);
 		return (0);
 	}
 	if (philo->n % 2)
-		return (pickup(philo, &philo->info->forks[philo->left], \
-		&philo->info->forks[philo->right]));
-	return (pickup(philo, &philo->info->forks[philo->right], \
-		&philo->info->forks[philo->left]));
+		return (pickup(philo, &philo->info->forks[philo->left].f_lock, \
+		&philo->info->forks[philo->right].f_lock));
+	return (pickup(philo, &philo->info->forks[philo->right].f_lock, \
+		&philo->info->forks[philo->left].f_lock));
 }
 
 void	put_down_forks(t_philo *philo)
 {
 	if (philo->info->av[PHILOSOPHERS] == 1)
 	{
-		pthread_mutex_unlock(&philo->info->forks[0]);
+		pthread_mutex_unlock(&philo->info->forks[0].f_lock);
 		return ;
 	}
 	if (philo->n % 2)
 	{
-		pthread_mutex_unlock(&philo->info->forks[philo->left]);
-		pthread_mutex_unlock(&philo->info->forks[philo->right]);
+		pthread_mutex_unlock(&philo->info->forks[philo->left].f_lock);
+		pthread_mutex_unlock(&philo->info->forks[philo->right].f_lock);
 	}
 	else
 	{
-		pthread_mutex_unlock(&philo->info->forks[philo->right]);
-		pthread_mutex_unlock(&philo->info->forks[philo->left]);
+		pthread_mutex_unlock(&philo->info->forks[philo->right].f_lock);
+		pthread_mutex_unlock(&philo->info->forks[philo->left].f_lock);
 	}
 }
