@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:41:01 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/05 18:36:14 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/09 21:30:39 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ static int	init_mutexes(t_info *info)
 	return (1);
 }
 
+static void	init_forks(t_info *info, int num)
+{
+	if (num % 2)
+	{
+		info->philos[num - 1].first = &info->forks[num - 1];
+		info->philos[num - 1].second = &info->forks[num
+			% info->av[PHILOSOPHERS]];
+	}
+	else
+	{
+		info->philos[num - 1].second = &info->forks[num
+			% info->av[PHILOSOPHERS]];
+		info->philos[num - 1].first = &info->forks[num - 1];
+	}
+}
+
 static void	init_philos(t_info *info)
 {
 	int			i;
@@ -45,12 +61,11 @@ static void	init_philos(t_info *info)
 		info->philos[i].eat = 0;
 		info->philos[i].status = NOT_EATING;
 		info->philos[i].thinking_time = idle_time / 2;
+		info->philos[i].forks_cnt = 0;
 		info->philos[i].info = info;
-		info->philos[i].start = info->start;
-		info->philos[i].last = info->start;
+		// info->philos[i].last = info->start;
 		info->philos[i].dead_time = 0;
-		info->philos[i].left = i;
-		info->philos[i].right = (i + 1) % info->av[PHILOSOPHERS];
+		init_forks(info, i + 1);
 	}
 }
 

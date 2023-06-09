@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:51:41 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/05 19:30:05 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:36:32 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,24 @@ int	create_threads(t_info *info)
 {
 	int	i;
 
+	pthread_mutex_lock(&info->flag);
 	i = -1;
 	while (++i < info->av[PHILOSOPHERS])
 	{
-		if (pthread_create(&info->philos[i].tid, NULL, \
-		start_routine, &info->philos[i]))
+		if (pthread_create(&info->philos[i].tid, NULL,
+				start_routine, &info->philos[i]))
+		{
+			pthread_mutex_unlock(&info->flag);
 			return (free_all(info, "Error: pthread_create failed\n"));
+		}
 	}
+	info->start = curr_time();
+	i = -1;
+	while (++i < info->av[PHILOSOPHERS])
+	{
+		info->philos[i].last = info->start;
+	}
+	pthread_mutex_unlock(&info->flag);
 	return (0);
 }
 
