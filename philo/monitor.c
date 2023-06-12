@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 18:23:51 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/09 13:40:45 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:58:45 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	monitor_threads(t_info *info)
 		check_life(&info->philos[i]);
 		if (dead(&info->philos[i]) || finished(&info->philos[i]))
 		{
-			if (is_eating(&info->philos[i]))
-				put_down_forks(&info->philos[i]);
+			// if (is_eating(&info->philos[i]))
+			// 	put_down_forks(&info->philos[i]);
 			break ;
 		}
 		i = (i + 1) % info->av[PHILOSOPHERS];

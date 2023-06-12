@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/09 13:52:57 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:29:13 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ typedef struct s_philo
 	pthread_t		tid;
 	t_fork			*first;
 	t_fork			*second;
-	int				forks_cnt;
+	// int				forks_cnt;
+	int				f_first;
+	int				f_second;
 	int				n;
 	int				eat;
 	int				status;
-	int				thinking_time;
+	int				thinking;
 	long long		last;
 	long long		dead_time;
 	struct s_info	*info;
