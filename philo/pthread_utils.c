@@ -6,18 +6,11 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:51:41 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/12 18:38:41 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:56:30 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
-
-void	update_status(pthread_mutex_t *lock, int *status, int val)
-{
-	pthread_mutex_lock(lock);
-	*status = val;
-	pthread_mutex_unlock(lock);
-}
 
 int	create_threads(t_info *info)
 {
@@ -25,7 +18,7 @@ int	create_threads(t_info *info)
 
 	pthread_mutex_lock(&info->flag);
 	i = -1;
-	while (++i < info->av[PHILOSOPHERS])
+	while (++i < info->av[PHILOS])
 	{
 		if (pthread_create(&info->philos[i].tid, NULL,
 				start_routine, &info->philos[i]))
@@ -36,7 +29,7 @@ int	create_threads(t_info *info)
 	}
 	info->start = curr_time();
 	i = -1;
-	while (++i < info->av[PHILOSOPHERS])
+	while (++i < info->av[PHILOS])
 	{
 		info->philos[i].last = info->start;
 	}
@@ -49,7 +42,7 @@ int	join_threads(t_info *info)
 	int	i;
 
 	i = -1;
-	while (++i < info->av[PHILOSOPHERS])
+	while (++i < info->av[PHILOS])
 	{
 		if (pthread_join(info->philos[i].tid, NULL))
 			return (free_all(info, "Error: pthread_join failed\n"));
@@ -62,7 +55,7 @@ int	destroy_mutexes(t_info *info)
 	int	i;
 
 	i = -1;
-	while (++i < info->av[PHILOSOPHERS])
+	while (++i < info->av[PHILOS])
 	{
 		if (pthread_mutex_destroy(&info->forks[i].f_lock))
 		{

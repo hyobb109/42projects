@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:44:17 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/12 18:29:13 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:06:42 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,15 @@
 # define NRML "\033[0m"
 # define RED  "\033[31m"
 # define YLLW "\033[33m"
-# define GREN "\033[32m"
+# define GREEN "\033[32m"
 # define BLUE "\033[34m"
 # define INVALID -1
 # define VALID 0
-# define PHILOSOPHERS 0
+# define PHILOS 0
 # define DIE 1
 # define EAT 2
 # define SLEEP 3
 # define MUST_EAT 4
-# define EATING 0
-# define NOT_EATING 1
 
 typedef struct s_fork
 {
@@ -46,12 +44,10 @@ typedef struct s_philo
 	pthread_t		tid;
 	t_fork			*first;
 	t_fork			*second;
-	// int				forks_cnt;
 	int				f_first;
 	int				f_second;
 	int				n;
 	int				eat;
-	int				status;
 	int				thinking;
 	long long		last;
 	long long		dead_time;
@@ -83,19 +79,15 @@ int			init_info(t_info *info);
 int			create_threads(t_info *info);
 int			join_threads(t_info *info);
 int			destroy_mutexes(t_info *info);
-void		update_status(pthread_mutex_t *lock, int *status, int val);
 
 void		monitor_threads(t_info *info);
 int			finished(t_philo *philo);
 int			dead(t_philo *philo);
-int			is_eating(t_philo *philo);
-int			has_two_forks(t_philo *philo);
 
 void		*start_routine(void *arg);
 int			get_forks(t_philo *philo);
 void		put_down_forks(t_philo *philo);
-void		print_state(t_philo *philo, long long t, char *msg, char *c);
-
+void		print_state(t_philo *philo, char *msg, char *color);
 long long	curr_time(void);
 int			newsleep(t_philo *philo, long long time);
 

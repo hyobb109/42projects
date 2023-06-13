@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:27:10 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/12 19:57:07 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:04:00 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,57 @@
 
 static void	check_eating_time(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->info->print);
 	pthread_mutex_lock(&philo->info->time);
 	philo->last = curr_time();
 	pthread_mutex_unlock(&philo->info->time);
-	// update_status(&philo->info->flag, &philo->status, EATING);
-	print_state(philo, philo->last, "is eating", GREN);
+	if (dead(philo) || finished(philo))
+	{
+		pthread_mutex_unlock(&philo->info->print);
+		return ;
+	}
+	printf("%s%lld %d is eating%s\n", GREEN, \
+	philo->last - philo->info->start, philo->n, NRML);
+	pthread_mutex_unlock(&philo->info->print);
+}
+
+static void	pickup(t_philo *philo, int order)
+{
+	if (order == 1)
+	{
+		philo->first->used = 1;
+		philo->f_first = 1;
+		print_state(philo, "has taken a fork", NRML);
+	}
+	else if (order == 2)
+	{
+		philo->second->used = 1;
+		philo->f_second = 1;
+		print_state(philo, "has taken a fork", NRML);
+	}
 }
 
 int	get_forks(t_philo *philo)
 {
-	while (!philo->f_first || !philo->f_second)
+	while (!philo->f_first)
 	{
-		if (dead(philo) || finished(philo))
-			return (0);
 		pthread_mutex_lock(&philo->first->f_lock);
 		if (!philo->first->used)
-		{
-			philo->first->used = 1;
-			philo->f_first = 1;
-			print_state(philo, curr_time(), "has taken a fork", NRML);
-		}
+			pickup(philo, 1);
 		pthread_mutex_unlock(&philo->first->f_lock);
+		usleep(100);
 		if (dead(philo) || finished(philo))
 			return (0);
+	}
+	while (!philo->f_second)
+	{
 		pthread_mutex_lock(&philo->second->f_lock);
 		if (!philo->second->used)
-		{
-			philo->second->used = 1;
-			philo->f_second = 1;
-			print_state(philo, curr_time(), "has taken a fork", NRML);
-		}
+			pickup(philo, 2);
 		pthread_mutex_unlock(&philo->second->f_lock);
+		usleep(100);
+		if (dead(philo) || finished(philo))
+			return (0);
 	}
 	check_eating_time(philo);
 	return (1);
