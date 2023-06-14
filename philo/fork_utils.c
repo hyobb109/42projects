@@ -6,29 +6,13 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:27:10 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/13 18:04:00 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:27:03 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
 
-static void	check_eating_time(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->info->print);
-	pthread_mutex_lock(&philo->info->time);
-	philo->last = curr_time();
-	pthread_mutex_unlock(&philo->info->time);
-	if (dead(philo) || finished(philo))
-	{
-		pthread_mutex_unlock(&philo->info->print);
-		return ;
-	}
-	printf("%s%lld %d is eating%s\n", GREEN, \
-	philo->last - philo->info->start, philo->n, NRML);
-	pthread_mutex_unlock(&philo->info->print);
-}
-
-static void	pickup(t_philo *philo, int order)
+static int	pickup(t_philo *philo, int order)
 {
 	if (order == 1)
 	{
@@ -42,6 +26,7 @@ static void	pickup(t_philo *philo, int order)
 		philo->f_second = 1;
 		print_state(philo, "has taken a fork", NRML);
 	}
+	return (1);
 }
 
 int	get_forks(t_philo *philo)
@@ -52,7 +37,8 @@ int	get_forks(t_philo *philo)
 		if (!philo->first->used)
 			pickup(philo, 1);
 		pthread_mutex_unlock(&philo->first->f_lock);
-		usleep(100);
+		if (!philo->f_first)
+			usleep(philo->info->av[PHILOS] * 2);
 		if (dead(philo) || finished(philo))
 			return (0);
 	}
@@ -62,11 +48,11 @@ int	get_forks(t_philo *philo)
 		if (!philo->second->used)
 			pickup(philo, 2);
 		pthread_mutex_unlock(&philo->second->f_lock);
-		usleep(100);
+		if (!philo->f_second)
+			usleep(philo->info->av[PHILOS] * 2);
 		if (dead(philo) || finished(philo))
 			return (0);
 	}
-	check_eating_time(philo);
 	return (1);
 }
 

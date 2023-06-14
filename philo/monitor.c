@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 18:23:51 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/13 18:20:59 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:05:56 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ static int	dead_time(t_philo *philo)
 
 static void	check_life(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->info->print);
 	if (dead_time(philo))
 	{
-		pthread_mutex_lock(&philo->info->print);
 		printf("%s%lld %d %s\n", RED, philo->dead_time, philo->n, "died");
 		pthread_mutex_lock(&philo->info->life);
 		philo->info->dead = 1;
 		pthread_mutex_unlock(&philo->info->life);
-		pthread_mutex_unlock(&philo->info->print);
 	}
+	pthread_mutex_unlock(&philo->info->print);
 }
 
 void	monitor_threads(t_info *info)

@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:55:44 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/13 17:54:07 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:06:12 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,18 @@ void	print_state(t_philo *philo, char *msg, char *color)
 	long long	curr;
 
 	pthread_mutex_lock(&philo->info->print);
-	curr = curr_time() - philo->info->start;
 	if (dead(philo) || finished(philo))
 	{
 		pthread_mutex_unlock(&philo->info->print);
 		return ;
 	}
+	curr = curr_time() - philo->info->start;
 	printf("%s%lld %d %s%s\n", color, curr, philo->n, msg, NRML);
 	pthread_mutex_unlock(&philo->info->print);
 }
 
-int	count_eat(t_philo *philo)
+static void	count_eat(t_philo *philo)
 {
-	int	flag;
-
-	flag = 0;
 	philo->eat++;
 	pthread_mutex_lock(&philo->info->eat_count);
 	if (philo->eat == philo->info->av[MUST_EAT])
@@ -39,7 +36,23 @@ int	count_eat(t_philo *philo)
 		philo->info->finished++;
 	}
 	pthread_mutex_unlock(&philo->info->eat_count);
-	return (flag);
+}
+
+static int	check_eating_time(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->print);
+	pthread_mutex_lock(&philo->info->time);
+	philo->last = curr_time();
+	pthread_mutex_unlock(&philo->info->time);
+	printf("%s%lld %d is eating%s\n", GREEN, \
+	philo->last - philo->info->start, philo->n, NRML);
+	if (dead(philo) || finished(philo))
+	{
+		pthread_mutex_unlock(&philo->info->print);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->info->print);
+	return (1);
 }
 
 static void	eat_routine(t_philo *philo)
@@ -47,6 +60,8 @@ static void	eat_routine(t_philo *philo)
 	while (!finished(philo) && !dead(philo))
 	{
 		if (!get_forks(philo))
+			break ;
+		if (!check_eating_time(philo))
 			break ;
 		if (!newsleep(philo, philo->info->av[EAT]))
 			break ;
