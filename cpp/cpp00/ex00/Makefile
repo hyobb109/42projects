@@ -6,12 +6,12 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:21 by hyobicho          #+#    #+#              #
-#    Updated: 2023/06/15 17:51:23 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/07/06 20:59:21 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = megaphone
-C++ = c++ #-std=c++98
+C++ = c++ -std=c++98
 CFLAGS = -Wall -Wextra -Werror
 SRCS = megaphone.cpp
 M_OBJ = $(SRCS:.cpp=.o)

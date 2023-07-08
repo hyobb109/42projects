@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:51:27 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/06/15 17:51:28 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:59:25 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int ac, char **av) {
 		for (int i = 1; av[i]; i++)
 			str += av[i];
 		for (int i = 0; i < str.size(); i++)
-			str[i] = toupper(str[i]);
+			str[i] = std::toupper(str[i]);
 		std::cout << str << std::endl;
 	}
 	return 0;
