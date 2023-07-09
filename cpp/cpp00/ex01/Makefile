@@ -6,14 +6,14 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:39 by hyobicho          #+#    #+#              #
-#    Updated: 2023/07/06 20:59:29 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/07/09 19:38:15 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = phonebook
 C++ = c++ -std=c++98
 CFLAGS = -Wall -Wextra -Werror
-SRCS = main.cpp
+SRCS = main.cpp Contact.cpp Phonebook.cpp
 M_OBJ = $(SRCS:.cpp=.o)
 
 all: $(NAME)
