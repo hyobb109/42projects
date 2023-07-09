@@ -55,7 +55,6 @@ int main() {
 				idx = phoneBook.search(idx);
 			}
 		}
-		// std::cout << cmd << '\n';
 	}
 	return 0;
 }
