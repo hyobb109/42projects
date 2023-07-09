@@ -18,13 +18,13 @@ void PhoneBook::add(Contact newContact, int idx) {
 
 // display a specific contact
 int PhoneBook::search(int idx) {
-    if (contacts[0].getFirstName() == "") {
-        std::cout << "Nothing to display\n";
-        return 0;
-    }
-    if (idx < 0 || idx > 7 || contacts[idx].getFirstName() == "") {
+    if (idx < 0 || idx > 7) {
         std::cout << "The index is out of range!\n";
         return -1;
+    }
+    if (contacts[idx].getFirstName() == "") {
+        std::cout << "Nothing to display\n";
+        return idx;
     }
     std::cout << "First Name: " << contacts[idx].getFirstName() << "\n";
     std::cout << "Last Name: " << contacts[idx].getLastName() << "\n";
