@@ -22,7 +22,7 @@ class PhoneBook {
 	
 	public:
 	void	add(Contact newContact, int idx);
-	int		search(int idx);
+	void	search(int idx);
 	void	displayAll();
 };
 

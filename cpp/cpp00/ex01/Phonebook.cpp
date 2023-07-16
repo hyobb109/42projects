@@ -17,21 +17,18 @@ void PhoneBook::add(Contact newContact, int idx) {
 }
 
 // display a specific contact
-int PhoneBook::search(int idx) {
-    if (idx < 0 || idx > 7) {
-        std::cout << "The index is out of range!\n";
-        return -1;
-    }
+void PhoneBook::search(int idx) {
     if (contacts[idx].getFirstName() == "") {
         std::cout << "Nothing to display\n";
-        return idx;
+        return ;
     }
+	std::cout << "===☎ CONTACT ☎===\n";
     std::cout << "First Name: " << contacts[idx].getFirstName() << "\n";
     std::cout << "Last Name: " << contacts[idx].getLastName() << "\n";
     std::cout << "Nickname: " << contacts[idx].getNickname() << "\n";
     std::cout << "Phone Number: " << contacts[idx].getPhoneNumber() << "\n";
     std::cout << "Darkest Secret: " << contacts[idx].getSecret() << "\n";
-    return idx;
+	std::cout << "==================\n";
 }
 
 void PhoneBook::displayAll() {

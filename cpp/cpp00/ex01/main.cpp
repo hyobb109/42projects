@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
 #include "PhoneBook.hpp"
 
 int main() {
@@ -20,13 +18,14 @@ int main() {
 	int cnt = 0;
 	while (1)
 	{
+		std::cout << "Enter a command: ADD / SEARCH / EXIT\n";
 		std::cin >> cmd;
 		if (std::cin.eof()) {
 			std::cout << "EOF Error\n";
 			return 1;
 		}
-		// 개행까지 남아있는 버퍼를 지운다 "ADD 'ADD'"
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		// 개행까지 남아있는 버퍼를 지운다
+		// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		if (cmd == "EXIT")
 			return 0;
 		// Save a new contact
@@ -48,11 +47,17 @@ int main() {
 			// Display saved contacts
 			phoneBook.displayAll();
 			// prompt the user again for the index of the entry to display
-			int idx = -1;
-			while (idx < 0) {
-    			std::cout << "Enter the index to display\n";
-				std::cin >> idx;
-				idx = phoneBook.search(idx);
+			std::string num;
+			std::cout << "Enter the index to display\n";
+			std::cin >> num;
+			if (std::cin.eof()) {
+				std::cout << "EOF Error\n";
+				return 1;
+			}
+			if (num.length() > 1 || !isdigit(num[0]) || num[0] > '7') {
+				std::cout << "Invalid index!\n";
+			} else {
+				phoneBook.search(num[0] - '0');
 			}
 		}
 	}
