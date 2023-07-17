@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 20:58:36 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/07/09 21:14:00 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:15:15 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,12 @@ enum Info {
 
 class Contact {
 	private:
-	std::string firstName;
-	std::string lastName;
-	std::string nickname;
-	std::string phoneNumber;
-	std::string secret;
+	std::string data[5];
 	
 	public:
-	void 		saveInfo(int flag);
-	void 		displayNames();
-	std::string getFirstName();
-	std::string getLastName();
-	std::string getNickname();
-	std::string getPhoneNumber();
-	std::string getSecret();
+	void 		saveData(std::string prompt, int flag);
+	void 		displayName(int flag, char c);
+	std::string getData(int flag);
 };
 
 #endif

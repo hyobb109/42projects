@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 20:58:29 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/07/09 21:55:41 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:00:07 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class PhoneBook {
 	public:
 	void	add(Contact newContact, int idx);
 	void	search(int idx);
-	void	displayAll();
+	bool	displayAll();
 };
 
 #endif
