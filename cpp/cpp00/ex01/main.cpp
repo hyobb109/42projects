@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 20:58:26 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/07/17 14:15:24 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:44:01 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int main() {
 			std::cout << "EOF Error\n";
 			return 1;
 		}
-		// 개행까지 남아있는 버퍼를 지운다
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		if (cmd == "EXIT")
 			return 0;
@@ -45,7 +44,7 @@ int main() {
 				// prompt the user again for the index of the entry to display
 				std::string num;
 				std::cout << "Enter the index to display\n";
-				std::cin >> num;
+				std::getline(std::cin, num);
 				if (std::cin.eof()) {
 					std::cout << "EOF Error\n";
 					return 1;

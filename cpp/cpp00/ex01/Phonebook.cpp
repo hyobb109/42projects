@@ -6,7 +6,7 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 18:37:05 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/07/17 14:14:37 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:45:14 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void PhoneBook::search(int idx) {
 
 bool PhoneBook::displayAll() {
     if (contacts[0].getData(FIRST_NAME) == "") {
-        std::cout << "Nothing saved. Please add a new contact first.\n";
+        std::cout << "Nothing saved. Please add a new contact.\n";
         return false;
     }
     std::cout << std::setw(35) << "☎ PHONE BOOK ☎\n";
