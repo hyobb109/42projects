@@ -6,12 +6,12 @@
 /*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 20:58:29 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/07/17 14:37:33 by hyobicho         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:45:21 by hyobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONEBOOK_CLASS_H
-#define PHONEBOOK_CLASS_H
+#ifndef PHONEBOOK_CLASS_HPP
+#define PHONEBOOK_CLASS_HPP
 
 #include "Contact.hpp"
 

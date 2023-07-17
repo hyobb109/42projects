@@ -6,23 +6,23 @@
 #    By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:21 by hyobicho          #+#    #+#              #
-#    Updated: 2023/07/06 20:59:21 by hyobicho         ###   ########.fr        #
+#    Updated: 2023/07/17 15:23:33 by hyobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = megaphone
 C++ = c++ -std=c++98
-CFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror
 SRCS = megaphone.cpp
 M_OBJ = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME): $(M_OBJ)
-	$(C++) $(M_OBJ) $(CFLAGS) -o $(NAME)
+	$(C++) $(M_OBJ) $(CXXFLAGS) -o $(NAME)
 
-%.o : %.c
-	$(C++) -c $(CFLAGS) $< -o $@
+%.o : %.cpp
+	$(C++) -c $(CXXFLAGS) $< -o $@
 
 clean:
 	rm -f $(M_OBJ)
