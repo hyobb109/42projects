@@ -11,20 +11,23 @@
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
+#include <stdlib.h>
 
-Zombie* newZombie(std::string name);
-void randomChump(std::string name);
+Zombie* zombieHorde(int N, std::string name );
 
-int main() {
-    // It creates a zombie, name it, and return it 
-    // so you can use it outside of the function scope.
-    std::cout << "===newZombie===\n";
-    Zombie *z = newZombie("apple");
-    z->announce();
-    delete z;
-    
-    // It creates a zombie, name it, and the zombie announces itself
-    std::cout << "===randomChump===\n";
-    randomChump("banana");
+int main(int ac, char **av) {
+    if (ac == 3) {
+        int n = atoi(av[1]);
+        Zombie *zombies = zombieHorde(n, av[2]);
+        if (!zombies) {
+            std::cout << "Error!\n";
+            return 1;
+        }
+        for (int i = 0; i < n; i++) {
+            zombies[i].announce();
+        }
+        delete []zombies;
+        std::cout << "============\n";
+    }
     return 0;
 }

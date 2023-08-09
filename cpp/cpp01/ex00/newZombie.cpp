@@ -13,7 +13,7 @@
 #include "Zombie.hpp"
 
 Zombie* newZombie(std::string name) {
-    Zombie *z = new (std::nothrow) Zombie(name);
+    Zombie *z = new(std::nothrow) Zombie(name);
     if (!z) {
         std::cout << "Allocation failed!\n";
         exit(1);
