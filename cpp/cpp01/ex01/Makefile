@@ -14,18 +14,18 @@ NAME = zombieHorde
 C++ = c++ -std=c++98
 CXXFLAGS = -Wall -Wextra -Werror
 SRCS = main.cpp Zombie.cpp zombieHorde.cpp
-M_OBJ = $(SRCS:.cpp=.o)
+OBJ = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(M_OBJ)
-	$(C++) $(M_OBJ) $(CXXFLAGS) -o $(NAME)
+$(NAME): $(OBJ)
+	$(C++) $(OBJ) $(CXXFLAGS) -o $(NAME)
 
 .o: %.cpp
 	$(C++) -c $(CXXFLAGS) $< -o $@
 
 clean:
-	rm -f $(M_OBJ)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)

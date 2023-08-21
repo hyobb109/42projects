@@ -20,14 +20,17 @@ int main(int ac, char **av) {
         int n = atoi(av[1]);
         Zombie *zombies = zombieHorde(n, av[2]);
         if (!zombies) {
-            std::cout << "Error!\n";
+            std::cout << "Error! : N should be more than 0\n";
             return 1;
         }
         for (int i = 0; i < n; i++) {
             zombies[i].announce();
         }
-        delete []zombies;
         std::cout << "============\n";
+        delete []zombies;
+    }
+    else {
+        std::cout<< "Usage: ./zombieHorde [N] [name]\n";
     }
     return 0;
 }

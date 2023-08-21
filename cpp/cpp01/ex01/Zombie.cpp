@@ -14,16 +14,16 @@
 
 Zombie::Zombie(){};
 
-Zombie::Zombie(std::string name) : name_(name) {};
+Zombie::Zombie(std::string name) : name(name) {};
 
 Zombie::~Zombie() {
-    std::cout << name_ << " got destroyed\n";    
+    std::cout << name << " got destroyed\n";    
 }
 
 void Zombie::announce() {
-    std::cout << name_ << ": " << MESSAGE << '\n';
+    std::cout << name << ": " << MESSAGE << '\n';
 }
 
 void Zombie::setName(std::string name) {
-    name_ = name;
+    name = name;
 }
