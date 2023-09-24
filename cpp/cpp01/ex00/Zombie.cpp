@@ -1,23 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Zombie.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hyobicho <hyobicho@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 15:39:45 by hyobicho          #+#    #+#             */
-/*   Updated: 2023/07/17 18:36:06 by hyobicho         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Zombie.hpp"
 
 Zombie::Zombie(std::string name) : name(name) {};
 
 Zombie::~Zombie() {
-    std::cout << name << " got destroyed\n";    
+    std::cout << name << " got destroyed" << std::endl;;    
 }
 
 void Zombie::announce() {
-    std::cout << name << ": " << MESSAGE << '\n';
+    std::cout << name << ": " << MESSAGE << std::endl;
 }
