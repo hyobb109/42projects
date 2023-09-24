@@ -1,10 +1,11 @@
 #include "Weapon.hpp"
 
-const std::string& getType() {
-    std::string& typeRef = type;
-    return typeRef;
-}
+Weapon::Weapon(std::string type) : type(type){};
 
-void setType(std::string newType) {
-    type = newType;
-}
+Weapon::~Weapon() {}
+
+// member function that returns a const reference to type.
+const std::string& Weapon::getType() const { return type; }
+
+// member function that sets type using the new one passed as parameter.
+void Weapon::setType(std::string newType) { type = newType; }
