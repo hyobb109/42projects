@@ -41,6 +41,7 @@ int main(int ac, char **av) {
   std::stringstream ss;
   ss << infile.rdbuf();
   outfile << replaceAll(ss.str(), s1, s2);
-
+  infile.close();
+  outfile.close();
   return 0;
 }
