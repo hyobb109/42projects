@@ -35,9 +35,9 @@ void Harl::error() {
 }
 
 void Harl::complain(std::string level) {
-  std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
-  void (Harl::*fptrs[])() = {&Harl::debug, &Harl::info, &Harl::warning,
-                             &Harl::error};
+  static std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
+  static void (Harl::*fptrs[])() = {&Harl::debug, &Harl::info, &Harl::warning,
+                                    &Harl::error};
 
   for (size_t i = 0; i < level.length(); i++) level[i] = std::toupper(level[i]);
   for (int i = 0; i < 4; i++) {
