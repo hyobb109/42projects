@@ -6,10 +6,11 @@ class Fixed {
   static const int bits = 8;
 
  public:
-  Fixed(int fixedPoint);                 // default constructor
+  Fixed();                               // default constructor
   Fixed(const Fixed& fixed);             // copy constructor
-  Fixed& operator=(const Fixed& fixed);  // copy assignment operator overload
   ~Fixed();                              // destructor
-  int getRawBits(void) const;
-  void setRawBits(int const raw);
+  Fixed& operator=(const Fixed& fixed);  // copy assignment operator overload
+  int getRawBits() const;  // returns the raw value of the fixed-point value
+  void setRawBits(
+      int const raw);  // sets the raw value of the fixed-point number
 };
