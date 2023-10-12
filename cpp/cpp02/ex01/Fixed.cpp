@@ -3,19 +3,17 @@
 Fixed::Fixed() : fixedPoint(0) { std::cout << "Default constructor called\n"; }
 
 // It converts the parameter to the corresponding fixed-point value.
-Fixed::Fixed(const int num) : fixedPoint(num) {
+Fixed::Fixed(const int num) : fixedPoint(num << bits) {
   std::cout << "Int constructor called\n";
-  fixedPoint = num;
 }
 
 // It converts the parameter to the corresponding fixed-point value.
-Fixed::Fixed(const float num) : fixedPoint(num) {
+Fixed::Fixed(const float num) : fixedPoint(roundf(num * (1 << bits))) {
   std::cout << "Float constructor called\n";
 }
 
-Fixed::Fixed(const Fixed& fixed) {
+Fixed::Fixed(const Fixed& fixed) : fixedPoint(fixed.fixedPoint) {
   std::cout << "Copy constructor called\n";
-  fixedPoint = fixed.fixedPoint;
 }
 
 Fixed::~Fixed() { std::cout << "Destructor called\n"; }
@@ -35,17 +33,11 @@ void Fixed::setRawBits(int const raw) { fixedPoint = raw; }
 
 // converts the fixed-point value to a floating-point value
 float Fixed::toFloat(void) const {
-  float n;
-  std::cout << "Float constructor called\n";
-  return n;
+  return static_cast<float>(fixedPoint) / (1 << bits);
 }
 
 // converts the fixed-point value to an integer value
-int Fixed::toInt(void) const {
-  int n;
-  std::cout << "Int constructor called\n";
-  return n;
-};
+int Fixed::toInt(void) const { return fixedPoint >> bits; };
 
 std::ostream& operator<<(std::ostream& os, const Fixed& fixed) {
   os << fixed.toFloat();
