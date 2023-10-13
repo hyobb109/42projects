@@ -2,9 +2,8 @@
 
 Fixed::Fixed() : fixedPoint(0) { std::cout << "Default constructor called\n"; }
 
-Fixed::Fixed(const Fixed &fixed) {
+Fixed::Fixed(const Fixed &fixed) : fixedPoint(fixed.fixedPoint) {
   std::cout << "Copy constructor called\n";
-  fixedPoint = fixed.fixedPoint;
 }
 
 Fixed::~Fixed() { std::cout << "Destructor called\n"; }
