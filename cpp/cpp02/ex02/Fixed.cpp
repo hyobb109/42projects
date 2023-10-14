@@ -1,29 +1,33 @@
 #include "Fixed.hpp"
 
-Fixed::Fixed() : fixedPoint(0) { std::cout << "Default constructor called\n"; }
+Fixed::Fixed() : fixedPoint(0) {
+  // std::cout << "Default constructor called\n";
+}
 
 Fixed::Fixed(const int num) : fixedPoint(num << bits) {
-  std::cout << "Int constructor called\n";
+  // std::cout << "Int constructor called\n";
 }
 
 Fixed::Fixed(const float num) : fixedPoint(roundf(num * (1 << bits))) {
-  std::cout << "Float constructor called\n";
+  // std::cout << "Float constructor called\n";
 }
 
 Fixed::Fixed(const Fixed& fixed) : fixedPoint(fixed.fixedPoint) {
-  std::cout << "Copy constructor called\n";
+  // std::cout << "Copy constructor called\n";
 }
 
-Fixed::~Fixed() { std::cout << "Destructor called\n"; }
+Fixed::~Fixed() {
+  // std::cout << "Destructor called\n";
+}
 
 Fixed& Fixed::operator=(const Fixed& fixed) {
-  std::cout << "Copy assignment operator called\n";
+  // std::cout << "Copy assignment operator called\n";
   fixedPoint = fixed.getRawBits();
   return *this;
 }
 
 int Fixed::getRawBits(void) const {
-  std::cout << "getRawBits member function called\n";
+  // std::cout << "getRawBits member function called\n";
   return fixedPoint;
 }
 
@@ -78,7 +82,7 @@ Fixed Fixed::operator*(const Fixed& fixed) const {
 }
 
 Fixed Fixed::operator/(const Fixed& fixed) const {
-  Fixed res(this->toFloat() / fixed.toFloat());
+  Fixed res((this->toFloat() / fixed.toFloat()));
   return res;
 }
 
