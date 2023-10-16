@@ -5,6 +5,22 @@ ClapTrap::ClapTrap(std::string name)
   std::cout << "앗! 야생의 ClapTrap " << name_ << "(이)가 나타났다!\n";
 }
 
+ClapTrap::ClapTrap(const ClapTrap& clap)
+    : name_(clap.name_),
+      hit_points_(clap.hit_points_),
+      energy_points_(clap.energy_points_),
+      attack_damage_(clap.attack_damage_) {
+  std::cout << "앗! 야생의 ClapTrap " << name_ << "(이)가 또 나타났다!\n";
+}
+
+ClapTrap& ClapTrap::operator=(const ClapTrap& clap) {
+  name_ = clap.name_;
+  hit_points_ = clap.hit_points_;
+  energy_points_ = clap.energy_points_;
+  attack_damage_ = clap.attack_damage_;
+  return *this;
+}
+
 ClapTrap::~ClapTrap() {
   std::cout << "ClapTrap " << name_ << "(이)가 도망쳤다!\n";
 }
