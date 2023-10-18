@@ -8,7 +8,8 @@ Fixed::Fixed(const int num) : fixedPoint(num << bits) {
   // std::cout << "Int constructor called\n";
 }
 
-Fixed::Fixed(const float num) : fixedPoint(roundf(num * (1 << bits))) {
+Fixed::Fixed(const float num)
+    : fixedPoint(static_cast<int>(roundf(num * (1 << bits)))) {
   // std::cout << "Float constructor called\n";
 }
 
@@ -46,43 +47,45 @@ std::ostream& operator<<(std::ostream& os, const Fixed& fixed) {
 
 // ex02
 bool Fixed::operator>(const Fixed& fixed) const {
-  return this->toFloat() > fixed.toFloat() ? true : false;
+  return fixedPoint > fixed.fixedPoint ? true : false;
 }
 bool Fixed::operator<(const Fixed& fixed) const {
-  return this->toFloat() < fixed.toFloat() ? true : false;
+  return fixedPoint < fixed.fixedPoint ? true : false;
 }
 bool Fixed::operator>=(const Fixed& fixed) const {
-  return this->toFloat() >= fixed.toFloat() ? true : false;
+  return fixedPoint >= fixed.fixedPoint ? true : false;
 }
 bool Fixed::operator<=(const Fixed& fixed) const {
-  return this->toFloat() <= fixed.toFloat() ? true : false;
+  return fixedPoint <= fixed.fixedPoint ? true : false;
 }
 
 bool Fixed::operator==(const Fixed& fixed) const {
-  return this->toFloat() == fixed.toFloat() ? true : false;
+  return fixedPoint == fixed.fixedPoint ? true : false;
 }
 
 bool Fixed::operator!=(const Fixed& fixed) const {
-  return this->toFloat() != fixed.toFloat() ? true : false;
+  return fixedPoint != fixed.fixedPoint ? true : false;
 }
 
 Fixed Fixed::operator+(const Fixed& fixed) const {
-  Fixed res(this->toFloat() + fixed.toFloat());
+  Fixed res(static_cast<float>(fixedPoint + fixed.fixedPoint) / (1 << bits));
   return res;
 }
 
 Fixed Fixed::operator-(const Fixed& fixed) const {
-  Fixed res(this->toFloat() - fixed.toFloat());
+  Fixed res(static_cast<float>(fixedPoint - fixed.fixedPoint) / (1 << bits));
   return res;
 }
 
 Fixed Fixed::operator*(const Fixed& fixed) const {
-  Fixed res(this->toFloat() * fixed.toFloat());
+  int tmp = fixedPoint * fixed.fixedPoint / (1 << bits);
+  Fixed res(static_cast<float>(tmp) / (1 << bits));
   return res;
 }
 
 Fixed Fixed::operator/(const Fixed& fixed) const {
-  Fixed res((this->toFloat() / fixed.toFloat()));
+  int tmp = fixedPoint * (1 << bits) / fixed.fixedPoint;
+  Fixed res(static_cast<float>(tmp) / (1 << bits));
   return res;
 }
 
