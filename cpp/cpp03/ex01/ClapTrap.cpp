@@ -12,7 +12,6 @@ void ClapTrap::getStatus() {
 ClapTrap::ClapTrap(std::string name)
     : name_(name), hit_points_(10), energy_points_(10), attack_damage_(0) {
   std::cout << "앗! 야생의 ClapTrap " << name_ << "(이)가 나타났다!\n";
-  getStatus();
 }
 
 ClapTrap::ClapTrap(const ClapTrap& clap)
@@ -21,7 +20,6 @@ ClapTrap::ClapTrap(const ClapTrap& clap)
       energy_points_(clap.energy_points_),
       attack_damage_(clap.attack_damage_) {
   std::cout << "앗! 야생의 ClapTrap " << name_ << "(이)가 또 나타났다!\n";
-  getStatus();
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& clap) {

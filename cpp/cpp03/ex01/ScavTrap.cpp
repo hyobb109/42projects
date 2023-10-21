@@ -24,7 +24,7 @@ ScavTrap& ScavTrap::operator=(const ScavTrap& scav) {
 }
 
 void ScavTrap::guardGate() {
-  std::cout << "ScavTrap " << name_ << "(이)가 문지기가 되었습니다.\n";
+  std::cout << "ScavTrap " << name_ << "(이)가 문지기가 되었다!\n";
 }
 
 void ScavTrap::attack(const std::string& target) {
