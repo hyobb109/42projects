@@ -9,5 +9,6 @@ int main() {
   pikachu.attack("메타몽");
   ditto.takeDamage(pikachu.getAttackDamage());
   ditto.attack("피카츄");
+  pikachu.guardGate();
   return 0;
 }
