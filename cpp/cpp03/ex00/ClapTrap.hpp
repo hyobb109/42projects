@@ -2,10 +2,7 @@
 #define CLAPTRAP_HPP
 
 #include <iostream>
-#include <limits>
 #include <string>
-
-const unsigned int MAX = std::numeric_limits<unsigned int>::max();
 
 class ClapTrap {
  private:
@@ -13,6 +10,7 @@ class ClapTrap {
   unsigned int hit_points_;
   unsigned int energy_points_;
   unsigned int attack_damage_;
+  const static unsigned int MAX = 4294967295;
   void getStatus();
 
  public:
