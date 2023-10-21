@@ -2,22 +2,12 @@
 
 int main() {
   ScavTrap pikachu("피카츄");
-  pikachu.setAttackDamage(3);
-  pikachu.getStatus();
-  ScavTrap onix("메타몽");
-  onix.setAttackDamage(2);
-  onix.getStatus();
+  ClapTrap ditto("메타몽");
+  ditto.setAttackDamage(10);
+  ditto.attack("피카츄");
+  pikachu.takeDamage(ditto.getAttackDamage());
   pikachu.attack("메타몽");
-  pikachu.getStatus();
-  onix.takeDamage(pikachu.getAttackDamage());
-  onix.getStatus();
-  onix.attack("피카츄");
-  onix.getStatus();
-  pikachu.takeDamage(onix.getAttackDamage());
-  pikachu.getStatus();
-  onix.takeDamage(pikachu.getAttackDamage());
-  onix.getStatus();
-  onix.beRepaired(MAX);
-  onix.getStatus();
+  ditto.takeDamage(pikachu.getAttackDamage());
+  ditto.attack("피카츄");
   return 0;
 }
