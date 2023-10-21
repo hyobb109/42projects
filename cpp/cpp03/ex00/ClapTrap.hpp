@@ -13,6 +13,7 @@ class ClapTrap {
   unsigned int hit_points_;
   unsigned int energy_points_;
   unsigned int attack_damage_;
+  void getStatus();
 
  public:
   ClapTrap(std::string name);
@@ -24,7 +25,6 @@ class ClapTrap {
   void beRepaired(unsigned int amount);
   void setAttackDamage(unsigned int amount);
   unsigned int getAttackDamage();
-  void getStatus();
 };
 
 #endif
