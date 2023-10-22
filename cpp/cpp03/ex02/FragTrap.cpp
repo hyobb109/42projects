@@ -26,16 +26,3 @@ FragTrap& FragTrap::operator=(const FragTrap& frag) {
 void FragTrap::highFivesGuys() {
   std::cout << "FragTrap " << name_ << "(이)가 하이파이브를 했다!\n";
 }
-
-void FragTrap::attack(const std::string& target) {
-  if (hit_points_ == 0) {
-    std::cout << "FragTrap " << name_ << "(은)는 기절한 상태다!\n";
-  } else if (energy_points_ == 0) {
-    std::cout << "FragTrap " << name_ << "(은)는 에너지가 없다!\n";
-  } else {
-    energy_points_--;
-    std::cout << "FragTrap " << name_ << "(이)가 " << target << "에게 "
-              << attack_damage_ << "의 데미지를 입혔다!\n";
-  }
-  getStatus();
-}
