@@ -24,7 +24,7 @@ FragTrap& FragTrap::operator=(const FragTrap& scav) {
 }
 
 void FragTrap::highFivesGuys() {
-  std::cout << "FragTrap " << name_ << "(이)가 하이파이브를 했습니다!\n";
+  std::cout << "FragTrap " << name_ << "(이)가 하이파이브를 했다!\n";
 }
 
 void FragTrap::attack(const std::string& target) {
