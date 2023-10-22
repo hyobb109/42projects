@@ -7,7 +7,7 @@ FragTrap::FragTrap(std::string name) : ClapTrap(name) {
   attack_damage_ = 30;
 }
 
-FragTrap::FragTrap(const FragTrap& scav) : ClapTrap(scav.name_) {
+FragTrap::FragTrap(const FragTrap& frag) : ClapTrap(frag.name_) {
   std::cout << "앗! 야생의 FragTrap " << name_ << "(이)가 또 나타났다!\n";
 }
 
@@ -15,11 +15,11 @@ FragTrap::~FragTrap() {
   std::cout << "FragTrap " << name_ << "(이)가 도망쳤다!\n";
 }
 
-FragTrap& FragTrap::operator=(const FragTrap& scav) {
-  name_ = scav.name_;
-  hit_points_ = scav.hit_points_;
-  energy_points_ = scav.energy_points_;
-  attack_damage_ = scav.attack_damage_;
+FragTrap& FragTrap::operator=(const FragTrap& frag) {
+  name_ = frag.name_;
+  hit_points_ = frag.hit_points_;
+  energy_points_ = frag.energy_points_;
+  attack_damage_ = frag.attack_damage_;
   return *this;
 }
 
