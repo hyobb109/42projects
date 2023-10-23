@@ -6,21 +6,11 @@ int main() {
   ScavTrap pikachu("피카츄");
   ClapTrap ditto("메타몽");
   celebi.whoAmI();
-  chikorita.highFivesGuys();
   celebi.attack("치코리타");
   chikorita.takeDamage(celebi.getAttackDamage());
   ditto.setAttackDamage(10);
-  ditto.attack("피카츄");
-  pikachu.takeDamage(ditto.getAttackDamage());
-  ditto.attack("치코리타");
-  chikorita.takeDamage(ditto.getAttackDamage());
-  pikachu.attack("메타몽");
-  ditto.takeDamage(pikachu.getAttackDamage());
-  chikorita.attack("메타몽");
-  ditto.takeDamage(pikachu.getAttackDamage());
-  ditto.attack("피카츄");
-  pikachu.takeDamage(ditto.getAttackDamage());
-  chikorita.beRepaired(20);
-  pikachu.guardGate();
+  ditto.attack("세레비");
+  celebi.takeDamage(ditto.getAttackDamage());
+  celebi.beRepaired(20);
   return 0;
 }
