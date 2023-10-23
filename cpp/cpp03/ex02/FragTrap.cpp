@@ -16,10 +16,12 @@ FragTrap::~FragTrap() {
 }
 
 FragTrap& FragTrap::operator=(const FragTrap& frag) {
-  name_ = frag.name_;
-  hit_points_ = frag.hit_points_;
-  energy_points_ = frag.energy_points_;
-  attack_damage_ = frag.attack_damage_;
+  if (this != &frag) {
+    name_ = frag.name_;
+    hit_points_ = frag.hit_points_;
+    energy_points_ = frag.energy_points_;
+    attack_damage_ = frag.attack_damage_;
+  }
   return *this;
 }
 

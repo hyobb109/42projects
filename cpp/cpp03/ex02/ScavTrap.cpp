@@ -16,10 +16,12 @@ ScavTrap::~ScavTrap() {
 }
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& scav) {
-  name_ = scav.name_;
-  hit_points_ = scav.hit_points_;
-  energy_points_ = scav.energy_points_;
-  attack_damage_ = scav.attack_damage_;
+  if (this != &scav) {
+    name_ = scav.name_;
+    hit_points_ = scav.hit_points_;
+    energy_points_ = scav.energy_points_;
+    attack_damage_ = scav.attack_damage_;
+  }
   return *this;
 }
 

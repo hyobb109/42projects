@@ -20,10 +20,12 @@ DiamondTrap::~DiamondTrap() {
 }
 
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& diamond) {
-  name_ = diamond.name_;
-  hit_points_ = diamond.hit_points_;
-  energy_points_ = diamond.energy_points_;
-  attack_damage_ = diamond.attack_damage_;
+  if (this != &diamond) {
+    name_ = diamond.name_;
+    hit_points_ = diamond.hit_points_;
+    energy_points_ = diamond.energy_points_;
+    attack_damage_ = diamond.attack_damage_;
+  }
   return *this;
 }
 
