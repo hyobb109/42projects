@@ -10,6 +10,7 @@ class WrongAnimal {
 
  public:
   WrongAnimal();
+  WrongAnimal(std::string type);
   virtual ~WrongAnimal();
   WrongAnimal(const WrongAnimal& wrong_animal);
   WrongAnimal& operator=(const WrongAnimal& wrong_animal);

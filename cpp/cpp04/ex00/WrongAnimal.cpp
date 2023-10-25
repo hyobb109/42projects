@@ -1,6 +1,12 @@
 #include "WrongAnimal.hpp"
 
-WrongAnimal::WrongAnimal() { std::cout << "이상한 동물이 나타났다!\n"; }
+WrongAnimal::WrongAnimal() : type("Wrong Animal") {
+  std::cout << "이상한 동물이 나타났다!\n";
+}
+
+WrongAnimal::WrongAnimal(std::string type) : type(type) {
+  std::cout << "이상한 동물이 나타났다!\n";
+}
 
 WrongAnimal::~WrongAnimal() { std::cout << "이상한 동물이 도망갔다!\n"; }
 
@@ -10,9 +16,7 @@ WrongAnimal::WrongAnimal(const WrongAnimal& wrong_animal)
 }
 
 WrongAnimal& WrongAnimal::operator=(const WrongAnimal& wrong_animal) {
-  if (this != &wrong_animal) {
-    type = wrong_animal.type;
-  }
+  if (this != &wrong_animal) type = wrong_animal.type;
   return *this;
 }
 
