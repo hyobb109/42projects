@@ -3,20 +3,25 @@
 #include "WrongCat.hpp"
 
 int main() {
+  std::cout << "========Animal========\n";
   const Animal* meta = new Animal();
-  const Animal* cat = new Cat();
-  const Animal* dog = new Dog();
-  const WrongAnimal* wrong_cat = new WrongCat();
-  std::cout << dog->getType() << " " << std::endl;
-  std::cout << cat->getType() << " " << std::endl;
-  std::cout << wrong_cat->getType() << " " << std::endl;
-  cat->makeSound();
-  dog->makeSound();
-  wrong_cat->makeSound();
+  std::cout << "type: " << meta->getType() << '\n';
   meta->makeSound();
   delete meta;
+  std::cout << "========Dog========\n";
+  const Animal* dog = new Dog();
+  std::cout << "type: " << dog->getType() << '\n';
+  dog->makeSound();
   delete dog;
+  std::cout << "========Cat========\n";
+  const Animal* cat = new Cat();
+  std::cout << "type: " << cat->getType() << '\n';
+  cat->makeSound();
   delete cat;
+  std::cout << "========Wrong Cat========\n";
+  const WrongAnimal* wrong_cat = new WrongCat();
+  std::cout << "type: " << wrong_cat->getType() << '\n';
+  wrong_cat->makeSound();
   delete wrong_cat;
   return 0;
 }
