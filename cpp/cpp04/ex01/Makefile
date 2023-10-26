@@ -1,6 +1,6 @@
 NAME = a.out
 C++ = c++ -std=c++98
-CXXFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror
 SRCS = main.cpp Animal.cpp Dog.cpp Cat.cpp WrongCat.cpp WrongAnimal.cpp Brain.cpp
 OBJ = $(SRCS:.cpp=.o)
 

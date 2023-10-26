@@ -31,6 +31,6 @@ int main() {
   animals[1]->think("집에 언제 가지 멍멍");
   animals[1]->speak();
   animals[3]->speak();
-  // for (int i = 0; i < SIZE; i++) delete animals[i];
+  for (int i = 0; i < SIZE; i++) delete animals[i];
   return 0;
 }
