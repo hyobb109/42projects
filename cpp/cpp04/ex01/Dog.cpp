@@ -14,7 +14,17 @@ Dog::Dog(const Dog& dog) : Animal(dog.type) {
 }
 
 Dog& Dog::operator=(const Dog& dog) {
-  if (this != &dog) type = dog.type;
+  if (this != &dog) {
+    type = dog.type;
+    *brain = *dog.brain;
+  }
+  return *this;
+}
+
+Dog& Dog::operator=(const Animal& dog) {
+  if (this != &dog) {
+    *this = dynamic_cast<const Dog&>(dog);
+  }
   return *this;
 }
 
@@ -22,5 +32,7 @@ void Dog::makeSound() const { std::cout << "멍멍!🐶\n"; }
 
 void Dog::speak() const {
   const std::string* ideas = brain->getIdeas();
-  for (int i = 0; i < 10; i++) std::cout << ideas[i] << "\n";
+  std::cout << ideas[0] << "\n";
 }
+
+void Dog::think(std::string idea) const { brain->setIdeas(idea); }

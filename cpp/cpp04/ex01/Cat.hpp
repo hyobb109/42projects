@@ -12,8 +12,10 @@ class Cat : public Animal {
   Cat();
   virtual ~Cat();
   Cat(const Cat& cat);
+  virtual Cat& operator=(const Animal& cat);
   Cat& operator=(const Cat& cat);
   virtual void makeSound() const;
   virtual void speak() const;
+  void think(std::string idea) const;
 };
 #endif

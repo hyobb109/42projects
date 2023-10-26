@@ -26,3 +26,7 @@ Brain& Brain::operator=(const Brain& brain) {
 }
 
 const std::string* Brain::getIdeas() const { return ideas; }
+
+void Brain::setIdeas(std::string idea) {
+  for (int i = 0; i < 100; i++) ideas[i] = idea;
+}

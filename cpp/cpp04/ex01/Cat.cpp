@@ -14,7 +14,17 @@ Cat::Cat(const Cat& cat) : Animal(cat.type) {
 }
 
 Cat& Cat::operator=(const Cat& cat) {
-  if (this != &cat) type = cat.type;
+  if (this != &cat) {
+    type = cat.type;
+    *brain = *cat.brain;
+  }
+  return *this;
+}
+
+Cat& Cat::operator=(const Animal& cat) {
+  if (this != &cat) {
+    *this = dynamic_cast<const Cat&>(cat);
+  }
   return *this;
 }
 
@@ -22,5 +32,7 @@ void Cat::makeSound() const { std::cout << "야옹~😺\n"; }
 
 void Cat::speak() const {
   const std::string* ideas = brain->getIdeas();
-  for (int i = 0; i < 10; i++) std::cout << ideas[i] << "\n";
+  std::cout << ideas[0] << "\n";
 }
+
+void Cat::think(std::string idea) const { brain->setIdeas(idea); }

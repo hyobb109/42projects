@@ -12,9 +12,11 @@ class Dog : public Animal {
   Dog();
   virtual ~Dog();
   Dog(const Dog& dog);
+  virtual Dog& operator=(const Animal& dog);
   Dog& operator=(const Dog& dog);
   virtual void makeSound() const;
   virtual void speak() const;
+  void think(std::string idea) const;
 };
 
 #endif
