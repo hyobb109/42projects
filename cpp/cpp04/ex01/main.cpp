@@ -36,5 +36,6 @@ int main() {
     delete animals[i];
     std::cout << "===================\n";
   }
+
   return 0;
 }

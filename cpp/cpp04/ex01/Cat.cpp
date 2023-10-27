@@ -9,7 +9,8 @@ Cat::~Cat() {
   std::cout << "고양이가 도망갔다!\n";
 }
 
-Cat::Cat(const Cat& cat) : Animal(cat.type) {
+Cat::Cat(const Cat& cat) : Animal(cat.type), brain(new Brain()) {
+  *brain = *cat.brain;
   std::cout << "고양이가 또 나타났다!\n";
 }
 

@@ -18,6 +18,7 @@ Brain::Brain(const Brain& brain) {
 
 Brain& Brain::operator=(const Brain& brain) {
   if (this != &brain) {
+    std::cout << "생각 복사 중..\n";
     for (int i = 0; i < 100; i++) {
       ideas[i] = brain.ideas[i];
     }

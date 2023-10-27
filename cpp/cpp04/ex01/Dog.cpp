@@ -9,7 +9,8 @@ Dog::~Dog() {
   std::cout << "강아지가 도망갔다!\n";
 }
 
-Dog::Dog(const Dog& dog) : Animal(dog.type) {
+Dog::Dog(const Dog& dog) : Animal(dog.type), brain(new Brain()) {
+  *brain = *dog.brain;
   std::cout << "강아지가 또 나타났다!\n";
 }
 
