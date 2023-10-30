@@ -17,4 +17,9 @@ AMateria& AMateria::operator=(const AMateria& m) {
 
 std::string const& AMateria::getType() const { return type; }
 
-void AMateria::use(ICharacter& target) { std::cout << "???\n"; }
+void AMateria::use(ICharacter& target) {
+  if (type == "ice")
+    std::cout << "* shoots an ice bolt at " << target.getName() << " *\n";
+  else if (type == "cure")
+    std::cout << "* heals " << target.getName() << "'s wounds *\n";
+}

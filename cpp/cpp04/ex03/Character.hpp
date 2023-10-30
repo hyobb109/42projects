@@ -9,6 +9,7 @@ class Character : public ICharacter {
  private:
   std::string name;
   AMateria* slot[4];
+  bool equipped[4];
 
  public:
   Character(std::string name);
