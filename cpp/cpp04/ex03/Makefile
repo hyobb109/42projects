@@ -1,7 +1,7 @@
 NAME = a.out
 C++ = c++ -std=c++98
 CXXFLAGS = -Wall -Wextra -Werror
-SRCS = main.cpp Amateria.cpp Cure.cpp Ice.cpp Character.cpp MateriaSource.cpp
+SRCS = main.cpp AMateria.cpp Cure.cpp Ice.cpp Character.cpp MateriaSource.cpp
 OBJ = $(SRCS:.cpp=.o)
 
 all: $(NAME)

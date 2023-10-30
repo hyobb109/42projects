@@ -1,5 +1,5 @@
 #ifndef ICHARACTER_HPP
-#define ICHARCATER_HPP
+#define ICHARACTER_HPP
 
 #include <string>
 

@@ -1,11 +1,15 @@
 #include "Cure.hpp"
 
-Cure::Cure() : AMateria("cure") { std::cout << "Cure 생성!\n"; }
+Cure::Cure() : AMateria("cure") {
+  // std::cout << "Cure 생성!\n";
+}
 
-Cure::~Cure() { std::cout << "Cure 소멸!\n"; }
+Cure::~Cure() {
+  // std::cout << "Cure 소멸!\n";
+}
 
 Cure::Cure(const Cure& cure) : AMateria(cure.type) {
-  std::cout << "Cure 복사!\n";
+  // std::cout << "Cure 복사!\n";
 }
 
 Cure& Cure::operator=(const Cure& cure) {

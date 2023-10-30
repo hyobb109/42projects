@@ -3,22 +3,25 @@
 #include "AMateria.hpp"
 
 Character::Character(std::string name) : ICharacter(), name(name) {
-  std::cout << "Character " << name << " 생성!\n";
-  for (int i = 0; i < 4; i++) equipped[i] = false;
+  // std::cout << "Character " << name << " 생성!\n";
+  for (int i = 0; i < 4; i++) {
+    slot[i] = NULL;
+    equipped[i] = false;
+  }
 }
 
 Character::~Character() {
+  // std::cout << "Character " << name << " 소멸!\n";
   for (int i = 0; i < 4; i++) {
     if (slot[i])
       delete slot[i];
     else
       return;
   }
-  std::cout << "Character " << name << " 소멸!\n";
 }
 
 Character::Character(const Character& c) : ICharacter(), name(c.name) {
-  std::cout << "Character " << name << " 복사!\n";
+  // std::cout << "Character " << name << " 복사!\n";
   for (int i = 0; i < 4; i++) {
     if (slot[i]) delete slot[i];
     slot[i] = c.slot[i]->clone();
@@ -44,8 +47,9 @@ void Character::equip(AMateria* m) {
   if (slot[3]) return;
   for (int i = 0; i < 4; i++) {
     if (!slot[i]) {
-      slot[i] = m->clone();
+      slot[i] = m;
       equipped[i] = true;
+      return;
     }
   }
 }
@@ -53,7 +57,7 @@ void Character::equip(AMateria* m) {
 void Character::unequip(int idx) {
   if (slot[idx] && equipped[idx]) {
     equipped[idx] = false;
-    std::cout << "SLOT " << idx << "장착 해제!\n";
+    // std::cout << "SLOT " << idx << "장착 해제!\n";
   }
 }
 
