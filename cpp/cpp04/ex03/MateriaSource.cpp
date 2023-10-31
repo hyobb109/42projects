@@ -40,10 +40,20 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& ms) {
 }
 
 void MateriaSource::learnMateria(AMateria* m) {
-  if (!m || materias[3]) return;
+  if (!m) {
+    std::cout << "⛔️ERROR⛔️ Invalid Materia!\n";
+    return;
+  }
+  if (materias[3]) {
+    std::cout << "MateriaSource can know at most 4 Materias\n";
+    delete m;
+    return;
+  }
   for (int i = 0; i < 4; i++) {
     if (!materias[i]) {
       materias[i] = m;
+      std::cout << "📚 learning " << m->getType() << "... (" << i + 1
+                << "/4)\n";
       return;
     }
   }

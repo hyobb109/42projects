@@ -44,23 +44,45 @@ Character& Character::operator=(const Character& c) {
 std::string const& Character::getName() const { return name; }
 
 void Character::equip(AMateria* m) {
-  if (!m || slot[3]) return;
+  if (!m) {
+    std::cout << "⛔️ERROR⛔️ Unknown Materia type!\n";
+    return;
+  }
+  if (slot[3]) {
+    std::cout << "The inventroy is full\n";
+    delete m;
+    return;
+  }
   for (int i = 0; i < 4; i++) {
     if (!slot[i]) {
       slot[i] = m;
       equipped[i] = true;
+      std::cout << "🧙 " << name << " has equipped the Materia " << m->getType()
+                << " in SLOT " << i << "\n";
       return;
     }
   }
 }
 
 void Character::unequip(int idx) {
+  if (idx < 0 || idx > 3) return;
   if (slot[idx] && equipped[idx]) {
     equipped[idx] = false;
-    // std::cout << "SLOT " << idx << "장착 해제!\n";
+    std::cout << "🧙 " << name << " has unequipped the Materia "
+              << slot[idx]->getType() << " in SLOT " << idx << "\n";
   }
 }
 
 void Character::use(int idx, ICharacter& target) {
-  if (slot[idx] && equipped[idx]) slot[idx]->use(target);
+  if (idx < 0 || idx > 3) {
+    std::cout << "⛔️ERROR⛔️ Invalid index!\n";
+
+    return;
+  }
+  if (slot[idx]) {
+    if (equipped[idx])
+      slot[idx]->use(target);
+    else
+      std::cout << "⛔️ERROR⛔️ The Materia is not equipped!\n";
+  }
 }
