@@ -44,7 +44,7 @@ Character& Character::operator=(const Character& c) {
 std::string const& Character::getName() const { return name; }
 
 void Character::equip(AMateria* m) {
-  if (slot[3]) return;
+  if (!m || slot[3]) return;
   for (int i = 0; i < 4; i++) {
     if (!slot[i]) {
       slot[i] = m;

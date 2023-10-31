@@ -40,7 +40,7 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& ms) {
 }
 
 void MateriaSource::learnMateria(AMateria* m) {
-  if (materias[3]) return;
+  if (!m || materias[3]) return;
   for (int i = 0; i < 4; i++) {
     if (!materias[i]) {
       materias[i] = m;
