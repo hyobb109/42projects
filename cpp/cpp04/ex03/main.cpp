@@ -20,7 +20,7 @@ int main() {
 
   ICharacter* hippo = new Character("하마");
 
-  std::cout << "🪄 하마 마법 장착 중...\n";
+  std::cout << "✨ 하마 마법 장착 중...\n";
   AMateria* tmp;
   tmp = src->createMateria("blabla");
   hippo->equip(tmp);
@@ -45,6 +45,8 @@ int main() {
   hippo->use(4, *alpaca);
   std::cout << "=======================\n";
   hippo->unequip(3);
+  hippo->use(3, *alpaca);
+  hippo->equip(src->createMateria("ice"));
   hippo->use(3, *alpaca);
   std::cout << "=======================\n";
 

@@ -48,13 +48,9 @@ void Character::equip(AMateria* m) {
     std::cout << "⛔️ERROR⛔️ Unknown Materia type!\n";
     return;
   }
-  if (slot[3]) {
-    std::cout << "The inventroy is full\n";
-    delete m;
-    return;
-  }
   for (int i = 0; i < 4; i++) {
-    if (!slot[i]) {
+    if (!equipped[i]) {
+      if (slot[i]) delete slot[i];
       slot[i] = m;
       equipped[i] = true;
       std::cout << "🧙 " << name << " has equipped the Materia " << m->getType()
@@ -62,6 +58,8 @@ void Character::equip(AMateria* m) {
       return;
     }
   }
+  std::cout << "The inventroy is full\n";
+  delete m;
 }
 
 void Character::unequip(int idx) {
