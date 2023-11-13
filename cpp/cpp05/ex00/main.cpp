@@ -2,21 +2,21 @@
 
 int main() {
   try {
-    Bureaucrat apple("Apple", 0);
+    Bureaucrat apple("사과", 0);
     std::cout << apple << std::endl;
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
 
   try {
-    Bureaucrat apple("Apple", 151);
+    Bureaucrat apple("사과", 151);
     std::cout << apple << std::endl;
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
 
   try {
-    Bureaucrat banana("Banana", 1);
+    Bureaucrat banana("바나나", 1);
     std::cout << banana << std::endl;
     banana.increaseGrade();
     std::cout << banana << std::endl;
@@ -25,7 +25,7 @@ int main() {
   }
 
   try {
-    Bureaucrat blueberry("Blueberry", 150);
+    Bureaucrat blueberry("블루베리", 150);
     std::cout << blueberry << std::endl;
     blueberry.decreaseGrade();
     std::cout << blueberry << std::endl;

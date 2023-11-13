@@ -33,14 +33,14 @@ void Bureaucrat::decreaseGrade() {
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw() {
-  return "🚨 Grade Too High (Grade: 1 ~ 150) 🚨";
+  return "🚨 등급이 너무 높습니다 (등급: 1 ~ 150) 🚨";
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const throw() {
-  return "🚨 Grade Too Low (Grade: 1 ~ 150) 🚨";
+  return "🚨 등급이 너무 낮습니다 (등급: 1 ~ 150) 🚨";
 }
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& b) {
-  os << b.getName() << ", bureaucrat grade " << b.getGrade() << ".";
+  os << b.getName() << ": " << b.getGrade() << "등급 관료";
   return os;
 }
