@@ -1,34 +1,35 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat() : name("hyobicho"), grade(1) {}
+Bureaucrat::Bureaucrat() : name_("hyobicho"), grade_(1) {}
 
 Bureaucrat::Bureaucrat(const std::string name, int grade)
-    : name(name), grade(grade) {
+    : name_(name), grade_(grade) {
   if (grade < 1) throw Bureaucrat::GradeTooHighException();
   if (grade > 150) throw Bureaucrat::GradeTooLowException();
 }
 
 Bureaucrat::~Bureaucrat() {}
 
-Bureaucrat::Bureaucrat(const Bureaucrat& b) : name(b.name), grade(b.grade) {}
+Bureaucrat::Bureaucrat(const Bureaucrat& b)
+    : name_(b.name_), grade_(b.grade_) {}
 
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& b) {
-  grade = b.grade;
+  grade_ = b.grade_;
   return *this;
 }
 
-const std::string& Bureaucrat::getName() const { return name; }
+const std::string& Bureaucrat::getName() const { return name_; }
 
-int Bureaucrat::getGrade() const { return grade; }
+int Bureaucrat::getGrade() const { return grade_; }
 
 void Bureaucrat::increaseGrade() {
-  if (grade == 1) throw Bureaucrat::GradeTooHighException();
-  --grade;
+  if (grade_ == 1) throw Bureaucrat::GradeTooHighException();
+  --grade_;
 }
 
 void Bureaucrat::decreaseGrade() {
-  if (grade == 150) throw Bureaucrat::GradeTooLowException();
-  ++grade;
+  if (grade_ == 150) throw Bureaucrat::GradeTooLowException();
+  ++grade_;
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw() {
