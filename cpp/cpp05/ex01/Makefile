@@ -1,7 +1,7 @@
 NAME = a.out
 C++ = c++ -std=c++98
 CXXFLAGS = -Wall -Wextra -Werror
-SRCS = main.cpp Bureaucrat.cpp
+SRCS = main.cpp Bureaucrat.cpp Form.cpp
 OBJ = $(SRCS:.cpp=.o)
 
 all: $(NAME)

@@ -14,7 +14,7 @@ Bureaucrat::Bureaucrat(const Bureaucrat& b)
     : name_(b.name_), grade_(b.grade_) {}
 
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& b) {
-  grade_ = b.grade_;
+  if (this != &b) grade_ = b.grade_;
   return *this;
 }
 
