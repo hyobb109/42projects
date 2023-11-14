@@ -24,12 +24,12 @@ int Bureaucrat::getGrade() const { return grade_; }
 
 void Bureaucrat::increaseGrade() {
   if (grade_ == 1) throw Bureaucrat::GradeTooHighException();
-  --grade_;
+  std::cout << *this << " => " << --grade_ << "등급 관료" << std::endl;
 }
 
 void Bureaucrat::decreaseGrade() {
   if (grade_ == 150) throw Bureaucrat::GradeTooLowException();
-  ++grade_;
+  std::cout << *this << " => " << ++grade_ << "등급 관료" << std::endl;
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw() {

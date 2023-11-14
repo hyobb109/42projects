@@ -16,19 +16,19 @@ int main() {
   }
 
   try {
-    Bureaucrat banana("바나나", 1);
+    Bureaucrat banana("바나나", 2);
     std::cout << banana << std::endl;
     banana.increaseGrade();
-    std::cout << banana << std::endl;
+    banana.increaseGrade();
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
 
   try {
-    Bureaucrat blueberry("블루베리", 150);
+    Bureaucrat blueberry("블루베리", 149);
     std::cout << blueberry << std::endl;
     blueberry.decreaseGrade();
-    std::cout << blueberry << std::endl;
+    blueberry.decreaseGrade();
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
