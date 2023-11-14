@@ -39,6 +39,10 @@ const int& Form::getGradeToSign() const { return sign_grade_; }
 const int& Form::getGradeToExecute() const { return execute_grade_; }
 
 void Form::beSigned(const Bureaucrat& b) {
+  if (signed_) {
+    std::cout << "이미 서명된 문서입니다." << std::endl;
+    return;
+  }
   if (b.getGrade() > sign_grade_) {
     b.signForm(*this);
     throw Form::GradeTooLowException();

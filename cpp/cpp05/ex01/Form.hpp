@@ -12,13 +12,13 @@ class Form {
   bool signed_;
   const int sign_grade_;
   const int execute_grade_;
+  Form& operator=(const Form& f);
 
  public:
   Form();
   Form(const std::string name, const int sign_grade, const int execute_grade);
   ~Form();
   Form(const Form& f);
-  Form& operator=(const Form& f);
   const std::string& getName() const;
   bool isSigned() const;
   const int& getGradeToSign() const;
