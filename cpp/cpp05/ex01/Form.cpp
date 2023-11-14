@@ -39,16 +39,9 @@ const int& Form::getGradeToSign() const { return sign_grade_; }
 const int& Form::getGradeToExecute() const { return execute_grade_; }
 
 void Form::beSigned(const Bureaucrat& b) {
-  if (signed_) {
-    std::cout << "이미 서명된 문서입니다." << std::endl;
-    return;
-  }
-  if (b.getGrade() > sign_grade_) {
-    b.signForm(*this);
-    throw Form::GradeTooLowException();
-  }
+  if (signed_) throw Form::AlreadySignedException();
+  if (b.getGrade() > sign_grade_) throw Form::GradeTooLowException();
   signed_ = true;
-  b.signForm(*this);
 }
 
 const char* Form::GradeTooHighException::what() const throw() {
@@ -57,6 +50,10 @@ const char* Form::GradeTooHighException::what() const throw() {
 
 const char* Form::GradeTooLowException::what() const throw() {
   return "🚨 등급이 너무 낮습니다 🚨";
+}
+
+const char* Form::AlreadySignedException::what() const throw() {
+  return "🚨 이미 서명된 문서입니다 🚨";
 }
 
 std::ostream& operator<<(std::ostream& os, const Form& f) {

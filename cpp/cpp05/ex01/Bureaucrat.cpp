@@ -26,12 +26,12 @@ int Bureaucrat::getGrade() const { return grade_; }
 
 void Bureaucrat::increaseGrade() {
   if (grade_ == 1) throw Bureaucrat::GradeTooHighException();
-  --grade_;
+  std::cout << *this << " => " << --grade_ << "등급 관료" << std::endl;
 }
 
 void Bureaucrat::decreaseGrade() {
   if (grade_ == 150) throw Bureaucrat::GradeTooLowException();
-  ++grade_;
+  std::cout << *this << " => " << ++grade_ << "등급 관료" << std::endl;
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw() {
@@ -48,12 +48,15 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b) {
 }
 
 // ex01
-void Bureaucrat::signForm(const Form& form) const {
-  if (form.isSigned())
+void Bureaucrat::signForm(Form& form) const {
+  try {
+    form.beSigned(*this);
     std::cout << grade_ << "등급 관료 " << name_ << "(이)가 " << form.getName()
               << " 문서에 서명했습니다📝" << std::endl;
-  else
-    std::cout << "🚫 " << grade_ << "등급 관료 " << name_ << "(은)는 "
-              << form.getName() << "(서명 가능 등급: " << form.getGradeToSign()
-              << ") 문서에 서명할 수 없습니다 🚫" << std::endl;
+
+  } catch (std::exception& e) {
+    std::cout << name_ << "(은)는 " << form.getName()
+              << " 문서에 서명할 수 없습니다. (사유: " << e.what() << ")"
+              << std::endl;
+  }
 }

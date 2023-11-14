@@ -24,19 +24,22 @@ int main() {
     std::cout << banana << std::endl;
     Form icecream("아이스크림", 10, 10);
     std::cout << icecream << std::endl;
-    icecream.beSigned(banana);
+    banana.signForm(icecream);
     std::cout << icecream << std::endl;
+    banana.signForm(icecream);
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
 
   std::cout << "=======테스트 4=======" << std::endl;
   try {
-    Bureaucrat blueberry("블루베리", 150);
+    Bureaucrat blueberry("블루베리", 101);
     std::cout << blueberry << std::endl;
     Form chocolate("초콜릿", 100, 100);
     std::cout << chocolate << std::endl;
-    chocolate.beSigned(blueberry);
+    blueberry.signForm(chocolate);
+    blueberry.increaseGrade();
+    blueberry.signForm(chocolate);
     std::cout << chocolate << std::endl;
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
