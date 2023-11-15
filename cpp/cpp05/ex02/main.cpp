@@ -1,3 +1,5 @@
+#include <time.h>
+
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 #include "PresidentialPardonForm.hpp"
@@ -5,6 +7,7 @@
 #include "ShrubberyCreationForm.hpp"
 
 int main() {
+  std::srand(std::time(NULL));
   std::cout << "======문서 목록======" << std::endl;
 
   AForm* shrubbery = new ShrubberyCreationForm("house");

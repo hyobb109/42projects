@@ -23,6 +23,9 @@ void RobotomyRequestForm::execute(Bureaucrat const& executor) const {
     throw AForm::GradeTooLowException();
   std::cout << "🤖 위잉위잉... 🤖" << std::endl;
   // TODO: 50% 확률 구현
-  std::cout << GREEN << target_ << " robotomizing 성공!" << BASIC << std::endl;
-  std::cout << RED << target_ << " robotomizing 실패.." << BASIC << std::endl;
+  int odd = std::rand() % 2;
+  odd ? std::cout << GREEN << target_ << " robotomizing 성공!" << BASIC
+                  << std::endl
+      : std::cout << RED << target_ << " robotomizing 실패.." << BASIC
+                  << std::endl;
 }

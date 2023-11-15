@@ -1,6 +1,8 @@
 #ifndef RRFORM_HPP
 #define RRFORM_HPP
 
+#include <cstdlib>
+
 #include "AForm.hpp"
 
 #define GREEN "\033[0;32m"
