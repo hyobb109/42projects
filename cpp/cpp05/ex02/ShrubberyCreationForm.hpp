@@ -1,6 +1,8 @@
 #ifndef SCFORM_HPP
 #define SCFORM_HPP
 
+#include <fstream>
+
 #include "AForm.hpp"
 
 class ShrubberyCreationForm : public AForm {

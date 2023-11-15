@@ -7,7 +7,7 @@
 int main() {
   std::cout << "======문서 목록======" << std::endl;
 
-  AForm* shrubbery = new ShrubberyCreationForm("마당");
+  AForm* shrubbery = new ShrubberyCreationForm("house");
   std::cout << *shrubbery << std::endl;
   AForm* robotomy = new RobotomyRequestForm("아톰");
   std::cout << *robotomy << std::endl;
