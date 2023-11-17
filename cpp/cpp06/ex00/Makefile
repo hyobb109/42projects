@@ -1,7 +1,7 @@
-NAME = a.out
+NAME = convert
 C++ = c++ -std=c++98
 CXXFLAGS = -Wall -Wextra -Werror
-SRCS = main.cpp 
+SRCS = main.cpp ScalarConverter.cpp
 OBJ = $(SRCS:.cpp=.o)
 
 all: $(NAME)
