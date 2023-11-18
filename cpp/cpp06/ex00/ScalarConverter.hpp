@@ -1,10 +1,10 @@
 #ifndef SCALAR_CONVERTER_HPP
 #define SCALAR_CONVERTER_HPP
 
+#include <cctype>
 #include <iostream>
 #include <sstream>
 #include <string>
-
 class ScalarConverter {
  private:
   ScalarConverter();

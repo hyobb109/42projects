@@ -6,10 +6,16 @@
 // display the results
 // if conversion doesn't make any sencse or overflows => display impossible
 void ScalarConverter::convert(std::string n) {
+  int int_num;
+  // double d_num;
+  float f_num = 0.0f;
   std::stringstream ss(n);
+  while (ss >> int_num) {
+    std::cout << int_num << std::endl;
+  }
 
-  std::cout << "char: " << n << std::endl;
-  std::cout << "int: " << n << std::endl;
-  std::cout << "float: " << n << std::endl;
-  std::cout << "double: " << n << std::endl;
+  // std::cout << "char " << int_num << std::endl;
+  // std::cout << "int: " << int_num << std::endl;
+  // std::cout << "float: " << d_num << std::endl;
+  std::cout << "double: " << f_num << 'f' << std::endl;
 }
