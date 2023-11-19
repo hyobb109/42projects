@@ -1,10 +1,11 @@
 #ifndef SERIALIZER_HPP
 #define SERIALIZER_HPP
 
-#include <cstdint>
+#include <string>
 
 struct Data {
-  int a;
+  int num;
+  std::string s;
 };
 
 class Serializer {
@@ -18,9 +19,5 @@ class Serializer {
   static uintptr_t serialize(Data* ptr);
   static Data* deserialize(uintptr_t raw);
 };
-
-Serializer::Serializer(/* args */) {}
-
-Serializer::~Serializer() {}
 
 #endif
