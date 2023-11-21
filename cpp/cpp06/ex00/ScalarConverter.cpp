@@ -18,25 +18,38 @@ void ScalarConverter::notANumber() {
   std::cout << "double: nan" << std::endl;
 }
 
-void ScalarConverter::convertInt(const char* str) {
-  std::cout << "===int===" << std::endl;
-  std::cout << str << std::endl;
+void ScalarConverter::infiniteNumber(const char* str) {
+  double num = strtod(str, NULL);
+  std::cout << "char: impossible" << std::endl;
+  std::cout << "int: impossible" << std::endl;
+  std::cout << "float: " << num << 'f' << std::endl;
+  std::cout << "double: " << num << std::endl;
 }
 
-void ScalarConverter::convertChar(const char* str) {
-  std::cout << "===char===" << std::endl;
-  std::cout << str << std::endl;
-  int num = 0;
-  std::cout << "char " << num << std::endl;
+void ScalarConverter::convertChar(int num) {
+  if (num > -129 && num < 128) {
+    std::isprint(num)
+        ? std::cout << "char: " << static_cast<char>(num) << std::endl
+        : std::cout << "char: Non displayable" << std::endl;
+  } else {
+    std::cout << "char: impossible" << std::endl;
+  }
+}
+
+void ScalarConverter::convertInt(const char* str) {
+  std::cout << "===int===" << std::endl;
+  int num = atoi(str);
+  convertChar(static_cast<int>(num));
   std::cout << "int: " << num << std::endl;
-  std::cout << "float: " << num << std::endl;
-  std::cout << "double: " << num << 'f' << std::endl;
+  std::cout << std::fixed << std::setprecision(0);
+  std::cout << "float: " << static_cast<float>(num) << "f\n";
+  std::cout << "double: " << static_cast<double>(num) << std::endl;
 }
 
 void ScalarConverter::convertFloat(const char* str, int precision) {
-  double num = atof(str);
   std::cout << "===float===" << std::endl;
-  std::cout << "char " << num << std::endl;
+  double num = atof(str);
+  convertChar(static_cast<int>(num));
   std::cout << "int: " << num << std::endl;
   std::cout << std::fixed << std::setprecision(precision);
   std::cout << "float: " << num << "f\n";
@@ -44,10 +57,9 @@ void ScalarConverter::convertFloat(const char* str, int precision) {
 }
 
 void ScalarConverter::convertDouble(const char* str, int precision) {
-  char** endptr = NULL;
-  double num = strtod(str, endptr);
   std::cout << "===double===" << std::endl;
-  std::cout << "char " << num << std::endl;
+  double num = strtod(str, NULL);
+  convertChar(static_cast<int>(num));
   std::cout << "int: " << num << std::endl;
   std::cout << std::fixed << std::setprecision(precision);
   std::cout << "float: " << num << "f\n";
@@ -60,7 +72,7 @@ bool ScalarConverter::isPseudoLiteral(std::string str) {
     return true;
   }
   if (str == "inf" || str == "+inf" || str == "-inf") {
-    // inf추가
+    infiniteNumber(str.c_str());
     return true;
   }
   return false;

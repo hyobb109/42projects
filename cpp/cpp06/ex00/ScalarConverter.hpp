@@ -14,9 +14,10 @@ class ScalarConverter {
   ScalarConverter(const ScalarConverter& s);
   ScalarConverter& operator=(const ScalarConverter& s);
   static void notANumber();
+  static void infiniteNumber(const char* str);
   static bool isPseudoLiteral(std::string str);
   static void convertInt(const char* str);
-  static void convertChar(const char* str);
+  static void convertChar(int num);
   static void convertFloat(const char* str, int precision);
   static void convertDouble(const char* str, int precision);
 
