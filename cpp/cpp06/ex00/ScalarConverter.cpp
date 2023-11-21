@@ -26,44 +26,63 @@ void ScalarConverter::infiniteNumber(const char* str) {
   std::cout << "double: " << num << std::endl;
 }
 
-void ScalarConverter::convertChar(int num) {
-  if (num > -129 && num < 128) {
-    std::isprint(num)
-        ? std::cout << "char: " << static_cast<char>(num) << std::endl
-        : std::cout << "char: Non displayable" << std::endl;
-  } else {
+void ScalarConverter::printChar(int num) {
+  if (num < CHAR_MIN || num > CHAR_MAX) {
     std::cout << "char: impossible" << std::endl;
+  } else {
+    std::isprint(num) ? std::cout << "char: " << '\'' << static_cast<char>(num)
+                                  << '\'' << std::endl
+                      : std::cout << "char: Non displayable" << std::endl;
   }
 }
 
-void ScalarConverter::convertInt(const char* str) {
-  std::cout << "===int===" << std::endl;
-  int num = atoi(str);
-  convertChar(static_cast<int>(num));
-  std::cout << "int: " << num << std::endl;
-  std::cout << std::fixed << std::setprecision(0);
-  std::cout << "float: " << static_cast<float>(num) << "f\n";
-  std::cout << "double: " << static_cast<double>(num) << std::endl;
+void ScalarConverter::printInt(double num) {
+  if (num < INT_MIN || num > INT_MAX) {
+    std::cout << "int: impossible" << std::endl;
+  } else {
+    std::cout << "int: " << static_cast<int>(num) << std::endl;
+  }
 }
 
-void ScalarConverter::convertFloat(const char* str, int precision) {
-  std::cout << "===float===" << std::endl;
-  double num = atof(str);
-  convertChar(static_cast<int>(num));
-  std::cout << "int: " << num << std::endl;
-  std::cout << std::fixed << std::setprecision(precision);
-  std::cout << "float: " << num << "f\n";
-  std::cout << "double: " << num << std::endl;
+void ScalarConverter::convertNumber(const char* str, int precision,
+                                    bool isFloat) {
+  double num;
+  isFloat ? num = atof(str) : num = strtod(str, NULL);
+  printChar(static_cast<int>(num));
+  printInt(num);
+  if (num < -FLT_MAX || num > FLT_MAX) {
+    std::cout << num << std::endl;
+    std::cout << "float: impossible" << std::endl;
+  } else {
+    std::cout << std::fixed << std::setprecision(precision);
+    std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
+  }
+  if (num < -DBL_MAX || num > DBL_MAX) {
+    std::cout << "double: impossible" << std::endl;
+  } else {
+    std::cout << std::fixed << std::setprecision(precision);
+    std::cout << "double: " << static_cast<double>(num) << std::endl;
+  }
 }
 
-void ScalarConverter::convertDouble(const char* str, int precision) {
-  std::cout << "===double===" << std::endl;
-  double num = strtod(str, NULL);
-  convertChar(static_cast<int>(num));
-  std::cout << "int: " << num << std::endl;
-  std::cout << std::fixed << std::setprecision(precision);
-  std::cout << "float: " << num << "f\n";
-  std::cout << "double: " << num << std::endl;
+bool ScalarConverter::convertChar(char c) {
+  int num = static_cast<int>(c);
+  printChar(num);
+  printInt(num);
+  if (num < -FLT_MAX || num > FLT_MAX) {
+    std::cout << num << std::endl;
+    std::cout << "float: impossible" << std::endl;
+  } else {
+    std::cout << std::fixed << std::setprecision(1);
+    std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
+  }
+  if (num < -DBL_MAX || num > DBL_MAX) {
+    std::cout << "double: impossible" << std::endl;
+  } else {
+    std::cout << std::fixed << std::setprecision(1);
+    std::cout << "double: " << static_cast<double>(num) << std::endl;
+  }
+  return true;
 }
 
 bool ScalarConverter::isPseudoLiteral(std::string str) {
@@ -79,36 +98,37 @@ bool ScalarConverter::isPseudoLiteral(std::string str) {
 }
 
 void ScalarConverter::convert(std::string str) {
-  char** endptr = NULL;
-  double d_num = 0;
   std::size_t pos = 0;
-  d_num = strtod(str.c_str(), endptr);
-  std::cout << "num: " << d_num << std::endl;
   // 앞에 공백 삭제
   std::size_t s_idx = str.find_first_not_of(" \t\n\r\f\v");
   str.erase(0, s_idx);
   if (isPseudoLiteral(str)) return;
   // 부호 있으면 str[1]부터 탐색
   if (str[0] == '+' || str[0] == '-') pos = 1;
+  if (str.length() == 1) {
+    convertChar(str[0]);
+    return;
+  }
   std::size_t found = str.find_first_not_of("0123456789", pos);
-  // digit 으로만 이루어져 있으면 int or char
+  // digit 으로만 이루어져 있을 때
   if (found == std::string::npos) {
-    convertInt(str.c_str());
+    convertNumber(str.c_str(), 1, false);
   } else if (str[found] == '.') {
+    pos = found;
     std::string decimal_part = str.substr(found + 1);
-    std::cout << "." << decimal_part << std::endl;
-    found = decimal_part.find_first_not_of("0123456789");
-    // .뒤에 숫자만 나오면 double 1.00 4
-    if (found == std::string::npos) {
-      convertDouble(str.c_str(), decimal_part.length());
+    found = str.find_first_not_of("0123456789", pos + 1);
+    std::cout << "str[found]: " << str[found - 1] << "\n";
+    // .뒤에 숫자만 나오면 double
+    if (found == std::string::npos && str[str.length() - 1] != '.') {
+      convertNumber(str.c_str(), decimal_part.length(), false);
     } else if (str[found] == 'f' && found == str.length() - 1) {
-      convertFloat(str.c_str(), decimal_part.length() - 1);
+      convertNumber(str.c_str(), decimal_part.length() - 1, true);
     } else {
       notANumber();
     }
     // f로 끝나면 float
   } else if (str[found] == 'f' && found == str.length() - 1) {
-    convertFloat(str.c_str(), 0);
+    convertNumber(str.c_str(), 1, true);
   } else {
     notANumber();
   }
