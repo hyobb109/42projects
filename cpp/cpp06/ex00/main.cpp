@@ -6,7 +6,6 @@ int main(int ac, char** av) {
     std::cout << "Usage: ./converter <number>" << std::endl;
     return 1;
   }
-
   ScalarConverter::convert(av[1]);
   return 0;
 }

@@ -65,24 +65,15 @@ void ScalarConverter::convertNumber(const char* str, int precision,
   }
 }
 
-bool ScalarConverter::convertChar(char c) {
+void ScalarConverter::convertChar(char c) {
   int num = static_cast<int>(c);
-  printChar(num);
-  printInt(num);
-  if (num < -FLT_MAX || num > FLT_MAX) {
-    std::cout << num << std::endl;
-    std::cout << "float: impossible" << std::endl;
-  } else {
-    std::cout << std::fixed << std::setprecision(1);
-    std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
-  }
-  if (num < -DBL_MAX || num > DBL_MAX) {
-    std::cout << "double: impossible" << std::endl;
-  } else {
-    std::cout << std::fixed << std::setprecision(1);
-    std::cout << "double: " << static_cast<double>(num) << std::endl;
-  }
-  return true;
+  std::isprint(num) ? std::cout << "char: " << '\'' << c << '\'' << std::endl
+                    : std::cout << "char: Non displayable" << std::endl;
+  std::cout << "int: " << num << std::endl;
+  std::cout << std::fixed << std::setprecision(1);
+  std::cout << "float: " << static_cast<float>(c) << "f" << std::endl;
+  std::cout << std::fixed << std::setprecision(1);
+  std::cout << "double: " << static_cast<double>(c) << std::endl;
 }
 
 bool ScalarConverter::isPseudoLiteral(std::string str) {
@@ -105,7 +96,7 @@ void ScalarConverter::convert(std::string str) {
   if (isPseudoLiteral(str)) return;
   // 부호 있으면 str[1]부터 탐색
   if (str[0] == '+' || str[0] == '-') pos = 1;
-  if (str.length() == 1) {
+  if (str.length() == 1 && !isdigit(str[0])) {
     convertChar(str[0]);
     return;
   }

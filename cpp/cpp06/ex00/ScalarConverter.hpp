@@ -18,7 +18,7 @@ class ScalarConverter {
   ScalarConverter& operator=(const ScalarConverter& s);
   static void notANumber();
   static void infiniteNumber(const char* str);
-  static bool convertChar(char c);
+  static void convertChar(char c);
   static bool isPseudoLiteral(std::string str);
   static void printInt(double num);
   static void printChar(int num);
