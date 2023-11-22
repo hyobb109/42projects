@@ -51,7 +51,6 @@ void ScalarConverter::convertNumber(const char* str, int precision,
   printChar(static_cast<int>(num));
   printInt(num);
   if (num < -FLT_MAX || num > FLT_MAX) {
-    std::cout << num << std::endl;
     std::cout << "float: impossible" << std::endl;
   } else {
     std::cout << std::fixed << std::setprecision(precision);
@@ -108,7 +107,6 @@ void ScalarConverter::convert(std::string str) {
     pos = found;
     std::string decimal_part = str.substr(found + 1);
     found = str.find_first_not_of("0123456789", pos + 1);
-    std::cout << "str[found]: " << str[found - 1] << "\n";
     // .뒤에 숫자만 나오면 double
     if (found == std::string::npos && str[str.length() - 1] != '.') {
       convertNumber(str.c_str(), decimal_part.length(), false);
