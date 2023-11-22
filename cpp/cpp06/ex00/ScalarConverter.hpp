@@ -9,7 +9,6 @@
 #include <iostream>
 #include <string>
 
-enum { CHAR, INT, FLOAT, DOUBLE };
 class ScalarConverter {
  private:
   ScalarConverter();
