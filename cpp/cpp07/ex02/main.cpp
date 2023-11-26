@@ -2,7 +2,8 @@
 
 #include "Array.hpp"
 
-#define MAX_VAL 750
+#define MAX_VAL 10
+
 int main(int, char**) {
   Array<int> numbers(MAX_VAL);
   int* mirror = new int[MAX_VAL];
@@ -12,7 +13,6 @@ int main(int, char**) {
     numbers[i] = value;
     mirror[i] = value;
   }
-  // SCOPE
   {
     Array<int> tmp = numbers;
     Array<int> test(tmp);
@@ -38,6 +38,6 @@ int main(int, char**) {
   for (int i = 0; i < MAX_VAL; i++) {
     numbers[i] = rand();
   }
-  delete[] mirror;  //
+  delete[] mirror;
   return 0;
 }

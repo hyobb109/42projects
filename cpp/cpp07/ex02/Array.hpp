@@ -1,7 +1,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-#include <exception>
+#include <stdexcept>
 template <typename T>
 class Array {
  private:
@@ -11,7 +11,9 @@ class Array {
  public:
   Array() : data(new T[0]), len(0) {}
   Array(unsigned int n) : data(new T[n]), len(n) {
-    for
+    for (unsigned int i = 0; i < n; i++) {
+      data[i] = T();
+    }
   }
   Array(const Array& arr) : data(new T[arr.len]), len(arr.len) {
     for (unsigned int i = 0; i < len; i++) {
@@ -25,8 +27,8 @@ class Array {
     }
     return *this;
   }
-  T& operator[](const unsigned int i) const {
-    if (i >= len) throw std::exception();
+  T& operator[](const long long i) const {
+    if (i < 0 || i >= len) throw std::out_of_range("Out of Range!");
     return data[i];
   }
   unsigned int size() const { return len; }
