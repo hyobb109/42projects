@@ -16,7 +16,7 @@ int easyfind(T container, int target) {
   }
   // if no occurrence is found, throw an exception or return an error value of
   // your choice
-  throw std::exception();
+  throw std::runtime_error("target not found");
 }
 
 #endif

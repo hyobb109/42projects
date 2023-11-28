@@ -8,12 +8,13 @@
 #include "easyfind.hpp"
 
 int main(int ac, char** av) {
-  if (ac != 2) {
-    std::cout << "Usage: ./a.out <integer>" << std::endl;
+  if (ac != 3) {
+    std::cout << "Usage: ./a.out <integer1> <integer2>" << std::endl;
     return 1;
   }
 
-  int target = std::atoi(av[1]);
+  int target1 = std::atoi(av[1]);
+  int target2 = std::atoi(av[2]);
   std::vector<int> v;
   std::deque<int> d;
 
@@ -24,9 +25,9 @@ int main(int ac, char** av) {
 
   try {
     std::cout << "=====vector=====" << std::endl;
-    std::cout << easyfind(v, target) << std::endl;
+    std::cout << easyfind(v, target1) << std::endl;
     std::cout << "=====deque=====" << std::endl;
-    std::cout << easyfind(d, target) << std::endl;
+    std::cout << easyfind(d, target2) << std::endl;
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
