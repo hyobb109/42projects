@@ -7,11 +7,6 @@ void print(T& a) {
   std::cout << a << " ";
 }
 
-template <typename T>
-void add(T& a) {
-  std::cout << ++a << " ";
-}
-
 int main() {
   int arr1[5] = {0, 1, 2, 3, 4};
   const int arr2[5] = {5, 6, 7, 8, 9};
@@ -21,8 +16,6 @@ int main() {
 
   std::cout << "===int array===\n";
   ::iter(arr1, 5, print<int>);
-  std::cout << "\nadding...\n";
-  ::iter(arr1, 5, add<int>);
   std::cout << "\n===const int array===\n";
   ::iter(arr2, 5, print<const int>);
   std::cout << "\n===const string array===\n";
