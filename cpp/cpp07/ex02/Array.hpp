@@ -28,6 +28,8 @@ class Array {
   Array& operator=(const Array& arr) {
     if (this != &arr) {
       delete[] data;
+      len = arr.len;
+      data = new T[len];
       for (unsigned int i = 0; i < len; i++) {
         data[i] = arr[i];
       }

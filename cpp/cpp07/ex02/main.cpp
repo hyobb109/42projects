@@ -18,11 +18,16 @@ int main(int, char**) {
     mirror[i] = value;
   }
 
-  Array<int> tmp = numbers;
+  Array<int> tmp;
+  tmp = numbers;
   Array<int> test(tmp);
 
+  std::cout << "size: " << numbers.size() << std::endl;
+  std::cout << "------------------------\n";
   for (int i = 0; i < MAX_VAL; i++) {
     std::cout << "numbers[" << i << "]: " << numbers[i] << std::endl;
+    std::cout << "tmp[" << i << "]: " << tmp[i] << std::endl;
+    std::cout << "test[" << i << "]: " << test[i] << std::endl;
     std::cout << "mirror[" << i << "]: " << mirror[i] << std::endl;
     std::cout << "------------------------\n";
     if (mirror[i] != numbers[i] || mirror[i] != tmp[i] ||
