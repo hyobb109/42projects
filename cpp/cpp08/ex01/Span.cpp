@@ -22,6 +22,7 @@ void Span::addNumber(int num) {
 }
 
 unsigned int Span::shortestSpan() const {
+  if (v.empty() || v.size() == 1) return 0;
   unsigned int span;
   unsigned int min = UINT_MAX;
   std::vector<int> copy = v;
@@ -35,12 +36,16 @@ unsigned int Span::shortestSpan() const {
 }
 
 unsigned int Span::longestSpan() const {
+  if (v.empty() || v.size() == 1) return 0;
   int max = *std::max_element(v.begin(), v.end());
   int min = *std::min_element(v.begin(), v.end());
   return max - min;
 }
 
 void Span::fillSpan(unsigned int n) {
-  //   std::vector<int>::iterator iter = v.end() - 1;
-  (void)n;
+  for (unsigned int i = 0; i < n; ++i) {
+    addNumber(std::rand());
+  }
 }
+
+std::size_t Span::getVectorSize() const { return v.size(); }

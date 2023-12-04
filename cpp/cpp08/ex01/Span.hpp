@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cstdlib>
 #include <exception>
 #include <vector>
 
@@ -21,6 +22,7 @@ class Span {
   unsigned int shortestSpan() const;
   unsigned int longestSpan() const;
   void fillSpan(unsigned int n);
+  std::size_t getVectorSize() const;
 };
 
 #endif
