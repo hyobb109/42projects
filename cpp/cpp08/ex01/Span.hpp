@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <exception>
+#include <stdexcept>
 #include <vector>
 
 class Span {
