@@ -8,10 +8,17 @@
 enum CMDS { EMPTY, SIZE, TOP, PUSH, POP, PRINT };
 
 template <typename Container>
-void printStack(Container& mstack) {
-  typename Container::iterator it;
+void printStack(const Container& mstack) {
+  std::cout << "* from bottom to top *\n";
+  typename Container::const_iterator it;
   for (it = mstack.begin(); it != mstack.end(); ++it) {
     std::cout << *it << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "* from top to bottom *\n";
+  typename Container::const_reverse_iterator rit;
+  for (rit = mstack.rbegin(); rit != mstack.rend(); ++rit) {
+    std::cout << *rit << " ";
   }
   std::cout << std::endl;
 }
@@ -25,7 +32,7 @@ int main() {
   cmds["pop"] = POP;
   cmds["print"] = PRINT;
   MutantStack<int> mstack;
-  std::cout << "=====MutantStack=====\n";
+  std::cout << "=====MutantStack 만들기=====\n";
   while (1) {
     std::string command;
     std::cout << "명령어: empty, size, top, push, pop, print, exit\n";
@@ -33,12 +40,10 @@ int main() {
     if (command == "exit") break;
     if (cmds.find(command) == cmds.end()) continue;
     int cmd = cmds[command];
-
     switch (cmd) {
       case EMPTY:
         mstack.empty() ? std::cout << "true" << std::endl
                        : std::cout << "false" << std::endl;
-
         break;
       case SIZE:
         std::cout << "size: " << mstack.size() << std::endl;
@@ -48,7 +53,6 @@ int main() {
                        : std::cout << "top: " << mstack.top() << std::endl;
         break;
       case PUSH: {
-        std::cout << "숫자를 입력하세요" << std::endl;
         std::string input_num;
         std::cin >> input_num;
         int num = atoi(input_num.c_str());
@@ -61,13 +65,18 @@ int main() {
         else
           mstack.pop();
         break;
-      default:
+      case PRINT:
         printStack(mstack);
+        break;
+      default:
         break;
     }
   }
+  std::cout << "=====MutantStack=====\n";
+  printStack(mstack);
   std::cout << "=====Stack=====\n";
   std::stack<int> s(mstack);
+  std::cout << "* from top to bottom *\n";
   while (!s.empty()) {
     std::cout << s.top() << " ";
     s.pop();
