@@ -1,26 +1,24 @@
-#include <fstream>
-#include <iostream>
+#include <cstdio>
 
 #include "BitcoinExchange.hpp"
 
-int main(int ac, char **av) {
+int main(int ac, char** av) {
   if (ac != 2) {
     std::cout << "Usage: ./btc <filename>" << std::endl;
     return 1;
   }
-  // Your program must take a file as argument.
-  std::string filename = av[1];
-  std::ifstream infile(filename);
+  std::ifstream infile(av[1]);
   if (!infile.is_open()) {
-    std::cout << "Error: could not open file." << std::endl;
+    std::cerr << "🚨 파일을 열 수 없습니다 🚨" << std::endl;
     return 1;
   }
-  // | 기준 스플릿 -> 날짜, value Map에 저장하면 될 듯
-
-  // Each line in this file must use the following format: "date | value".
-
-  // A valid date will always be in the following format: Year-Month-Day.
-  // 2009-01-02 이전 날짜는 모두 에러
-  // A valid value must be either a float or a positive integer, between 0 and
-  // 1000.
+  try {
+    BitcoinExchange btc;
+    btc.saveDatabase("data.csv");
+    btc.exchange(infile);
+  } catch (std::exception& e) {
+    std::cerr << e.what() << std::endl;
+  }
+  infile.close();
+  return (0);
 }
