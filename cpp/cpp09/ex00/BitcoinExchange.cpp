@@ -21,62 +21,62 @@ void BitcoinExchange::printDatabase() {
   }
 }
 
-bool BitcoinExchange::isValidDate(std::string date) {
-  std::stringstream ss;
-
+bool BitcoinExchange::isValidDate(std::string token) {
+  std::stringstream ss(token);
+  std::string date;
+  for (int i = 0; getline(ss, date, '-'); i++) {
+    switch (i) {
+      case YEAR:
+        std::cout << "YEAR" << date << std::endl;
+        break;
+      case MONTH:
+        std::cout << "MONTH" << date << std::endl;
+        break;
+      case DAY:
+        std::cout << "DAY" << date << std::endl;
+        break;
+      default:
+        return false;
+        break;
+    }
+  }
   return true;
 }
 
 void BitcoinExchange::saveDatabase(const std::string& filename) {
-  //  확장자 확인
   std::size_t found = filename.rfind(".csv");
   if (found == std::string::npos || found != filename.length() - 4)
     throw std::runtime_error("🚨 데이터베이스 확장자가 잘못되었습니다 🚨");
-  // 파일 오픈 확인
   std::ifstream database(filename);
   if (!database.is_open())
     throw std::runtime_error("🚨 파일을 열 수 없습니다 🚨");
   std::string data;
-  bool header = true;
+  getline(database, data);  // 헤더 제외
   while (getline(database, data)) {
-    if (header && data != "date,exchange_rate") {
-      database.close();
-      throw std::runtime_error("🚨 데이터베이스 형식 오류입니다 🚨");
-    }
-    if (header) {
-      if (data != "date,exchange_rate") {
-        database.close();
-        throw std::runtime_error("🚨 데이터베이스 형식 오류입니다 🚨");
-      }
-      header = false;
-      continue;
-    }
     std::stringstream ss(data);
     std::string token;
     std::string date;
     double exchange_rate;
     for (int i = 0; getline(ss, token, ','); ++i) {
-      if (i == 0) {
-        if (isValidDate(token)) {
-          date = token;
-        }
-      } else {
-        char* endptr;
-        exchange_rate = strtod(token.c_str(), &endptr);
-        if (*endptr != '\0') {
-          database.close();
-          throw std::runtime_error("🚨 가격 형식 오류입니다 🚨");
-        }
-      }
-      std::cout << token << std::endl;
+      if (i == 0)
+        date = token;
+      else
+        exchange_rate = strtod(token.c_str(), NULL);
     }
     database_[date] = exchange_rate;
   }
   database.close();
-  printDatabase();
+  // printDatabase();
 }
 
 void BitcoinExchange::exchange(std::ifstream& input) {
-  (void)input;
-  //
+  if (!database_.size())
+    throw std::runtime_error("🚨 저장된 데이터베이스가 없습니다 🚨");
+  std::string str;
+  bool header = true;
+  getline(input, str);
+  if (str != "date | value")
+    throw std::runtime_error("🚨 파일 형식 오류입니다 🚨");
+  while (getline(input, str)) {
+    }
 }

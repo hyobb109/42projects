@@ -9,6 +9,8 @@
 #include <map>
 #include <sstream>
 
+enum DATE { YEAR, MONTH, DAY };
+
 class BitcoinExchange {
  private:
   std::map<std::string, double> database_;
