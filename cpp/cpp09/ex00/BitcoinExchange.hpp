@@ -3,19 +3,25 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <ctime>
 #include <exception>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <sstream>
 
-enum DATE { YEAR, MONTH, DAY };
+enum DATE { INVALID_DATE = -1, YEAR, MONTH, DAY };
+enum NUMBER { NOT_A_NUMBER = -1, NON_POSITIVE = -2, BIG = -3 };
 
 class BitcoinExchange {
  private:
-  std::map<std::string, double> database_;
-  bool isValidDate(std::string date);
-  void printDatabase();
+  int today_;
+  std::map<int, double> database_;
+  bool isValidDate(int year, int month, int day) const;
+  bool isLeapYear(const int year) const;
+  int getDateKey(std::string token) const;
+  double getValue(std::string value);
+  double getClosestDateValue(int date);
 
  public:
   BitcoinExchange();
