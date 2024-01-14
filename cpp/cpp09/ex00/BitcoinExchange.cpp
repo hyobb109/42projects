@@ -72,7 +72,7 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
       i == 0 ? info.first = getDateKey(token)
              : info.second = strtod(token.c_str(), NULL);
     }
-    database_[info.first] = info.second;
+    database_.insert(info);
   }
   database.close();
 }
