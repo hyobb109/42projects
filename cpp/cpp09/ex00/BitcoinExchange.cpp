@@ -125,8 +125,13 @@ void BitcoinExchange::exchange(std::ifstream& input) {
     std::string date = str.substr(0, del);
     std::string num = str.substr(del + 3);
     int date_key = getDateKey(date);
-    if (date_key == INVALID_DATE || date_key < database_.begin()->first) {
+    if (date_key == INVALID_DATE) {
       std::cerr << "🚨 잘못된 날짜입니다 => " << date << std::endl;
+      continue;
+    }
+    if (date_key < database_.begin()->first) {
+      std::cerr << "🚨 데이터베이스에서 값을 가져올 수 없는 날짜입니다 => "
+                << date << std::endl;
       continue;
     }
     double value = getValue(num);
