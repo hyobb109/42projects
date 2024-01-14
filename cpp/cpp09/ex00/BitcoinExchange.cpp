@@ -59,9 +59,10 @@ int BitcoinExchange::getDateKey(std::string token) const {
 void BitcoinExchange::saveDatabase(const std::string& filename) {
   std::size_t found = filename.rfind(".csv");
   if (found == std::string::npos || found != filename.length() - 4)
-    throw std::runtime_error("🚨 데이터베이스 확장자가 잘못되었습니다");
+    throw std::runtime_error("🚨 데이터베이스 확장자가 잘못되었습니다 🚨");
   std::ifstream database(filename);
-  if (!database.is_open()) throw std::runtime_error("🚨 파일을 열 수 없습니다");
+  if (!database.is_open())
+    throw std::runtime_error("🚨 데이터베이스를 열 수 없습니다 🚨");
   std::string data;
   getline(database, data);  // 헤더 제외
   while (getline(database, data)) {
@@ -114,15 +115,15 @@ double BitcoinExchange::getClosestDateValue(int date) {
 
 void BitcoinExchange::exchange(std::ifstream& input) {
   if (!database_.size())
-    throw std::runtime_error("🚨 저장된 데이터베이스가 없습니다");
+    throw std::runtime_error("🚨 저장된 데이터베이스가 없습니다 🚨");
   std::string str;
   getline(input, str);
   if (str != "date | value")
-    throw std::runtime_error("🚨 파일 형식 오류입니다");
+    throw std::runtime_error("🚨 입력 파일 형식 오류입니다 🚨");
   while (getline(input, str)) {
     std::size_t del = str.find(" | ");
     if (del == std::string::npos) {
-      std::cerr << "🚨 파일 형식 오류입니다 => " << str << std::endl;
+      std::cerr << "🚨 입력 파일 형식 오류입니다 => " << str << std::endl;
       continue;
     }
     std::string date = str.substr(0, del);

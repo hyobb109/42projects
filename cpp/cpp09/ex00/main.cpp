@@ -9,7 +9,7 @@ int main(int ac, char** av) {
   }
   std::ifstream infile(av[1]);
   if (!infile.is_open()) {
-    std::cerr << "🚨 파일을 열 수 없습니다 🚨" << std::endl;
+    std::cerr << "🚨 입력 파일을 열 수 없습니다 🚨" << std::endl;
     return 1;
   }
   try {
