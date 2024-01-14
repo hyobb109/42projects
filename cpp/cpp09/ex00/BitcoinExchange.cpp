@@ -134,8 +134,6 @@ void BitcoinExchange::exchange(std::ifstream& input) {
     }
     double value = getValue(num);
     if (value > 0) {
-      // TODO: key가 없는 경우 가장 가까운 날짜 찾기
-      //
       std::map<int, double>::iterator it = database_.find(date_key);
       double rate = it == database_.end() ? getClosestDateValue(date_key)
                                           : database_[date_key];
