@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <ctime>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -11,18 +10,17 @@
 #include <sstream>
 #include <utility>
 
-enum DATE { INVALID_DATE = -1, YEAR, MONTH, DAY };
+enum DATE { YEAR, MONTH, DAY };
 enum NUMBER { NOT_A_NUMBER = -1, NON_POSITIVE = -2, BIG = -3 };
 
 class BitcoinExchange {
  private:
-  int today_;
-  std::map<int, double> database_;
+  std::map<std::string, double> database_;
   bool isValidDate(int year, int month, int day) const;
   bool isLeapYear(const int year) const;
-  int getDateKey(std::string token) const;
-  double getValue(std::string value);
-  double getClosestDateValue(int date);
+  bool isValidDateKey(std::string token) const;
+  double convertValue(std::string value);
+  double getExchangeRate(std::string date);
 
  public:
   BitcoinExchange();

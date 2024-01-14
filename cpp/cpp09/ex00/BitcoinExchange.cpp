@@ -1,25 +1,14 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange() {
-  time_t now;
-  time(&now);
-  struct tm* tm = localtime(&now);
-
-  int cyear = tm->tm_year + 1900;
-  int cmonth = tm->tm_mon + 1;
-  int cday = tm->tm_mday;
-
-  today_ = cyear * 10000 + cmonth * 100 + cday;
-}
+BitcoinExchange::BitcoinExchange() {}
 
 BitcoinExchange::~BitcoinExchange() {}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& copy)
-    : today_(copy.today_), database_(copy.database_) {}
+    : database_(copy.database_) {}
 
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& copy) {
   if (this != &copy) {
-    today_ = copy.today_;
     database_ = copy.database_;
   }
   return *this;
@@ -30,29 +19,26 @@ bool BitcoinExchange::isLeapYear(const int year) const {
 }
 
 bool BitcoinExchange::isValidDate(int year, int month, int day) const {
-  if (year > today_ / 10000) return false;
   if (month < 1 || month > 12) return false;
   int valid_days[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   if (isLeapYear(year)) ++valid_days[2];
   return (day > 0) && (day <= valid_days[month]);
 }
 
-int BitcoinExchange::getDateKey(std::string token) const {
+bool BitcoinExchange::isValidDateKey(std::string token) const {
   std::stringstream ss(token);
   std::string str;
   int date[3];
   for (int i = 0; i < 3; i++) {
     getline(ss, str, '-');
     int data = atoi(str.c_str());
-    if (data < 0) return INVALID_DATE;
+    if (data < 0) return false;
     date[i] = data;
   }
   if (!ss.eof()) {
-    return INVALID_DATE;
+    return false;
   }
-  if (!isValidDate(date[YEAR], date[MONTH], date[DAY])) return INVALID_DATE;
-  int date_key = date[YEAR] * 10000 + date[MONTH] * 100 + date[DAY];
-  return date_key;
+  return isValidDate(date[YEAR], date[MONTH], date[DAY]);
 }
 
 void BitcoinExchange::saveDatabase(const std::string& filename) {
@@ -67,17 +53,19 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
   while (getline(database, data)) {
     std::stringstream ss(data);
     std::string token;
-    std::pair<int, double> info;
+    std::pair<std::string, double> info;
     for (int i = 0; getline(ss, token, ','); ++i) {
-      i == 0 ? info.first = getDateKey(token)
-             : info.second = strtod(token.c_str(), NULL);
+      if (i == 0)
+        info.first = token;
+      else
+        info.second = strtod(token.c_str(), NULL);
     }
     database_.insert(info);
   }
   database.close();
 }
 
-double BitcoinExchange::getValue(std::string value) {
+double BitcoinExchange::convertValue(std::string value) {
   char* endptr;
   double res = strtod(value.c_str(), &endptr);
   if (*endptr != '\0') {
@@ -95,18 +83,11 @@ double BitcoinExchange::getValue(std::string value) {
   return res;
 }
 
-double BitcoinExchange::getClosestDateValue(int date) {
-  std::map<int, double>::reverse_iterator most_recent = database_.rbegin();
-  if (date > most_recent->first) return most_recent->second;
-  while (--date) {
-    if (date % 100 == 0) {
-      date -= 100;
-      date += date % 10000 ? 31 : -10000 + 1231;
-    }
-    std::map<int, double>::iterator it = database_.find(date);
-    if (it != database_.end()) break;
-  }
-  return database_[date];
+double BitcoinExchange::getExchangeRate(std::string date) {
+  if (date > database_.rbegin()->first) return database_.rbegin()->second;
+  std::map<std::string, double>::iterator it = database_.lower_bound(date);
+  if (it->first != date) --it;
+  return it->second;
 }
 
 void BitcoinExchange::exchange(std::ifstream& input) {
@@ -124,22 +105,18 @@ void BitcoinExchange::exchange(std::ifstream& input) {
     }
     std::string date = str.substr(0, del);
     std::string num = str.substr(del + 3);
-    int date_key = getDateKey(date);
-    if (date_key == INVALID_DATE) {
+    if (!isValidDateKey(date)) {
       std::cerr << "🚨 잘못된 날짜입니다 => " << date << std::endl;
       continue;
-    }
-    if (date_key < database_.begin()->first) {
+    } else if (date < database_.begin()->first) {
       std::cerr << "🚨 데이터베이스에서 값을 가져올 수 없는 날짜입니다 => "
                 << date << std::endl;
       continue;
     }
-    double value = getValue(num);
+    double value = convertValue(num);
     if (value > 0) {
-      std::map<int, double>::iterator it = database_.find(date_key);
-      double rate = it == database_.end() ? getClosestDateValue(date_key)
-                                          : database_[date_key];
-      std::cout << date << " => " << num << " = " << value * rate << std::endl;
+      std::cout << date << " => " << num << " = "
+                << value * getExchangeRate(date) << std::endl;
     }
   }
 }
