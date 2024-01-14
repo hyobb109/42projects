@@ -52,7 +52,6 @@ int BitcoinExchange::getDateKey(std::string token) const {
   }
   if (!isValidDate(date[YEAR], date[MONTH], date[DAY])) return INVALID_DATE;
   int date_key = date[YEAR] * 10000 + date[MONTH] * 100 + date[DAY];
-  if (date_key < database_.begin()->first) return INVALID_DATE;
   return date_key;
 }
 
@@ -68,15 +67,12 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
   while (getline(database, data)) {
     std::stringstream ss(data);
     std::string token;
-    int date;
-    double exchange_rate;
+    std::pair<int, double> info;
     for (int i = 0; getline(ss, token, ','); ++i) {
-      if (i == 0)
-        date = getDateKey(token);
-      else
-        exchange_rate = strtod(token.c_str(), NULL);
+      i == 0 ? info.first = getDateKey(token)
+             : info.second = strtod(token.c_str(), NULL);
     }
-    database_[date] = exchange_rate;
+    database_[info.first] = info.second;
   }
   database.close();
 }
@@ -100,8 +96,8 @@ double BitcoinExchange::getValue(std::string value) {
 }
 
 double BitcoinExchange::getClosestDateValue(int date) {
-  int most_recent = database_.rbegin()->first;
-  if (date > most_recent) return database_[most_recent];
+  std::map<int, double>::reverse_iterator most_recent = database_.rbegin();
+  if (date > most_recent->first) return most_recent->second;
   while (--date) {
     if (date % 100 == 0) {
       date -= 100;
@@ -129,7 +125,7 @@ void BitcoinExchange::exchange(std::ifstream& input) {
     std::string date = str.substr(0, del);
     std::string num = str.substr(del + 3);
     int date_key = getDateKey(date);
-    if (date_key == INVALID_DATE) {
+    if (date_key == INVALID_DATE || date_key < database_.begin()->first) {
       std::cerr << "🚨 잘못된 날짜입니다 => " << date << std::endl;
       continue;
     }
