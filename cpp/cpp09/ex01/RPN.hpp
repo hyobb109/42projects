@@ -7,11 +7,15 @@
 #include <string>
 
 class RPN {
+ private:
+  RPN(const RPN& copy);
+  RPN& operator=(const RPN& copy);
+  bool isOperator(int c);
+  void pushResult(std::stack<double>& s, int op);
+
  public:
   RPN();
   ~RPN();
-  RPN(const RPN& copy);
-  RPN& operator=(const RPN& copy);
   void calculate(std::string input);
 };
 
