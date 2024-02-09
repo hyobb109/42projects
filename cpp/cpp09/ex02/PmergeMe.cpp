@@ -4,18 +4,19 @@ PmergeMe::PmergeMe() {}
 
 PmergeMe::~PmergeMe() {}
 
-PmergeMe::PmergeMe(const PmergeMe& copy) {}
+PmergeMe::PmergeMe(const PmergeMe& copy) { (void)copy; }
 
-PmergeMe& PmergeMe::operator=(const PmergeMe& copy) {}
-
-void PmergeMe::printElement(int el) { std::cout << el << " "; }
-
-void PmergeMe::printVector() {
-  for_each(_v.begin(), _v.end(), printElement);
-  std::cout << std::endl;
+PmergeMe& PmergeMe::operator=(const PmergeMe& copy) {
+  (void)copy;
+  return *this;
 }
 
-void PmergeMe::printDeque() {
-  for_each(_d.begin(), _d.end(), printElement);
+void PmergeMe::sort(std::vector<int> v) { (void)v; }
+void PmergeMe::sort(std::deque<int> d) { (void)d; }
+
+void PmergeMe::print(std::vector<int> v) {
+  for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
+    std::cout << *it << " ";
+  }
   std::cout << std::endl;
 }
