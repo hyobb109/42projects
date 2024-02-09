@@ -1,9 +1,17 @@
 
+#include <ctime>
+
 #include "PmergeMe.hpp"
 
-static void checkArg(std::string av) {
+static void checkArg(const std::string& av) {
   if (av.find_first_not_of("0123456789") != std::string::npos)
     throw std::runtime_error("Error");
+}
+
+static void printTime(const std::size_t& size, const std::string& type,
+                      const double& duration) {
+  std::cout << "Time to process a range of " << size << "elements with " << type
+            << ": " << duration << " ms" << std::endl;
 }
 
 int main(int ac, char** av) {
@@ -22,18 +30,17 @@ int main(int ac, char** av) {
     PmergeMe p;
     std::cout << "Before: ";
     p.print(v);
+    clock_t start = clock();
     p.sort(v);
-    p.sort(d);
+    clock_t end = clock();
     std::cout << "After: ";
     p.print(v);
+    printTime(v.size(), "std::vector", static_cast<double>(end - start));
+    start = clock();
+    p.sort(d);
+    end = clock();
+    printTime(d.size(), "std::deque", static_cast<double>(end - start));
 
-    // get time to process
-    std::cout << "Time to process a range of " << v.size()
-              << "elements with std::vector: "
-              << "[time]" << std::endl;
-    std::cout << "Time to process a range of " << d.size()
-              << "elements with std::deque: "
-              << "[time]" << std::endl;
   } catch (std::exception& e) {
     std::cout << RED << e.what() << RESET << std::endl;
   }
