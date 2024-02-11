@@ -11,11 +11,22 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& copy) {
   return *this;
 }
 
-void PmergeMe::sort(std::vector<int> v) { (void)v; }
-void PmergeMe::sort(std::deque<int> d) { (void)d; }
+void PmergeMe::sort(std::vector<int>& v) {
+  std::cout << v.size() << " vector\n";
+}
 
-void PmergeMe::print(std::vector<int> v) {
-  for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
+void PmergeMe::sort(std::deque<int>& d) { std::cout << d.size() << " deque\n"; }
+
+// for debugging
+void PmergeMe::print(const std::vector<int>& v) {
+  for (std::vector<int>::const_iterator it = v.begin(); it != v.end(); it++) {
+    std::cout << *it << " ";
+  }
+  std::cout << std::endl;
+}
+
+void PmergeMe::print(const std::deque<int>& d) {
+  for (std::deque<int>::const_iterator it = d.begin(); it != d.end(); it++) {
     std::cout << *it << " ";
   }
   std::cout << std::endl;

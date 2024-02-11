@@ -14,8 +14,24 @@ static void printTime(const std::size_t& size, const std::string& type,
             << ": " << duration << " ms" << std::endl;
 }
 
+template <typename T>
+static void print(const T& c) {
+  for (typename T::const_iterator it = c.begin(); it != c.end(); ++it) {
+    std::cout << *it << " ";
+  }
+  std::cout << std::endl;
+}
+
+template <typename T>
+static double getSortingTime(T& c) {
+  PmergeMe p;
+  clock_t start = clock();
+  p.sort(c);
+  clock_t end = clock();
+  return static_cast<double>(end - start);
+}
+
 int main(int ac, char** av) {
-  // 인자 에러 처리
   try {
     std::vector<int> v;
     std::deque<int> d;
@@ -27,20 +43,14 @@ int main(int ac, char** av) {
       v.push_back(num);
       d.push_back(num);
     }
-    PmergeMe p;
     std::cout << "Before: ";
-    p.print(v);
-    clock_t start = clock();
-    p.sort(v);
-    clock_t end = clock();
+    print(v);
+    double timeV = getSortingTime(v);
+    double timeD = getSortingTime(d);
     std::cout << "After: ";
-    p.print(v);
-    printTime(v.size(), "std::vector", static_cast<double>(end - start));
-    start = clock();
-    p.sort(d);
-    end = clock();
-    printTime(d.size(), "std::deque", static_cast<double>(end - start));
-
+    print(v);
+    printTime(v.size(), "std::vector", timeV);
+    printTime(d.size(), "std::deque", timeD);
   } catch (std::exception& e) {
     std::cout << RED << e.what() << RESET << std::endl;
   }
