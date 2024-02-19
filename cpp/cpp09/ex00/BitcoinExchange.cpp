@@ -76,7 +76,7 @@ double BitcoinExchange::convertValue(std::string value) {
     std::cerr << "🚨 양수가 아닙니다 => " << value << std::endl;
     return NON_POSITIVE;
   }
-  if (res > 1000) {
+  if (res >= 1000) {
     std::cerr << "🚨 숫자가 너무 큽니다 => " << value << std::endl;
     return BIG;
   }
