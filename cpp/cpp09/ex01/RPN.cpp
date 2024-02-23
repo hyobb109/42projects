@@ -42,15 +42,18 @@ void RPN::pushResult(std::stack<double>& s, int op) {
 
 void RPN::calculate(std::string input) {
   std::stack<double> s;
-  size_t len = input.length();
-  for (size_t i = 0; i < len; i++) {
-    char c = input[i];
-    if (c == ' ') continue;
+  std::stringstream ss(input);
+  std::string token;
+  while (ss >> token) {
+    if (token.length() != 1) {
+      std::cout << "Error" << std::endl;
+      return;
+    }
+    char c = token[0];
     if (isdigit(c)) {
       s.push(c - '0');
     } else if (isOperator(c) && s.size() > 1) {
       pushResult(s, c);
-
     } else {
       std::cout << "Error" << std::endl;
       return;
