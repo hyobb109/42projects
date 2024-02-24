@@ -11,22 +11,66 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& copy) {
   return *this;
 }
 
-void PmergeMe::sort(std::vector<int>& v) {
-  std::cout << v.size() << " vector\n";
+PmergeMe::PmergeMe(char** av) : v_time_(0), d_time_(0) {
+  for (int i = 1; av[i]; i++) {
+    std::string str = av[i];
+    if (str.find_first_not_of("0123456789") != std::string::npos)
+      throw std::runtime_error("Error");
+    int num = atoi(av[i]);
+    if (num <= 0) throw std::runtime_error("Error");
+    v_.push_back(num);
+    d_.push_back(num);
+  }
 }
 
-void PmergeMe::sort(std::deque<int>& d) { std::cout << d.size() << " deque\n"; }
+// void PmergeMe::makePairs(size_t pair_size) {}
+
+// sort vector
+void PmergeMe::sortVector_(size_t pair_size) {
+  if (pair_size > v_.size()) return;
+  // make pairs
+  for (size_t i = 0; i < v_.size() / 2; i++) {
+  }
+  // recursive
+  sortVector_(pair_size * 2);
+  // insert
+}
+
+// sort deque
+void PmergeMe::sortDeque_() {}
+
+void PmergeMe::sortVector() {
+  clock_t start = clock();
+  sortVector_(2);
+  clock_t end = clock();
+  v_time_ = static_cast<double>(end - start);
+}
+
+void PmergeMe::sortDeque() {
+  clock_t start = clock();
+  sortDeque_();
+  clock_t end = clock();
+  d_time_ = static_cast<double>(end - start);
+}
+
+const std::vector<int>& PmergeMe::getVector() const { return v_; }
+
+const std::deque<int>& PmergeMe::getDeque() const { return d_; }
+
+const double& PmergeMe::getVTime() const { return v_time_; }
+
+const double& PmergeMe::getDTime() const { return d_time_; }
 
 // for debugging
-void PmergeMe::print(const std::vector<int>& v) {
-  for (std::vector<int>::const_iterator it = v.begin(); it != v.end(); it++) {
+void PmergeMe::printVector() {
+  for (std::vector<int>::const_iterator it = v_.begin(); it != v_.end(); it++) {
     std::cout << *it << " ";
   }
   std::cout << std::endl;
 }
 
-void PmergeMe::print(const std::deque<int>& d) {
-  for (std::deque<int>::const_iterator it = d.begin(); it != d.end(); it++) {
+void PmergeMe::printDeque() {
+  for (std::deque<int>::const_iterator it = d_.begin(); it != d_.end(); it++) {
     std::cout << *it << " ";
   }
   std::cout << std::endl;
