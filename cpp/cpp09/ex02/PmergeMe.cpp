@@ -23,16 +23,26 @@ PmergeMe::PmergeMe(char** av) : v_time_(0), d_time_(0) {
   }
 }
 
-// void PmergeMe::makePairs(size_t pair_size) {}
+void PmergeMe::makePairs_(size_t pair_cnt, size_t pair_size, size_t span) {
+  std::cout << "pair_cnt: " << pair_cnt << "\n";
+  std::vector<int>::iterator it = v_.begin();
+  for (size_t i = 0; i < pair_cnt; i++) {
+    std::cout << "a: " << *it << " b: " << *(it + span) << "\n";
+    if (*it < *(it + span)) {
+      std::swap_ranges(it, it + span, it + span);
+      printVector();
+    }
+    it += pair_size;
+  }
+}
 
 // sort vector
-void PmergeMe::sortVector_(size_t pair_size) {
-  if (pair_size > v_.size()) return;
+void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
   // make pairs
-  for (size_t i = 0; i < v_.size() / 2; i++) {
-  }
+  makePairs_(pair_cnt, pair_size, pair_size / 2);
+  if (pair_cnt == 1) return;
   // recursive
-  sortVector_(pair_size * 2);
+  sortVector_(pair_cnt / 2, pair_size * 2);
   // insert
 }
 
@@ -41,7 +51,10 @@ void PmergeMe::sortDeque_() {}
 
 void PmergeMe::sortVector() {
   clock_t start = clock();
-  sortVector_(2);
+  if (v_.size() == 2) {
+    if (v_[0] > v_[1]) std::swap(v_[0], v_[1]);
+  } else if (v_.size() > 2)
+    sortVector_(v_.size() / 2, 2);
   clock_t end = clock();
   v_time_ = static_cast<double>(end - start);
 }
