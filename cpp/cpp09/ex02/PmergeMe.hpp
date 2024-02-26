@@ -18,9 +18,17 @@ class PmergeMe {
   std::deque<int> d_;
   double v_time_;
   double d_time_;
+  // vector
   void sortVector_(size_t pair_cnt, size_t pair_size);
+  void makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span);
+
+  // deque
   void sortDeque_();
-  void makePairs_(size_t pair_cnt, size_t pair_size, size_t span);
+  void makeDPairs_(size_t pair_cnt, size_t pair_size, size_t span);
+
+  // for debugging
+  void printVector_();
+  void printDeque_();
 
   PmergeMe(const PmergeMe& copy);
   PmergeMe& operator=(const PmergeMe& copy);
@@ -35,9 +43,6 @@ class PmergeMe {
   const std::deque<int>& getDeque() const;
   const double& getVTime() const;
   const double& getDTime() const;
-  // for debugging
-  void printVector();
-  void printDeque();
 };
 
 #endif

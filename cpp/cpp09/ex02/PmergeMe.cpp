@@ -23,41 +23,38 @@ PmergeMe::PmergeMe(char** av) : v_time_(0), d_time_(0) {
   }
 }
 
-void PmergeMe::makePairs_(size_t pair_cnt, size_t pair_size, size_t span) {
-  std::cout << "pair_cnt: " << pair_cnt << "\n";
+// sort vector
+void PmergeMe::makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span) {
+  std::cout << "pair_cnt: " << pair_cnt << ", pair_size: " << pair_size << "\n";
   std::vector<int>::iterator it = v_.begin();
   for (size_t i = 0; i < pair_cnt; i++) {
-    std::cout << "a: " << *it << " b: " << *(it + span) << "\n";
+    std::cout << "a: " << *it << ", b: " << *(it + span) << "\n";
     if (*it < *(it + span)) {
       std::swap_ranges(it, it + span, it + span);
-      printVector();
     }
     it += pair_size;
   }
+  printVector_();
 }
 
-// sort vector
 void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
   // make pairs
-  makePairs_(pair_cnt, pair_size, pair_size / 2);
+  makeVPairs_(pair_cnt, pair_size, pair_size / 2);
   if (pair_cnt == 1) return;
   // recursive
   sortVector_(pair_cnt / 2, pair_size * 2);
   // insert
 }
 
-// sort deque
-void PmergeMe::sortDeque_() {}
-
 void PmergeMe::sortVector() {
   clock_t start = clock();
-  if (v_.size() == 2) {
-    if (v_[0] > v_[1]) std::swap(v_[0], v_[1]);
-  } else if (v_.size() > 2)
-    sortVector_(v_.size() / 2, 2);
+  if (v_.size() > 1) sortVector_(v_.size() / 2, 2);
   clock_t end = clock();
   v_time_ = static_cast<double>(end - start);
 }
+
+// sort deque
+void PmergeMe::sortDeque_() {}
 
 void PmergeMe::sortDeque() {
   clock_t start = clock();
@@ -75,14 +72,14 @@ const double& PmergeMe::getVTime() const { return v_time_; }
 const double& PmergeMe::getDTime() const { return d_time_; }
 
 // for debugging
-void PmergeMe::printVector() {
+void PmergeMe::printVector_() {
   for (std::vector<int>::const_iterator it = v_.begin(); it != v_.end(); it++) {
-    std::cout << *it << " ";
+    std::cout << GREEN << *it << " ";
   }
-  std::cout << std::endl;
+  std::cout << RESET << std::endl;
 }
 
-void PmergeMe::printDeque() {
+void PmergeMe::printDeque_() {
   for (std::deque<int>::const_iterator it = d_.begin(); it != d_.end(); it++) {
     std::cout << *it << " ";
   }
