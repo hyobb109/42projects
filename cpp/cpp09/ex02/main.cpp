@@ -1,25 +1,17 @@
 #include "PmergeMe.hpp"
 
-template <typename T>
-static void print(const T& c) {
-  for (typename T::const_iterator it = c.begin(); it != c.end(); ++it) {
-    std::cout << *it << " ";
-  }
-  std::cout << std::endl;
-}
-
 int main(int ac, char** av) {
   try {
     if (ac < 2) throw std::runtime_error("Error");
     PmergeMe p(av);
     std::cout << "Before: ";
-    print(p.getVector());
+    p.printVector();
     // sort
     p.sortVector();
     p.sortDeque();
     // result
     std::cout << "After: ";
-    print(p.getVector());
+    p.printVector();
     std::cout << "Time to process a range of " << p.getVector().size()
               << " elements with std::vector: " << p.getVTime() << " ms"
               << std::endl;

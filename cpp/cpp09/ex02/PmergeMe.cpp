@@ -34,7 +34,13 @@ void PmergeMe::makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span) {
     }
     it += pair_size;
   }
-  printVector_();
+  printVector();
+}
+
+void PmergeMe::insertNumber_(size_t pair_size) {
+  std::vector<int> main_chain(pair_size);  // reserve로 공간할당만 해주기
+  std::copy(v_.begin(), v_.begin() + pair_size, main_chain.begin());
+  print_(main_chain);
 }
 
 void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
@@ -43,7 +49,11 @@ void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
   if (pair_cnt == 1) return;
   // recursive
   sortVector_(pair_cnt / 2, pair_size * 2);
+  std::cout << YELLOW << "pair_cnt: " << pair_cnt
+            << ", pair_size: " << pair_size << RESET << "\n";
+
   // insert
+  insertNumber_(pair_size);
 }
 
 void PmergeMe::sortVector() {
@@ -71,16 +81,30 @@ const double& PmergeMe::getVTime() const { return v_time_; }
 
 const double& PmergeMe::getDTime() const { return d_time_; }
 
-// for debugging
-void PmergeMe::printVector_() {
+void PmergeMe::printVector() {
   for (std::vector<int>::const_iterator it = v_.begin(); it != v_.end(); it++) {
     std::cout << GREEN << *it << " ";
   }
   std::cout << RESET << std::endl;
 }
 
-void PmergeMe::printDeque_() {
+void PmergeMe::printDeque() {
   for (std::deque<int>::const_iterator it = d_.begin(); it != d_.end(); it++) {
+    std::cout << *it << " ";
+  }
+  std::cout << std::endl;
+}
+
+// for debugging
+void PmergeMe::print_(const std::vector<int>& v) {
+  for (std::vector<int>::const_iterator it = v.begin(); it != v.end(); it++) {
+    std::cout << GREEN << *it << " ";
+  }
+  std::cout << RESET << std::endl;
+}
+
+void PmergeMe::print_(const std::deque<int>& d) {
+  for (std::deque<int>::const_iterator it = d.begin(); it != d.end(); it++) {
     std::cout << *it << " ";
   }
   std::cout << std::endl;

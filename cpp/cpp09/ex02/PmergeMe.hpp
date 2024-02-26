@@ -11,6 +11,7 @@
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
 
 class PmergeMe {
  private:
@@ -21,14 +22,15 @@ class PmergeMe {
   // vector
   void sortVector_(size_t pair_cnt, size_t pair_size);
   void makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span);
+  void insertNumber_(size_t pair_size);
 
   // deque
   void sortDeque_();
   void makeDPairs_(size_t pair_cnt, size_t pair_size, size_t span);
 
   // for debugging
-  void printVector_();
-  void printDeque_();
+  void print_(const std::vector<int>& v);
+  void print_(const std::deque<int>& d);
 
   PmergeMe(const PmergeMe& copy);
   PmergeMe& operator=(const PmergeMe& copy);
@@ -43,6 +45,8 @@ class PmergeMe {
   const std::deque<int>& getDeque() const;
   const double& getVTime() const;
   const double& getDTime() const;
+  void printVector();
+  void printDeque();
 };
 
 #endif
