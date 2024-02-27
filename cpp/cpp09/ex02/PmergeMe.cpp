@@ -37,23 +37,29 @@ void PmergeMe::makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span) {
   printVector();
 }
 
-void PmergeMe::insertNumber_(size_t pair_size) {
-  std::vector<int> main_chain(pair_size);  // reserve로 공간할당만 해주기
-  std::copy(v_.begin(), v_.begin() + pair_size, main_chain.begin());
+void PmergeMe::insertNumber_(size_t pair_cnt, size_t pair_size, size_t span) {
+  std::vector<int> main_chain(span);
+  std::vector<int> pending_el(span);
+  for (size_t i = 0; i < pair_cnt; i++) {
+    std::vector<int>::iterator startIt = v_.begin() + i * pair_size;
+    std::vector<int>::iterator mainIt = main_chain.begin() + i * span;
+    std::vector<int>::iterator pendingIt = pending_el.begin() + i * span;
+    std::copy(startIt, startIt + span, mainIt);
+    std::copy(startIt + span, startIt + span * 2, pendingIt);
+  }
   print_(main_chain);
+  print_(pending_el);
 }
 
 void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
   // make pairs
   makeVPairs_(pair_cnt, pair_size, pair_size / 2);
-  if (pair_cnt == 1) return;
+  if (pair_cnt > 1) sortVector_(pair_cnt / 2, pair_size * 2);
   // recursive
-  sortVector_(pair_cnt / 2, pair_size * 2);
   std::cout << YELLOW << "pair_cnt: " << pair_cnt
             << ", pair_size: " << pair_size << RESET << "\n";
-
   // insert
-  insertNumber_(pair_size);
+  insertNumber_(pair_cnt, pair_size, pair_size / 2);
 }
 
 void PmergeMe::sortVector() {

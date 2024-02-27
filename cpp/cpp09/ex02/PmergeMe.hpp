@@ -22,7 +22,7 @@ class PmergeMe {
   // vector
   void sortVector_(size_t pair_cnt, size_t pair_size);
   void makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span);
-  void insertNumber_(size_t pair_size);
+  void insertNumber_(size_t pair_cnt, size_t pair_size, size_t span);
 
   // deque
   void sortDeque_();
