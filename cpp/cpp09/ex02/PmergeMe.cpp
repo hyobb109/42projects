@@ -37,18 +37,30 @@ void PmergeMe::makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span) {
   printVector();
 }
 
+void PmergeMe::binary_search_insert_(std::vector<int>& main_chain,
+                                     std::vector<int>& pending, size_t span) {
+  size_t s = 0;
+  size_t e = main_chain.size() - span;
+
+  while (s <= e) {
+    size_t mid = (s + e) / 2;
+    }
+}
+
 void PmergeMe::insertNumber_(size_t pair_cnt, size_t pair_size, size_t span) {
-  std::vector<int> main_chain(span);
-  std::vector<int> pending_el(span);
+  std::vector<int> main_chain;
+  std::vector<int> pending;
+  std::vector<int>::iterator v_it = v_.begin();
   for (size_t i = 0; i < pair_cnt; i++) {
-    std::vector<int>::iterator startIt = v_.begin() + i * pair_size;
-    std::vector<int>::iterator mainIt = main_chain.begin() + i * span;
-    std::vector<int>::iterator pendingIt = pending_el.begin() + i * span;
-    std::copy(startIt, startIt + span, mainIt);
-    std::copy(startIt + span, startIt + span * 2, pendingIt);
+    main_chain.insert(main_chain.end(), v_it, v_it + span);
+    v_it += span;
+    pending.insert(pending.end(), v_it, v_it + span);
+    v_it += span;
   }
   print_(main_chain);
-  print_(pending_el);
+  print_(pending);
+  binary_search_insert_(main_chain, pending, span);
+  // 원본 벡터에 복사
 }
 
 void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {

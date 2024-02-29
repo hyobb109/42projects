@@ -23,6 +23,8 @@ class PmergeMe {
   void sortVector_(size_t pair_cnt, size_t pair_size);
   void makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span);
   void insertNumber_(size_t pair_cnt, size_t pair_size, size_t span);
+  void binary_search_insert_(std::vector<int>& main_chain,
+                             std::vector<int>& pending, size_t span);
 
   // deque
   void sortDeque_();
