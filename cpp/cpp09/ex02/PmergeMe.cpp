@@ -49,24 +49,27 @@ void PmergeMe::binary_search_insert_(std::vector<int>& main_chain,
                                      std::vector<int>& pending,
                                      size_t target_idx, size_t span) {
   size_t s = 0;
-  // size_t e = main_chain.size() - span;
-  size_t e = main_chain.size() / span - 1;
+  size_t e = main_chain.size() / span;
   size_t mid;
   size_t cnt = 0;
   while (s < e) {
     mid = s + (e - s) / 2;
     std::cout << "s: " << main_chain[s * span]
               << " mid: " << main_chain[mid * span]
-              << " e: " << main_chain[e * span] << "\n";
+              << " e: " << main_chain[(e - 1) * span] << "\n";
     if (pending[target_idx] < main_chain[mid * span])
       e = mid;
     else
       s = mid + 1;
+    std::cout << "s: " << s << " m: " << mid << " e: " << e << std::endl;
     ++cnt;
   }
   std::cout << BLUE << "비교 횟수: " << cnt << " pending[" << target_idx
-            << "]: " << pending[target_idx] << " main[" << s * span
-            << "]: " << main_chain[s * span] << RESET << std::endl;
+            << "]: " << pending[target_idx] << " main[" << s * span << "]: ";
+
+  s* span > main_chain.size() - 1
+      ? std::cout << "end" << RESET << std::endl
+      : std::cout << main_chain[s * span] << RESET << std::endl;
   main_chain.insert(main_chain.begin() + s * span, pending.begin() + target_idx,
                     pending.begin() + target_idx + span);
   print_(main_chain, "main");
@@ -76,12 +79,12 @@ void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
   std::vector<int> main_chain;
   std::vector<int> pending;
   std::vector<int>::iterator v_it = v_.begin();
-  for (size_t i = 0; i < pair_cnt; i++) {
+  for (size_t i = 1; i <= pair_cnt; i++) {
     main_chain.insert(main_chain.end(), v_it, v_it + span);
     v_it += span;
     pending.insert(pending.end(), v_it, v_it + span);
     v_it += span;
-    if (i == pair_cnt - 1 &&
+    if (i == pair_cnt &&
         static_cast<size_t>(std::distance(v_it, v_.end())) >= span) {
       pending.insert(pending.end(), v_it, v_it + span);
     }
@@ -95,11 +98,13 @@ void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
   print_(main_chain, "main");
   bool end_flag = false;
   for (size_t i = 1; !end_flag; i++) {
+    std::cout << YELLOW << "jacobsthal[" << i << "]: " << jacobsthal_[i]
+              << RESET << std::endl;
     size_t prev = (jacobsthal_[i - 1] - 1) * span;
     size_t target_idx = (jacobsthal_[i] - 1) * span;
-    std::cout << "jacobsthal[" << i << "]: " << jacobsthal_[i]
-              << " target_idx: " << target_idx << " prev: " << prev
-              << std::endl;
+    // std::cout << YELLOW << "jacobsthal[" << i << "]: " << jacobsthal_[i]
+    //           << " target_idx: " << target_idx << " prev: " << prev
+    //           << std::endl;
     if (target_idx == pending.size() - 1)
       end_flag = true;
     else if (target_idx >= pending.size()) {
@@ -173,7 +178,7 @@ void PmergeMe::printDeque(const std::string& tag) const {
 
 // for debugging
 void PmergeMe::print_(const std::vector<int>& v, const std::string& tag) const {
-  std::cout << tag << ": " << GREEN;
+  std::cout << tag << ": ";
   for (std::vector<int>::const_iterator it = v.begin(); it != v.end(); it++) {
     std::cout << *it << " ";
   }
