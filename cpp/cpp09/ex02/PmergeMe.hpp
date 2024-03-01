@@ -36,7 +36,8 @@ class PmergeMe {
   void makeDPairs_(size_t pair_cnt, size_t pair_size, size_t span);
 
   // for debugging
-  void print_(const std::vector<int>& v, const std::string& tag) const;
+  void print_(const std::vector<int>& v, const std::string& tag,
+              size_t span) const;
   void print_(const std::deque<int>& d, const std::string& tag) const;
 
   PmergeMe(const PmergeMe& copy);
