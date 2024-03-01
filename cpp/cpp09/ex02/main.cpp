@@ -4,14 +4,13 @@ int main(int ac, char** av) {
   try {
     if (ac < 2) throw std::runtime_error("Error");
     PmergeMe p(av);
-    std::cout << "Before: ";
-    p.printVector();
+    p.printVector("Before");
     // sort
     p.sortVector();
     p.sortDeque();
     // result
-    std::cout << "After: ";
-    p.printVector();
+    p.printVector("After");
+
     std::cout << "Time to process a range of " << p.getVector().size()
               << " elements with std::vector: " << p.getVTime() << " ms"
               << std::endl;

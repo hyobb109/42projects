@@ -12,6 +12,9 @@
 #define RED "\033[31m"
 #define GREEN "\033[0;32m"
 #define YELLOW "\033[0;33m"
+#define BLUE "\033[0;34m"
+#define MAGENTA "\033[0;35m"
+#define CYAN "\033[0;36m"
 
 class PmergeMe {
  private:
@@ -33,8 +36,8 @@ class PmergeMe {
   void makeDPairs_(size_t pair_cnt, size_t pair_size, size_t span);
 
   // for debugging
-  void print_(const std::vector<int>& v);
-  void print_(const std::deque<int>& d);
+  void print_(const std::vector<int>& v, const std::string& tag) const;
+  void print_(const std::deque<int>& d, const std::string& tag) const;
 
   PmergeMe(const PmergeMe& copy);
   PmergeMe& operator=(const PmergeMe& copy);
@@ -49,8 +52,8 @@ class PmergeMe {
   const std::deque<int>& getDeque() const;
   const double& getVTime() const;
   const double& getDTime() const;
-  void printVector();
-  void printDeque();
+  void printVector(const std::string& tag) const;
+  void printDeque(const std::string& tag) const;
 };
 
 #endif
