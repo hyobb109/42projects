@@ -29,7 +29,7 @@ class PmergeMe {
   void insertNumber_(size_t pair_cnt, size_t span);
   void binary_search_insert_(std::vector<int>& main_chain,
                              std::vector<int>& pending, size_t target_idx,
-                             size_t span);
+                             size_t e, size_t span);
 
   // deque
   void sortDeque_();

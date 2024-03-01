@@ -47,9 +47,8 @@ void PmergeMe::makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span) {
 
 void PmergeMe::binary_search_insert_(std::vector<int>& main_chain,
                                      std::vector<int>& pending,
-                                     size_t target_idx, size_t span) {
+                                     size_t target_idx, size_t e, size_t span) {
   size_t s = 0;
-  size_t e = main_chain.size() / span;
   size_t mid;
   size_t cnt = 0;
   while (s < e) {
@@ -96,6 +95,7 @@ void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
   main_chain.insert(main_chain.begin(), pending.begin(),
                     pending.begin() + span);
   print_(main_chain, "main");
+  size_t to_search = 0;
   bool end_flag = false;
   for (size_t i = 1; !end_flag; i++) {
     std::cout << YELLOW << "jacobsthal[" << i << "]: " << jacobsthal_[i]
@@ -111,10 +111,13 @@ void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
       target_idx = pending.size() - span;
       end_flag = true;
     }
+    size_t cnt = 0;
     // target_idx부터 그 전까지
     while (target_idx > prev) {
-      binary_search_insert_(main_chain, pending, target_idx, span);
+      to_search = (target_idx - 1) / span + cnt;
+      binary_search_insert_(main_chain, pending, target_idx, to_search, span);
       target_idx -= span;
+      ++cnt;
     }
   }
   copy(main_chain.begin(), main_chain.end(), v_.begin());
