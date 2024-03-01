@@ -62,7 +62,13 @@
     "vector": "cpp",
     "iomanip": "cpp",
     "variant": "cpp",
-    "compare": "cpp"
+    "compare": "cpp",
+    "__tree": "cpp",
+    "deque": "cpp",
+    "fstream": "cpp",
+    "map": "cpp",
+    "stack": "cpp",
+    "filesystem": "cpp"
   },
   "editor.formatOnSave": true,
   "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monospace",
