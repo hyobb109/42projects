@@ -18,6 +18,7 @@
 
 class PmergeMe {
  private:
+  std::vector<int> args_;
   std::vector<size_t> jacobsthal_;
   std::vector<int> v_;
   std::deque<int> d_;
@@ -26,18 +27,23 @@ class PmergeMe {
   // vector
   void sortVector_(size_t pair_cnt, size_t pair_size);
   void makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span);
-  void insertNumber_(size_t pair_cnt, size_t span);
+  void insertVNumber_(size_t pair_cnt, size_t span);
   void binary_search_insert_(std::vector<int>& main_chain,
                              std::vector<int>& pending, size_t target_idx,
                              size_t e, size_t span);
 
   // deque
-  void sortDeque_();
+  void sortDeque_(size_t pair_cnt, size_t pair_size);
   void makeDPairs_(size_t pair_cnt, size_t pair_size, size_t span);
+  void insertDNumber_(size_t pair_cnt, size_t span);
+  void binary_search_insert_(std::deque<int>& main_chain,
+                             std::deque<int>& pending, size_t target_idx,
+                             size_t e, size_t span);
 
   // for debugging
   void print_(const std::vector<int>& v, const std::string& tag,
               size_t span) const;
+  void print_(const std::vector<int>& v, const std::string& tag) const;
   void print_(const std::deque<int>& d, const std::string& tag) const;
 
   PmergeMe(const PmergeMe& copy);
@@ -49,6 +55,7 @@ class PmergeMe {
   ~PmergeMe();
   void sortVector();
   void sortDeque();
+  const std::vector<int>& getArgs() const;
   const std::vector<int>& getVector() const;
   const std::deque<int>& getDeque() const;
   const double& getVTime() const;
