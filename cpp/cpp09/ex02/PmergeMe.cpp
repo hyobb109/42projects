@@ -21,28 +21,22 @@ PmergeMe::PmergeMe(char** av) : v_time_(0), d_time_(0) {
     v_.push_back(num);
     d_.push_back(num);
   }
-  size_t cnt = v_.size() / 2;
   jacobsthal_.push_back(1);
   jacobsthal_.push_back(3);
-  for (size_t i = 2; jacobsthal_.back() < cnt; i++) {
-    int num = jacobsthal_[i - 1] + jacobsthal_[i - 2] * 2;
-    jacobsthal_.push_back(num);
+  for (size_t i = 2; i < 64; i++) {
+    jacobsthal_.push_back(jacobsthal_[i - 1] + jacobsthal_[i - 2] * 2);
   }
 }
 
 // sort vector
 void PmergeMe::makeVPairs_(size_t pair_cnt, size_t pair_size, size_t span) {
-  // std::cout << "pair_cnt: " << pair_cnt << ", pair_size: " << pair_size <<
-  // "\n";
   std::vector<int>::iterator it = v_.begin();
   for (size_t i = 0; i < pair_cnt; i++) {
-    // std::cout << "a: " << *it << ", b: " << *(it + span) << "\n";
     if (*it < *(it + span)) {
       std::swap_ranges(it, it + span, it + span);
     }
     it += pair_size;
   }
-  // printVector("원본");
 }
 
 void PmergeMe::binary_search_insert_(std::vector<int>& main_chain,
@@ -51,27 +45,22 @@ void PmergeMe::binary_search_insert_(std::vector<int>& main_chain,
   size_t s = 0;
   size_t mid;
   size_t cnt = 0;
-  std::cout << "target_idx: " << target_idx << " e: " << e << "\n";
   while (s < e) {
     mid = s + (e - s) / 2;
-    // std::cout << "s: " << main_chain[s * span]
-    //           << " mid: " << main_chain[mid * span]
-    //           << " e: " << main_chain[(e - 1) * span] << "\n";
     if (pending[target_idx] < main_chain[mid * span])
       e = mid;
     else
       s = mid + 1;
     ++cnt;
   }
-  std::cout << BLUE << "비교 횟수: " << cnt << " pending[" << target_idx
-            << "]: " << pending[target_idx] << " main[" << s * span << "]: ";
-
-  s* span > main_chain.size() - 1
-      ? std::cout << "end" << RESET << std::endl
-      : std::cout << main_chain[s * span] << RESET << std::endl;
+  // std::cout << BLUE << "비교 횟수: " << cnt << " pending[" << target_idx
+  //           << "]: " << pending[target_idx] << " main[" << s * span << "]: ";
+  // s * span > main_chain.size() - 1
+  //     ? std::cout << "end" << RESET << std::endl
+  //     : std::cout << main_chain[s * span] << RESET << std::endl;
   main_chain.insert(main_chain.begin() + s * span, pending.begin() + target_idx,
                     pending.begin() + target_idx + span);
-  print_(main_chain, "main", span);
+  // print_(main_chain, "main", span);
 }
 
 void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
@@ -88,22 +77,19 @@ void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
       pending.insert(pending.end(), v_it, v_it + span);
     }
   }
-  print_(main_chain, "main", span);
-  print_(pending, "pend", span);
-  std::cout << "============\n";
+  // print_(main_chain, "main", span);
+  // print_(pending, "pend", span);
+  // std::cout << "============\n";
   // 첫 번째 원소는 맨 앞에 삽입
   main_chain.insert(main_chain.begin(), pending.begin(),
                     pending.begin() + span);
-  print_(main_chain, "main", span);
+  // print_(main_chain, "main", span);
   size_t to_search = 0;
   size_t inserted = 1;
   bool end_flag = false;
   for (size_t i = 1; !end_flag; i++) {
     size_t prev = (jacobsthal_[i - 1] - 1) * span;
     size_t target_idx = (jacobsthal_[i] - 1) * span;
-    // std::cout << YELLOW << "jacobsthal[" << i << "]: " << jacobsthal_[i]
-    //           << " target_idx: " << target_idx << " prev: " << prev
-    //           << std::endl;
     if (target_idx == pending.size() - 1)
       end_flag = true;
     else if (target_idx >= pending.size()) {
@@ -114,25 +100,23 @@ void PmergeMe::insertNumber_(size_t pair_cnt, size_t span) {
     while (target_idx > prev) {
       to_search = target_idx / span == pair_cnt ? main_chain.size() / span
                                                 : target_idx / span + inserted;
-      std::cout << YELLOW << "to_search: " << to_search << RESET << std::endl;
+      // std::cout << YELLOW << "to_search: " << to_search << RESET <<
+      // std::endl;
       binary_search_insert_(main_chain, pending, target_idx, to_search, span);
       target_idx -= span;
       ++inserted;
     }
   }
   copy(main_chain.begin(), main_chain.end(), v_.begin());
-  print_(v_, "원본", span);
+  // print_(v_, "원본", span);
 }
 
 void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
-  // make pairs
   makeVPairs_(pair_cnt, pair_size, pair_size / 2);
   if (pair_cnt > 1) sortVector_(pair_cnt / 2, pair_size * 2);
-  // recursive
-  std::cout << YELLOW << "pair_cnt: " << pair_cnt
-            << ", pair_size: " << pair_size << " span: " << pair_size / 2
-            << RESET << "\n";
-  // insert
+  // std::cout << YELLOW << "pair_cnt: " << pair_cnt
+  //           << ", pair_size: " << pair_size << " span: " << pair_size / 2
+  //           << RESET << "\n";
   insertNumber_(pair_cnt, pair_size / 2);
 }
 
