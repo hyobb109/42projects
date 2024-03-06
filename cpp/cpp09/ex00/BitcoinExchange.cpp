@@ -45,7 +45,7 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
   std::size_t found = filename.rfind(".csv");
   if (found == std::string::npos || found != filename.length() - 4)
     throw std::runtime_error("🚨 데이터베이스 확장자가 잘못되었습니다 🚨");
-  std::ifstream database(filename);
+  std::ifstream database(filename.c_str());
   if (!database.is_open())
     throw std::runtime_error("🚨 데이터베이스를 열 수 없습니다 🚨");
   std::string data;

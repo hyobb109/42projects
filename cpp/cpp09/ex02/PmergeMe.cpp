@@ -112,6 +112,7 @@ void PmergeMe::insertVNumber_(size_t pair_cnt, size_t span) {
 
 void PmergeMe::sortVector_(size_t pair_cnt, size_t pair_size) {
   makeVPairs_(pair_cnt, pair_size, pair_size / 2);
+  // print_(v_, "원본", pair_size / 2);
   if (pair_cnt > 1) sortVector_(pair_cnt / 2, pair_size * 2);
   // std::cout << YELLOW << "pair_cnt: " << pair_cnt
   //           << ", pair_size: " << pair_size << " span: " << pair_size / 2
@@ -224,9 +225,10 @@ void PmergeMe::printVector(const std::string& tag) const {
   for (std::vector<int>::const_iterator it = v_.begin(); it != v_.end(); it++) {
     std::cout << *it << " ";
   }
-  std::cout << RESET << "(is_sorted: " << MAGENTA << std::boolalpha
-            << std::is_sorted(v_.begin(), v_.end()) << RESET << ")"
-            << std::endl;
+  std::cout << RESET << std::endl;
+  // std::cout << RESET << "(is_sorted: " << MAGENTA << std::boolalpha
+  //           << std::is_sorted(v_.begin(), v_.end()) << RESET << ")"
+  //           << std::endl;
 }
 
 void PmergeMe::printDeque(const std::string& tag) const {
@@ -234,9 +236,10 @@ void PmergeMe::printDeque(const std::string& tag) const {
   for (std::deque<int>::const_iterator it = d_.begin(); it != d_.end(); it++) {
     std::cout << *it << " ";
   }
-  std::cout << RESET << "(is_sorted: " << MAGENTA << std::boolalpha
-            << std::is_sorted(d_.begin(), d_.end()) << RESET << ")"
-            << std::endl;
+  std::cout << RESET << std::endl;
+  // std::cout << RESET << "(is_sorted: " << MAGENTA << std::boolalpha
+  //           << std::is_sorted(d_.begin(), d_.end()) << RESET << ")"
+  //           << std::endl;
 }
 
 // for debugging
