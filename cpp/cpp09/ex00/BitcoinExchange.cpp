@@ -68,7 +68,7 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
 double BitcoinExchange::convertValue(std::string value) {
   char* endptr;
   double res = strtod(value.c_str(), &endptr);
-  if (*endptr != '\0') {
+  if (value == "\0" || *endptr != '\0') {
     std::cerr << "🚨 숫자 형식 오류입니다 => " << value << std::endl;
     return NOT_A_NUMBER;
   }
@@ -115,7 +115,7 @@ void BitcoinExchange::exchange(std::ifstream& input) {
     }
     double value = convertValue(num);
     if (value > 0) {
-      std::cout << date << " => " << num << " = "
+      std::cout << date << " => " << value << " = "
                 << value * getExchangeRate(date) << std::endl;
     }
   }
