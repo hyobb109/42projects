@@ -45,7 +45,7 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
   std::size_t found = filename.rfind(".csv");
   if (found == std::string::npos || found != filename.length() - 4)
     throw std::runtime_error("🚨 데이터베이스 확장자가 잘못되었습니다 🚨");
-  std::ifstream database(filename);
+  std::ifstream database(filename.c_str());
   if (!database.is_open())
     throw std::runtime_error("🚨 데이터베이스를 열 수 없습니다 🚨");
   std::string data;
@@ -68,7 +68,7 @@ void BitcoinExchange::saveDatabase(const std::string& filename) {
 double BitcoinExchange::convertValue(std::string value) {
   char* endptr;
   double res = strtod(value.c_str(), &endptr);
-  if (*endptr != '\0') {
+  if (value == "\0" || *endptr != '\0') {
     std::cerr << "🚨 숫자 형식 오류입니다 => " << value << std::endl;
     return NOT_A_NUMBER;
   }
@@ -115,7 +115,7 @@ void BitcoinExchange::exchange(std::ifstream& input) {
     }
     double value = convertValue(num);
     if (value > 0) {
-      std::cout << date << " => " << num << " = "
+      std::cout << date << " => " << value << " = "
                 << value * getExchangeRate(date) << std::endl;
     }
   }
