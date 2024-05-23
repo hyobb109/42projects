@@ -1,24 +1,17 @@
-version: '0'
+version: '3.8'
+name: inception
+
 services:
-  nginx:
-    image: nginx
   mariadb:
+    build: ./requirements/mariadb
     image: mariadb
-    networks:
-      - networkName
-    volumes:
-      - db_vol:containerPath:ro
-  wordpress:
-    depends_on:
-      - mariadb
-    image: wordpress
-    networks:
-      - networkName
-    volumes:
-      - wp_vol:containerPath
+    container_name: mariadb
     ports:
-      - '8080:80'
-networks:
+      - '3306:3306'
+    volumes:
+      - db_vol:/var/lib/mysql
+    env_file:
+      - .env
 
 volumes:
-env_file:
+  db_vol:
