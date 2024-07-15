@@ -9,10 +9,16 @@ up:
 
 down:
 	docker compose $(SRC) down
+
+clean-volume:
 	rm -rf $(VOLUME)
 
 clean:
 	docker system prune -a
+
+fclean:
+	make clean
+	make clean-volume
 
 re:
 	make down

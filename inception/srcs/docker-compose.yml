@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 name: inception
 
 services:
@@ -7,11 +7,11 @@ services:
     image: mariadb:1.0
     container_name: mariadb
     ports:
-      - "3306"
+      - '3306'
     # networks:
     #   - my_network
-    # volumes:
-    #   - db_vol:/var/lib/mysql
+    volumes:
+      - db_vol:/var/lib/mysql
     env_file:
       - .env
     restart: always
@@ -50,15 +50,14 @@ services:
 #   my_network:
 #     driver: bridge
 
-# volumes:
-#   db_vol:
-#     driver: local
-#     driver_opts:
-#       o: bind
-#       type: none
-#       device: ./data/mariadb
-#       # device: /home/hyobicho/data/mariadb
-
+volumes:
+  db_vol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./data/mariadb
+      # device: /home/hyobicho/data/mariadb
 #   wp_vol:
 #     driver: local
 #     driver_opts:

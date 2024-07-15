@@ -1,16 +1,29 @@
 #!/bin/sh
 
-/usr/bin/mysqld --user=root --datadir=/var/lib/mysql &
+# 이미 실행중인 MariaDB가 있을 경우 초기화 하지 않음
+if [ ! -e "/run/mysqld/mysqld.sock" ]; then
+	mariadb-install-db --user=mysql --datadir=/var/lib/mysql --skip-test-db
 
-# mariaDB 서버 시작 전까지 대기
-while ! mysqladmin ping --silent; do
-	echo "Waiting for MariaDB to start..."
-	sleep 1
-done
+	chown mysql:mysql /var/run/mysqld 
+	
+	mariadbd-safe --datadir='/var/lib/mysql' &
+
+	# mariaDB 서버 시작 전까지 대기
+	while ! mariadb-admin ping --silent; do
+		echo "Waiting for MariaDB to start..."
+		sleep 1
+	done
+
+	mariadb -e "CREATE USER IF NOT EXISTS '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';"
+	mariadb -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+	mariadb -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$WP_ADMIN'@'%'"
+	mariadb -e "FLUSH PRIVILEGES;"
+
+	# mariaDB 서버 종료
+	mariadb-admin --wait-for-all-slaves shutdown
+fi
+
+# mariaDB 서버 시작
+exec mariadbd-safe
 
 
-mysql -uroot --skip-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MARIADB_ROOT_PASSWORD';"
-mysql -uroot -p$MARIADB_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $WP_DB_NAME;"
-mysql -uroot -p$MARIADB_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS '$WP_ADMIN'@'%' IDENTIFIED BY '$WP_ADMIN_PASSWORD';"
-mysql -uroot -p$MARIADB_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON $WP_DB_NAME.* TO '$WP_ADMIN'@'%'"
-mysql -uroot -p$MARIADB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
