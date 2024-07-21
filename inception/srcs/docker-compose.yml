@@ -57,13 +57,13 @@ volumes:
       o: bind
       type: none
       # device: ./data/mariadb
-      device: /Users/hyobicho/42projects/inception/srcs/data/mariadb
-      # device: /home/hyobicho/data/mariadb
+      # device: /Users/hyobicho/42projects/inception/srcs/data/mariadb
+      device: /home/hyobicho/data/mariadb
   wp_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
       # device: ./data/wordpress
-      device: /Users/hyobicho/42projects/inception/srcs/data/wordpress
-      # device: /home/hyobicho/data/worpress
+      # device: /Users/hyobicho/42projects/inception/srcs/data/wordpress
+      device: /home/hyobicho/data/wordpress

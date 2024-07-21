@@ -1,7 +1,7 @@
 SRC =  -f ./srcs/docker-compose.yml
-VOLUME = ./srcs/data/mariadb ./srcs/data/wordpress
-VOLUME = /Users/hyobicho/42projects/inception/srcs/data/mariadb /Users/hyobicho/42projects/inception/srcs/data/wordpress
-# VOLUME = /home/hyobicho/data/mariadb /home/hyobicho/data/wordpress
+# VOLUME = ./srcs/data/mariadb ./srcs/data/wordpress
+# VOLUME = /Users/hyobicho/42projects/inception/srcs/data/mariadb /Users/hyobicho/42projects/inception/srcs/data/wordpress
+VOLUME = /home/hyobicho/data/mariadb /home/hyobicho/data/wordpress
 
 all: up
 
