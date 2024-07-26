@@ -13,7 +13,8 @@ down:
 	docker compose $(SRC) down
 
 clean-volume:
-	docker volume prune -f
+	docker volume rm inception_db_vol
+	docker volume rm inception_wp_vol
 	rm -rf $(VOLUME)
 
 clean:
