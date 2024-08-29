@@ -1,4 +1,4 @@
-# 42서울 Projects
+# [42서울](https://innovationacademy.kr/academy/contents/view?contentsNo=7&level=2&menuNo=8) Projects
 
 ### [Libft](./libft)
 
