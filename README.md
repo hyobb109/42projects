@@ -40,6 +40,10 @@
 
 - 네트워크 개념을 학습하며 TCP/IP 주소 및 서브넷 마스킹 기본 이해
 
+### [CPP Module](./cpp)
+
+- C++ 프로그래밍 기초 학습
+
 ### [ft_irc](https://github.com/subillie/IRC)
 
 - 인터넷 릴레이 채팅 서버 구현 및 소켓 프로그래밍 학습
